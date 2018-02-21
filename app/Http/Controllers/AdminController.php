@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Yajra\DataTables\Datatables;
 use Image;
 use Flashy;
 use File;
 
+
+
 use App\Event;
+use App\Subevent;
 
 class AdminController extends Controller
 {
@@ -63,5 +67,25 @@ class AdminController extends Controller
     	
     	Flashy::success('Successfully Updated Event', '#');
     	return redirect()->to('/admin/event');
+    }
+
+    public function allsubevent_api()
+    {
+        
+    }
+
+    public function allsubevent()
+    {
+        return view('allsubevent');
+    }
+
+    public function subevent($id)
+    {
+
+    }
+
+    public function subevent_update($id, Request $request)
+    {
+
     }
 }

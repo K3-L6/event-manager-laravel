@@ -24,6 +24,9 @@ Route::get('/admin', 'AdminController@index')->name('admin');
 Route::get('/admin/event', 'AdminController@event')->name('admin.event');
 Route::put('/admin/event', 'AdminController@event_update')->name('admin.event.update');
 
+Route::get('/admin/subevent', 'AdminController@allsubevent')->name('admin.allsubevent');
+Route::get('/admin/subevent/{id}', 'AdminController@subevent')->name('admin.subevent');
+Route::put('admin/subevent/{id}', 'AdminController@subevent_update')->name('admin.subevent.update');
 
 
 Route::get('/exhibitor', 'ExhibitorController@index')->name('exhibitor');
