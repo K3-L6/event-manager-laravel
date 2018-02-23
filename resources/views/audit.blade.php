@@ -1,7 +1,7 @@
 
 @extends('layouts.app')
 @push('title') 
-  SUBEVENT LIST
+  AUDIT TRAIL
 @endpush
 
 @push('sidebar')
@@ -12,10 +12,7 @@
 <ul class="breadcrumb">
   <div class="container-fluid">
     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-    <li class="breadcrumb-item active">Subevent</li>
-    <form action="/admin/subevent/register" method="get">
-      <button class="btn btn-primary btn-sm float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Create</button>
-    </form>
+    <li class="breadcrumb-item active">Audit</li>
     <form action="" method="get">
       <button id="print" class="btn btn-primary btn-sm float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Print</button>
     </form>
@@ -40,10 +37,10 @@
                 <table id="mytable" class="table" cellspacing="0" width="100%">
                   <thead>
                     <tr>
-                      <th>Title</th>
-                      <th>Description</th>
-                      <th>Exhibitor</th>
+                      <th>Name</th>
+                      <th>Role</th>
                       <th>Action</th>
+                      <th>Time</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -69,23 +66,23 @@
              responsive: true,
              // lengthChange: false,
              buttons: [
-                { extend: 'print', className: 'd-none', title:'Events', exportOptions:{ columns:[0, 1, 2]} },
-                { extend: 'excel', className: 'd-none', title:'Events', exportOptions:{ columns:[0, 1, 2] } },
+                { extend: 'print', className: 'd-none', title:'Audit Trail', exportOptions:{ columns:[0, 1, 2, 3]} },
+                { extend: 'excel', className: 'd-none', title:'Audit Trail', exportOptions:{ columns:[0, 1, 2, 3] } },
                 'pageLength',
              ],
              columnDefs: [
-                 { "width": "30%", "targets": 0 },
-                 { "width": "30%", "targets": 1 },
-                 { "width": "30%", "targets": 2 },
-                 { "width": "10%", "targets": 3 }
+                 { "width": "20%", "targets": 0 },
+                 { "width": "15%", "targets": 1 },
+                 { "width": "45%", "targets": 2 },
+                 { "width": "20%", "targets": 3 }
              ],
-             ajax: "{{ route('admin.subevent.api') }}",
+             ajax: "{{ route('admin.audit.api') }}",
 
              columns: [
-               {data: 'title', name: 'title'},
+               {data: 'user', name: 'user'},
+               {data: 'role', name: 'role'},
                {data: 'description', name: 'description'},
-               {data: 'exhibitor', name: 'exhibitor'},
-               {data: 'action', name: 'action', orderable:false, searchable:false, printable:false},
+               {data: 'time', name: 'time'},
              ]
          });
          $(document).on('click', '#print', function(){

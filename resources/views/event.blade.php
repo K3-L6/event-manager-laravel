@@ -12,7 +12,12 @@
   <div class="container-fluid">
     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
     <li class="breadcrumb-item active">Event</li>
-    <button class="btn btn-primary float-right">ENTRANCE GATE</button>
+    <form action="" method="get">
+      <button class="btn btn-primary btn-sm float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">EXIT LOG</button>
+    </form>
+    <form action="" method="get">
+      <button class="btn btn-primary btn-sm float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">ENTRANCE LOG</button>
+    </form>
   </div>
 </ul>
 

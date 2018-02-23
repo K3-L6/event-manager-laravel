@@ -74,7 +74,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
     	DB::table('roles')->insert([
-    	    'name' => 'super administrator',
+    	    'name' => 'makapangyarihan',
     	    'description' => 'this role has all access in all module',
     	]);
 

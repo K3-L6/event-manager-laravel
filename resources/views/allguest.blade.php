@@ -1,7 +1,7 @@
 
 @extends('layouts.app')
 @push('title') 
-  SUBEVENT LIST
+  GUEST LIST
 @endpush
 
 @push('sidebar')
@@ -12,7 +12,16 @@
 <ul class="breadcrumb">
   <div class="container-fluid">
     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-    <li class="breadcrumb-item active">Subevent</li>
+    <li class="breadcrumb-item active">Guest</li>
+    <form action="/admin/guest/register" method="get">
+      <button class="btn btn-primary btn-sm float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Create</button>
+    </form>
+    <form action="" method="get">
+      <button class="btn btn-primary btn-sm float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Import</button>
+    </form>
+    <form action="" method="get">
+      <button id="print" class="btn btn-primary btn-sm float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Print</button>
+    </form>
   </div>
 </ul>
 
@@ -23,21 +32,10 @@
           	
             <div class="card-close">
           	  
-              <button id="print" class="btn btn-primary btn-sm" style="width: 150px;">
-                Print
-              </button>
-              <button id="excel" class="btn btn-primary btn-sm" style="width: 150px;">
-                Import
-              </button>
-              <a href="/admin/guest/register" class="btn btn-sm btn-primary" style="width: 150px;">
-              	Create 
-              </a>
-
-              
           	</div>
       			
             <div class="card-header d-flex align-items-center">
-      			  <h3 class="h4">GUEST TABLE</h3>
+      			  
       			</div>
 
             <div class="card-body">

@@ -8,6 +8,7 @@ use Image;
 use Flashy;
 use File;
 use Auth;
+use Carbon\Carbon;
 
 
 use App\User;
@@ -15,9 +16,35 @@ use App\Event;
 use App\Subevent;
 use App\Guest;
 use App\Audit;
+use PDF;
 
 class AdminController extends Controller
 {
+
+    public function audit()
+    {
+        return view('audit');
+    }
+
+    public function audit_api()
+    {
+        $audit = Audit::with('user')->orderBy('time', 'desc')->get();
+
+        return Datatables::of($audit)
+        ->editColumn('user', function($audit){
+            return ucwords($audit->user->firstname . ' ' . $audit->user->lastname);
+        })
+        ->editColumn('role', function($audit){
+            return ucwords($audit->user->role->name);
+        })
+        ->editColumn('description', function($audit){
+            return ucwords($audit->description);
+        })
+        ->editColumn('time', function($audit){
+            return Carbon::parse($audit->time)->diffForHumans();
+        })
+        ->make(true);
+    }
 
     public function allguest()
     {
@@ -121,25 +148,25 @@ class AdminController extends Controller
             ]
         );
 
-        $data = new Guest;
-        $data->lastname = $request->lastname;
-        $data->middlename = $request->middlename;
-        $data->firstname = $request->firstname;
-        $data->email = $request->email;
-        $data->mobilenumber = $request->mobilenumber;
-        $data->companyname = $request->companyname;
-        $data->designation = $request->designation;
-        $data->officetelnumber = $request->officetelnumber;
-        $data->officeaddress = $request->officeaddress;
-        $data->idcard = $request->idcard;
-        $data->type = $request->type;
-        $data->save();
+        $guest = new Guest;
+        $guest->lastname = $request->lastname;
+        $guest->middlename = $request->middlename;
+        $guest->firstname = $request->firstname;
+        $guest->email = $request->email;
+        $guest->mobilenumber = $request->mobilenumber;
+        $guest->companyname = $request->companyname;
+        $guest->designation = $request->designation;
+        $guest->officetelnumber = $request->officetelnumber;
+        $guest->officeaddress = $request->officeaddress;
+        $guest->idcard = $request->idcard;
+        $guest->type = $request->type;
+        $guest->save();
 
         $user = User::find(aUTH::user()->id);
         $audit = new Audit;
-        $audit->description = $user->firstname . ' ' . $user->lastname . ' created a guest account for ' $request->firstname . ' ' . $request->lastname;  
+        $audit->description = 'created a guest account for ' . $request->firstname . ' ' . $request->lastname;  
         $audit->user_id = $user->id;
-        $audit->time = time();
+        $audit->time = Carbon::now();;
         $audit->save();
 
         Flashy::success('Successfully Created Guest', '#');
@@ -149,15 +176,15 @@ class AdminController extends Controller
     public function guest_delete($id)
     {
         $guest = GUest::find($id);
-        $guest->delete();
-
+        
         $user = User::find(aUTH::user()->id);
         $audit = new Audit;
-        $audit->description = $user->firstname . ' ' . $user->lastname . ' deleted ' . $guest->firstname . ' ' . $guest->lastname . ' guest account';  
+        $audit->description = 'deleted ' . $guest->firstname . ' ' . $guest->lastname . ' guest account';  
         $audit->user_id = $user->id;
-        $audit->time = time();
+        $audit->time = Carbon::now();
         $audit->save();
 
+        $guest->delete();
         Flashy::success('Successfully Deleted Guest', '#');
         return redirect()->to('/admin/guest');
     }
@@ -192,32 +219,32 @@ class AdminController extends Controller
     	);
 
 
-    	$data = Event::where('status', 1)->first();
+    	$event = Event::where('status', 1)->first();
     	if($request->hasFile('img'))
     	{
     		$background = $request->file('img');
     		$filename = time() . '_' . $background->getClientOriginalName();
     		Image::make($background)->save( public_path('/img/event/' . $filename) );
-    		$data->background = $filename;
+    		$event->background = $filename;
     	}
     	
-    	$data->title = $request->title;
-    	$data->title_font = str_replace('+', ' ', $request->title_font);
-    	$data->title_size = $request->title_size;
+    	$event->title = $request->title;
+    	$event->title_font = str_replace('+', ' ', $request->title_font);
+    	$event->title_size = $request->title_size;
 
-    	$data->description = $request->description;
-    	$data->description_font = str_replace('+', ' ', $request->description_font);
-    	$data->description_size = $request->description_size;
+    	$event->description = $request->description;
+    	$event->description_font = str_replace('+', ' ', $request->description_font);
+    	$event->description_size = $request->description_size;
 
+    	$event->save();
+        
         $user = User::find(aUTH::user()->id);
         $audit = new Audit;
-        $audit->description = $user->firstname . ' ' . $user->lastname . ' updated the event information';
+        $audit->description = 'updated the event information';
         $audit->user_id = $user->id;
-        $audit->time = time();
+        $audit->time = Carbon::now();;
         $audit->save();
 
-    	$data->save();
-    	
     	Flashy::success('Successfully Updated Event', '#');
     	return redirect()->to('/admin/event');
     }
@@ -289,34 +316,34 @@ class AdminController extends Controller
         );
 
         $event = Event::where('status', 1)->first();
-        $data =  Subevent::find($id);
+        $subevent =  Subevent::find($id);
 
         if($request->hasFile('img'))
         {
             $background = $request->file('img');
             $filename = time() . '_' . $background->getClientOriginalName();
             Image::make($background)->save( public_path('/img/subevent/' . $filename) );
-            $data->background = $filename;
+            $subevent->background = $filename;
         }
         
-        $data->title = $request->title;
-        $data->title_font = str_replace('+', ' ', $request->title_font);
-        $data->title_size = $request->title_size;
+        $subevent->title = $request->title;
+        $subevent->title_font = str_replace('+', ' ', $request->title_font);
+        $subevent->title_size = $request->title_size;
 
-        $data->description = $request->description;
-        $data->description_font = str_replace('+', ' ', $request->description_font);
-        $data->description_size = $request->description_size;
+        $subevent->description = $request->description;
+        $subevent->description_font = str_replace('+', ' ', $request->description_font);
+        $subevent->description_size = $request->description_size;
 
-        $data->event_id = $event->id;
-        $data->user_id = $request->exhibitor;
+        $subevent->event_id = $event->id;
+        $subevent->user_id = $request->exhibitor;
 
-        $data->save();
+        $subevent->save();
 
         $user = User::find(aUTH::user()->id);
         $audit = new Audit;
-        $audit->description = $user->firstname . ' ' . $user->lastname . ' updated the ' . $request->title . ' information';
+        $audit->description = 'updated the ' . $request->title . ' information';
         $audit->user_id = $user->id;
-        $audit->time = time();
+        $audit->time = Carbon::now();;
         $audit->save();
 
         
@@ -326,9 +353,16 @@ class AdminController extends Controller
 
     public function subevent_delete($id)
     {
-        $data = Subevent::find($id);
-        $data->delete();
+        $subevent = Subevent::find($id);
+        
+        $user = User::find(aUTH::user()->id);
+        $audit = new Audit;
+        $audit->description = 'deleted the ' . $subevent->title . ' sub event';
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();;
+        $audit->save();
 
+        $subevent->delete();
         Flashy::success('Successfully Deleted Subevent', '#');
         return redirect()->to('/admin/subevent');
     }
@@ -368,31 +402,31 @@ class AdminController extends Controller
         );
 
         $event = Event::where('status', 1)->first();
-        $data = new Subevent;
+        $subevent = new Subevent;
         
         $background = $request->file('img');
         $filename = time() . '_' . $background->getClientOriginalName();
         Image::make($background)->save( public_path('/img/subevent/' . $filename) );
-        $data->background = $filename;
+        $subevent->background = $filename;
         
-        $data->title = $request->title;
-        $data->title_font = str_replace('+', ' ', $request->title_font);
-        $data->title_size = $request->title_size;
+        $subevent->title = $request->title;
+        $subevent->title_font = str_replace('+', ' ', $request->title_font);
+        $subevent->title_size = $request->title_size;
 
-        $data->description = $request->description;
-        $data->description_font = str_replace('+', ' ', $request->description_font);
-        $data->description_size = $request->description_size;
+        $subevent->description = $request->description;
+        $subevent->description_font = str_replace('+', ' ', $request->description_font);
+        $subevent->description_size = $request->description_size;
 
-        $data->event_id = $event->id;
-        $data->user_id = $request->exhibitor;
+        $subevent->event_id = $event->id;
+        $subevent->user_id = $request->exhibitor;
 
-        $data->save();
+        $subevent->save();
 
         $user = User::find(aUTH::user()->id);
         $audit = new Audit;
-        $audit->description = $user->firstname . ' ' . $user->lastname . ' registered a new sub event with the title of ' . $request->title;
+        $audit->description = 'registered a new sub event with the title of ' . $request->title;
         $audit->user_id = $user->id;
-        $audit->time = time();
+        $audit->time = Carbon::now();;
         $audit->save();
         
         Flashy::success('Successfully Created Subevent', '#');

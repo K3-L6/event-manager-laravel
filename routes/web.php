@@ -39,6 +39,9 @@ Route::get('/admin/guestapi', 'AdminController@allguest_api')->name('admin.guest
 Route::get('/admin/guest/{id}', 'AdminController@guest')->name('admin.guest');
 Route::delete('/admin/guest/delete/{id}', 'AdminController@guest_delete')->name('admin.guest.delete');
 
+Route::get('/admin/audit', 'AdminController@audit')->name('admin.audit');
+Route::get('/admin/auditapi', 'AdminController@audit_api')->name('admin.audit.api');
+
 
 
 Route::get('/exhibitor', 'ExhibitorController@index')->name('exhibitor');

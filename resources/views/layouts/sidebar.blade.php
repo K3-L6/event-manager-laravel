@@ -10,17 +10,11 @@
   <span class="heading">Main</span>
   <ul class="list-unstyled">
     <li> <a href="/admin"><i class="fa fa-home" aria-hidden="true"></i>Dashboard</a></li>
-    <li><a href="#dashvariants" aria-expanded="false" data-toggle="collapse"><i class="fa fa-calendar" aria-hidden="true"></i> Event </a>
-      <ul id="dashvariants" class="collapse list-unstyled">
-        <li><a href="/admin/event">Event Details</a></li>
-        <li><a href="#">Start Entrance Log</a></li>
-        <li><a href="#">Start Exit Log</a></li>
-      </ul>
-    </li>
+    <li> <a href="/admin/event"><i class="fa fa-calendar" aria-hidden="true"></i>Event</a></li>
     <li> <a href="/admin/subevent"><i class="fa fa-clock-o" aria-hidden="true"></i>Sub Event</a></li>
     <li> <a href="/admin/guest"><i class="fa fa-users" aria-hidden="true"></i>Guests</a></li>
     <li> <a href="/admin/report"><i class="fa fa-bar-chart" aria-hidden="true"></i>Reports</a></li>
-    <li> <a href="/admin/history"><i class="fa fa-history" aria-hidden="true"></i>History</a></li>
+    <li> <a href="/admin/audit"><i class="fa fa-history" aria-hidden="true"></i>Audit Trail</a></li>
     <li> <a href="/admin/setting"><i class="fa fa-cog" aria-hidden="true"></i>Settings</a></li>
   </ul>
     
