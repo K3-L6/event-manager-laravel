@@ -209,6 +209,13 @@ class AdminController extends Controller
     	$data->description_font = str_replace('+', ' ', $request->description_font);
     	$data->description_size = $request->description_size;
 
+        $user = User::find(aUTH::user()->id);
+        $audit = new Audit;
+        $audit->description = $user->firstname . ' ' . $user->lastname . ' updated the event information';
+        $audit->user_id = $user->id;
+        $audit->time = time();
+        $audit->save();
+
     	$data->save();
     	
     	Flashy::success('Successfully Updated Event', '#');
@@ -304,6 +311,14 @@ class AdminController extends Controller
         $data->user_id = $request->exhibitor;
 
         $data->save();
+
+        $user = User::find(aUTH::user()->id);
+        $audit = new Audit;
+        $audit->description = $user->firstname . ' ' . $user->lastname . ' updated the ' . $request->title . ' information';
+        $audit->user_id = $user->id;
+        $audit->time = time();
+        $audit->save();
+
         
         Flashy::success('Successfully Updated Subevent', '#');
         return redirect()->to('/admin/subevent/' . $data->id);
@@ -372,6 +387,13 @@ class AdminController extends Controller
         $data->user_id = $request->exhibitor;
 
         $data->save();
+
+        $user = User::find(aUTH::user()->id);
+        $audit = new Audit;
+        $audit->description = $user->firstname . ' ' . $user->lastname . ' registered a new sub event with the title of ' . $request->title;
+        $audit->user_id = $user->id;
+        $audit->time = time();
+        $audit->save();
         
         Flashy::success('Successfully Created Subevent', '#');
         return redirect()->to('/admin/subevent');
