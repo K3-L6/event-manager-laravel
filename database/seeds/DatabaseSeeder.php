@@ -20,8 +20,57 @@ class DatabaseSeeder extends Seeder
             'description_font' => 'Aclonica',
             'description_size' => '15',
 
-            'background' => 'noimg.jpg',
+            'background' => 'sample.jpg',
             'status' => 1,
+        ]);
+
+        DB::table('guests')->insert([
+            'email' => 'ken@gmail.com',
+
+            'firstname' => 'ken',
+            'middlename' => 'robles',
+            'lastname' => 'lising',
+
+            'designation' => 'ojt',
+            'companyname' => 'golden aurum',
+            'officeaddress' => 'sample address',
+            
+            'mobilenumber' => '09999999999',
+            'officetelnumber' => '1111111',
+
+            'type' => 1,
+        ]);
+
+        DB::table('guests')->insert([
+            'email' => 'christian@gmail.com',
+
+            'firstname' => 'christian',
+            'lastname' => 'montemayor',
+
+            'designation' => 'ojt',
+            'companyname' => 'golden aurum',
+            'officeaddress' => 'sample address',
+            
+            'mobilenumber' => '09999999999',
+            'officetelnumber' => '1111111',
+
+            'type' => 1,
+        ]);
+
+        DB::table('guests')->insert([
+            'email' => 'erd@gmail.com',
+
+            'firstname' => 'erd',
+            'lastname' => 'manalo',
+
+            'designation' => 'ojt',
+            'companyname' => 'golden aurum',
+            'officeaddress' => 'sample address',
+            
+            'mobilenumber' => '09999999999',
+            'officetelnumber' => '1111111',
+
+            'type' => 2,
         ]);
 
     	DB::table('roles')->insert([

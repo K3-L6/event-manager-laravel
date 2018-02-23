@@ -26,7 +26,10 @@
               <button id="print" class="btn btn-primary btn-sm" style="width: 150px;">
                 Print
               </button>
-              <a href="/admin/subevent/register" class="btn btn-sm btn-primary" style="width: 150px;">
+              <button id="excel" class="btn btn-primary btn-sm" style="width: 150px;">
+                Import
+              </button>
+              <a href="/admin/guest/register" class="btn btn-sm btn-primary" style="width: 150px;">
               	Create 
               </a>
 
@@ -34,7 +37,7 @@
           	</div>
       			
             <div class="card-header d-flex align-items-center">
-      			  <h3 class="h4">SUBEVENT TABLE</h3>
+      			  <h3 class="h4">GUEST TABLE</h3>
       			</div>
 
             <div class="card-body">
@@ -42,9 +45,9 @@
                 <table id="mytable" class="table" cellspacing="0" width="100%">
                   <thead>
                     <tr>
-                      <th>Title</th>
-                      <th>Description</th>
-                      <th>Exhibitor</th>
+                      <th>Name</th>
+                      <th>Designation</th>
+                      <th>Company Name</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -71,27 +74,29 @@
              responsive: true,
              // lengthChange: false,
              buttons: [
-                { extend: 'print', className: 'd-none', title:'Events', exportOptions:{ columns:[0, 1, 2]} },
-                { extend: 'excel', className: 'd-none', title:'Events', exportOptions:{ columns:[0, 1, 2] } },
+                { extend: 'print', className: 'd-none', title:'Guest List', exportOptions:{ columns:[0, 1, 2]} },
                 'pageLength',
              ],
              columnDefs: [
                  { "width": "30%", "targets": 0 },
-                 { "width": "30%", "targets": 1 },
+                 { "width": "20%", "targets": 1 },
                  { "width": "30%", "targets": 2 },
-                 { "width": "10%", "targets": 3 }
+                 { "width": "20%", "targets": 3 }
              ],
-             ajax: "{{ route('admin.subevent.api') }}",
+             ajax: "{{ route('admin.guest.api') }}",
 
              columns: [
-               {data: 'title', name: 'title'},
-               {data: 'description', name: 'description'},
-               {data: 'exhibitor', name: 'exhibitor'},
+               {data: 'name', name: 'name'},
+               {data: 'designation', name: 'designation'},
+               {data: 'companyname', name: 'companyname'},
                {data: 'action', name: 'action', orderable:false, searchable:false, printable:false},
              ]
          });
          $(document).on('click', '#print', function(){
             $(".buttons-print")[0].click();
+         });
+         $(document).on('click', '#excel', function(){
+            $(".buttons-excel")[0].click();
          });
          $('#searchInput').on( 'keyup', function () {
              table.search( this.value ).draw();

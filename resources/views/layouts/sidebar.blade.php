@@ -18,10 +18,10 @@
       </ul>
     </li>
     <li> <a href="/admin/subevent"><i class="fa fa-clock-o" aria-hidden="true"></i>Sub Event</a></li>
-    <li> <a href="/guest"><i class="fa fa-users" aria-hidden="true"></i>Guests</a></li>
-    <li> <a href="/sponsor"><i class="fa fa-bar-chart" aria-hidden="true"></i>Reports</a></li>
-    <li> <a href="/history"><i class="fa fa-history" aria-hidden="true"></i>History</a></li>
-    <li> <a href="/setting"><i class="fa fa-cog" aria-hidden="true"></i>Settings</a></li>
+    <li> <a href="/admin/guest"><i class="fa fa-users" aria-hidden="true"></i>Guests</a></li>
+    <li> <a href="/admin/report"><i class="fa fa-bar-chart" aria-hidden="true"></i>Reports</a></li>
+    <li> <a href="/admin/history"><i class="fa fa-history" aria-hidden="true"></i>History</a></li>
+    <li> <a href="/admin/setting"><i class="fa fa-cog" aria-hidden="true"></i>Settings</a></li>
   </ul>
     
 </nav>

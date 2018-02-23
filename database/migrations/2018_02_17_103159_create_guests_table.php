@@ -31,13 +31,9 @@ class CreateGuestsTable extends Migration
 
             //determine if pre registered 
             // 1 for pre registered
-            // 2 for not pre registered
+            // 2 for not pre registered (WALK IN)
             $table->smallInteger('type')->unsigned();
 
-            //determine if registration is complete
-            //0 no tag and badge
-            //1 complete with tag and badge
-            $table->smallInteger('status')->unsigned()->default(0);
             $table->timestamps();
         });
     }

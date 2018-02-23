@@ -36,4 +36,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Audit::class);
     }
+
+    public function subevent()
+    {
+        return $this->hasMany(Subevent::class);
+    }
 }

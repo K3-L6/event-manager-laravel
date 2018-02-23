@@ -15,8 +15,15 @@ class CreateSubeventsTable extends Migration
     {
         Schema::create('subevents', function (Blueprint $table) {
             $table->increments('id');
+            
             $table->string('title');
+            $table->string('title_font');
+            $table->string('title_size');
+
             $table->string('description')->nullable();
+            $table->text('description_font');
+            $table->text('description_size');
+
             $table->string('background')->default('noimg.jpg');
 
             $table->integer('event_id')->unsigned();

@@ -51,12 +51,6 @@
     $(document).ready(function () {
 
         'use strict';
-
-
-
-        
-
-
         // ------------------------------------------------------- //
         // Bar Chart
         // ------------------------------------------------------ //
@@ -92,10 +86,10 @@
             },
             data: {
                 labels: [
-                    "Revenue",
-                    "Expenses",
-                    "Funds",
-                    "Sales"
+                    "Active Guesst",
+                    "Invited Guest",
+                    "Walk-Ins",
+                    "Total Guest"
                 ],
                 datasets: [
                     {
@@ -120,7 +114,7 @@
                             '#ffc36d'
                         ],
                         borderWidth: 1,
-                        data: [-10000, 8000, 1000, 1000],
+                        data: [0, 50, 50, 100],
                     },
                 ]
             }
