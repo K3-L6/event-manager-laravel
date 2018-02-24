@@ -24,54 +24,54 @@ class DatabaseSeeder extends Seeder
             'status' => 1,
         ]);
 
-        DB::table('guests')->insert([
-            'email' => 'ken@gmail.com',
+        // DB::table('guests')->insert([
+        //     'email' => 'ken@gmail.com',
 
-            'firstname' => 'ken',
-            'middlename' => 'robles',
-            'lastname' => 'lising',
+        //     'firstname' => 'ken',
+        //     'middlename' => 'robles',
+        //     'lastname' => 'lising',
 
-            'designation' => 'ojt',
-            'companyname' => 'golden aurum',
-            'officeaddress' => 'sample address',
+        //     'designation' => 'ojt',
+        //     'companyname' => 'golden aurum',
+        //     'officeaddress' => 'sample address',
             
-            'mobilenumber' => '09999999999',
-            'officetelnumber' => '1111111',
+        //     'mobilenumber' => '09999999999',
+        //     'officetelnumber' => '1111111',
 
-            'type' => 1,
-        ]);
+        //     'type' => 1,
+        // ]);
 
-        DB::table('guests')->insert([
-            'email' => 'christian@gmail.com',
+        // DB::table('guests')->insert([
+        //     'email' => 'christian@gmail.com',
 
-            'firstname' => 'christian',
-            'lastname' => 'montemayor',
+        //     'firstname' => 'christian',
+        //     'lastname' => 'montemayor',
 
-            'designation' => 'ojt',
-            'companyname' => 'golden aurum',
-            'officeaddress' => 'sample address',
+        //     'designation' => 'ojt',
+        //     'companyname' => 'golden aurum',
+        //     'officeaddress' => 'sample address',
             
-            'mobilenumber' => '09999999999',
-            'officetelnumber' => '1111111',
+        //     'mobilenumber' => '09999999999',
+        //     'officetelnumber' => '1111111',
 
-            'type' => 1,
-        ]);
+        //     'type' => 1,
+        // ]);
 
-        DB::table('guests')->insert([
-            'email' => 'erd@gmail.com',
+        // DB::table('guests')->insert([
+        //     'email' => 'erd@gmail.com',
 
-            'firstname' => 'erd',
-            'lastname' => 'manalo',
+        //     'firstname' => 'erd',
+        //     'lastname' => 'manalo',
 
-            'designation' => 'ojt',
-            'companyname' => 'golden aurum',
-            'officeaddress' => 'sample address',
+        //     'designation' => 'ojt',
+        //     'companyname' => 'golden aurum',
+        //     'officeaddress' => 'sample address',
             
-            'mobilenumber' => '09999999999',
-            'officetelnumber' => '1111111',
+        //     'mobilenumber' => '09999999999',
+        //     'officetelnumber' => '1111111',
 
-            'type' => 2,
-        ]);
+        //     'type' => 2,
+        // ]);
 
     	DB::table('roles')->insert([
     	    'name' => 'makapangyarihan',

@@ -77,9 +77,9 @@
              ],
              columnDefs: [
                  { "width": "30%", "targets": 0 },
-                 { "width": "20%", "targets": 1 },
+                 { "width": "30%", "targets": 1 },
                  { "width": "30%", "targets": 2 },
-                 { "width": "20%", "targets": 3 }
+                 { "width": "10%", "targets": 3 }
              ],
              ajax: "{{ route('admin.guest.api') }}",
 

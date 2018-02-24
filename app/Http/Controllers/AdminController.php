@@ -17,10 +17,10 @@ use App\Subevent;
 use App\Guest;
 use App\Audit;
 use PDF;
+use QrCode;
 
 class AdminController extends Controller
 {
-
     public function audit()
     {
         return view('audit');
@@ -28,7 +28,7 @@ class AdminController extends Controller
 
     public function audit_api()
     {
-        $audit = Audit::with('user')->orderBy('time', 'desc')->get();
+        $audit = Audit::with('user')->get();
 
         return Datatables::of($audit)
         ->editColumn('user', function($audit){
@@ -72,7 +72,8 @@ class AdminController extends Controller
                         <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></button>  
                     </form>
 
-                    <form action="/admin/guest/' . $guest->id . '" method="post">
+                    <form action="/admin/guest/print/' . $guest->id . '" method="post">
+                        <input type="hidden" name="_token" value="'. csrf_token() . '">
                         <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-print"></i></button>  
                     </form>
 
@@ -90,7 +91,22 @@ class AdminController extends Controller
 
     public function guest($id)
     {
+        $guest = Guest::find($id);
+        return view('guest')->withGuest($guest);
+    }
 
+    public function guest_print($id)
+    {
+       $guest = Guest::find($id);
+       $papersize = array(0, 0, 360, 360);
+       $pdf = PDF::loadView('pdf.badge', array(
+        'name' => $guest->firstname . ' ' . $guest->middlename . ' ' . $guest->lastname,
+        'companyname' => $guest->companyname,
+        'designation' => $guest->designation,
+        'qrcode' => $guest->qrcode
+       ));
+
+       return $pdf->stream($guest->firstname . '_' . $guest->lastname . '_badge.pdf');
     }
 
     public function guest_register_show()
@@ -149,6 +165,9 @@ class AdminController extends Controller
         );
 
         $guest = new Guest;
+        $qrimagename = time() . '_' . $request->idcard . '.png';
+        QrCode::format('png')->backgroundColor(34, 49, 63)->color(228, 241, 254)->size(300)->errorCorrection('H')->generate($request->idcard, '../public/img/guest/'. $qrimagename);
+
         $guest->lastname = $request->lastname;
         $guest->middlename = $request->middlename;
         $guest->firstname = $request->firstname;
@@ -159,6 +178,7 @@ class AdminController extends Controller
         $guest->officetelnumber = $request->officetelnumber;
         $guest->officeaddress = $request->officeaddress;
         $guest->idcard = $request->idcard;
+        $guest->qrcode = $qrimagename;
         $guest->type = $request->type;
         $guest->save();
 
@@ -170,6 +190,85 @@ class AdminController extends Controller
         $audit->save();
 
         Flashy::success('Successfully Created Guest', '#');
+        return redirect()->to('/admin/guest');
+    }
+
+    public function guest_update($id, Request $request)
+    {
+        $this->validate($request,
+            [
+                'lastname' => 'required|max:50',
+                'middlename' => 'max:50',
+                'firstname' => 'required|max:50',
+                'email' => 'required|max:100',
+                'mobilenumber' => 'required|max:11',
+
+                'companyname' => 'required|max:100',
+                'designation' => 'required|max:50',
+                'officetelnumber' => 'required|max:7',
+                'officeaddress' => 'required|max:180',
+
+
+                'idcard' => 'required|max:180',
+            ],
+            [
+                'lastname.required' => 'Lastname is required',
+                'lastname.max' => 'Lastname must not be greater than 50',
+
+                'middlename'=> 'Middlename must not be greater than 50',
+
+                'firstname.required' => 'Firstname is required',
+                'firstname.max' => 'Firstname must not be greater than 50',
+
+                'email.required' => 'Email is required',
+                'email.max' => 'Email must not be greater than 100',
+
+                'mobilenumber.required' => 'Mobilenumber is required',
+                'mobilenumber.max' => 'Mobilenumber must not be greater than 11',
+
+                'companyname.required' => 'Company Name is required',
+                'companyname.max' => 'Company Name must not be greater than 100',
+
+                'designation.required' => 'Designation is required',
+                'designation.max' => 'Designation must not be greater than 50',
+
+                'officetelnumber.required' => 'Office Tel Number is required',
+                'officetelnumber.max' => 'Office Tel Number must not be greater than 7',
+
+                'officeaddress.required' => 'Office Address is required',
+                'officeaddress.max' => 'Office Address must not be greater than 180',
+
+                'idcard.required' => 'RFID Card is required',
+                'idcard.max' => 'RFID Card must not be greater than 180',
+            ]
+        );
+
+        $guest = Guest::find($id);
+        $qrimagename = time() . '_' . $request->idcard . '.png';
+        QrCode::format('png')->size(300)->errorCorrection('H')->generate($request->idcard, '../public/img/guest/'. $qrimagename);
+        
+        $guest->lastname = $request->lastname;
+        $guest->middlename = $request->middlename;
+        $guest->firstname = $request->firstname;
+        $guest->email = $request->email;
+        $guest->mobilenumber = $request->mobilenumber;
+        $guest->companyname = $request->companyname;
+        $guest->designation = $request->designation;
+        $guest->officetelnumber = $request->officetelnumber;
+        $guest->officeaddress = $request->officeaddress;
+        $guest->idcard = $request->idcard;
+        $guest->qrcode = $qrimagename;
+        $guest->type = $request->type;
+        $guest->save();
+
+        $user = User::find(aUTH::user()->id);
+        $audit = new Audit;
+        $audit->description = 'updated a guest account for ' . $request->firstname . ' ' . $request->lastname;  
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();;
+        $audit->save();
+
+        Flashy::success('Successfully Updated Guest', '#');
         return redirect()->to('/admin/guest');
     }
 
@@ -190,6 +289,10 @@ class AdminController extends Controller
     }
 
     
+
+
+
+
 
 
 
