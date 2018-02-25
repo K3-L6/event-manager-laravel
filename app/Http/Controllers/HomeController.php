@@ -31,13 +31,13 @@ class HomeController extends Controller
                 $module = $access->module;
                 switch ($module) {
                     case 'administrator':
-                        return view('admin');
+                        return redirect()->to('/admin');
                         break;
                     case 'exhibitor':
-                        return view('exhibitor');
+                        return redirect()->to('/exhibitor');
                         break;
                     case 'registrator':
-                        return view('registrator');
+                        return redirect()->to('/registrator');
                         break;
                     
                     default:

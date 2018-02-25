@@ -35,9 +35,18 @@
               <div class="info d-flex align-items-center">
                 <div class="content">
                   <div class="logo">
-                    <a href="/home" class="main-link">
-                        <i class="fa fa-chevron-left" style="color: white;"></i>
-                    </a>
+                    @if (count(Auth::user()->role->access) == 1)
+                      <form id="logout" action="{{ route('logout') }}" method="POST">
+                        {{ csrf_field() }}
+                        <a href="javascript:{}" class="main-link" onclick="document.getElementById('logout').submit(); return false;">
+                          <i class="fa fa-chevron-left" style="color: white;"></i>
+                        </a>
+                      </form>  
+                    @else
+                      <a href="/home" class="main-link">
+                          <i class="fa fa-chevron-left" style="color: white;"></i>
+                      </a>
+                    @endif
                   </div>
                 </div>
               </div>
