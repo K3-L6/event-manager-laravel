@@ -48,3 +48,21 @@ Route::get('/admin/auditapi', 'AdminController@audit_api')->name('admin.audit.ap
 
 Route::get('/exhibitor', 'ExhibitorController@index')->name('exhibitor');
 Route::get('/registrator', 'RegistratorController@index')->name('registrator');
+
+
+
+Route::get('/event/entrance', 'EventController@entrance');
+Route::get('/subevent/entrance/{id}', 'SubeventController@entrance');
+
+Route::get('/subevent/{id}', 'SubeventController@index');
+
+
+
+
+
+
+
+
+
+
+

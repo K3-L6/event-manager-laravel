@@ -18,10 +18,12 @@ class CreateEventsTable extends Migration
             $table->string('title');
             $table->string('title_font');
             $table->string('title_size');
+            $table->string('title_color');
 
             $table->text('description')->nullable();
             $table->text('description_font');
             $table->text('description_size');
+            $table->text('description_color');
 
 
 

@@ -19,8 +19,7 @@
     <!-- theme stylesheet-->
     <link rel="stylesheet" href="{{ asset('css/style.sea.css') }}" id="theme-stylesheet">
     
-    <!-- Font Awesome CDN-->
-    <!-- you can replace it by local Font Awesome-->
+    <!-- Font Awesome 4 LOCAL-->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.css') }}">
     <script type="text/javascript" src="{{ asset('js/fontawesome.js') }}"></script>
     

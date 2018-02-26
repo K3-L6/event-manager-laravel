@@ -36,8 +36,8 @@
           <div class="col-sm-12">
             <span class="btn-file">
               <div class="preview_panel" id="preview_panel">
-                <h1 style="font-family: {{$subevent->title_font}}; font-size: {{$subevent->title_size}}px;">{{$subevent->title}}</h1>
-                <p style="font-family: {{$subevent->description_font}}; font-size: {{$subevent->description_size}}px;">{{$subevent->description}}</p>
+                <h1 style="font-family: {{$subevent->title_font}}; font-size: {{$subevent->title_size}}vw; color: {{$subevent->title_color}};">{{$subevent->title}}</h1>
+                <p style="font-family: {{$subevent->description_font}}; font-size: {{$subevent->description_size}}vw;  color: {{$subevent->description_color}};">{{$subevent->description}}</p>
               </div>    
               <img id="img_preview" src="{{ asset('img/subevent/' . $subevent->background) }}">
               <input type="file" name="img" id="img_upload">
@@ -54,11 +54,14 @@
             <div class="col-sm-12">
               <input type="text" class="form-control" id="title_field" value="{{old('title', $subevent->title)}}" name="title">
               <div class="row preview_selection">
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="title_font" value="{{$subevent->title_font}}" name="title_font">
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="title_font" value="{{old('title_font', $subevent->title_font)}}" name="title_font">
                 </div>
-                <div class="col-sm-3">
-                  <input type="number" min="0" id="title_font_size" class="form-control" value="{{$subevent->title_size}}" name="title_size">
+                <div class="col-sm-2">
+                  <input type="number" min="0" id="title_font_size" class="form-control" value="{{old('title_size', $subevent->title_size)}}" name="title_size">
+                </div>
+                <div class="col-sm-2">
+                  <input type="text" min="0" id="title_font_color" class="form-control" value="{{old('title_color', $subevent->title_color)}}" name="title_color">
                 </div>
               </div>
               @if ($errors->has('title'))
@@ -75,11 +78,14 @@
               <div class="col-sm-12">
                 <textarea class="form-control" rows="5" id="description_field" name="description">{{old('description', $subevent->description)}}</textarea>
                 <div class="row preview_selection">
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control" id="description_font" value="{{$subevent->description_font}}" name="description_font">
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="description_font" value="{{old('description_font', $subevent->description_font)}}" name="description_font">
                   </div>
-                  <div class="col-sm-3">
-                    <input type="number" min="0" id="description_font_size" class="form-control" value="{{$subevent->description_size}}" name="description_size">
+                  <div class="col-sm-2">
+                    <input type="number" min="0" id="description_font_size" class="form-control" value="{{old('description_size', $subevent->description_size)}}" name="description_size">
+                  </div>
+                  <div class="col-sm-2">
+                    <input type="text" min="0" id="description_font_color" class="form-control" value="{{old('description_color', $subevent->description_color)}}" name="description_color">
                   </div>
                 </div>
                 @if ($errors->has('description'))
@@ -172,20 +178,25 @@
           var title = $('#title_field').val();
           $('#preview_panel > h1').text(title);
         });
-
         $("#description_field").keyup(function(){
           var title = $('#description_field').val();
           $('#preview_panel > p').text(title);
         });
-
         $("#title_font_size").bind('keyup mouseup', function(){
           var size = $('#title_font_size').val();
-          $('#preview_panel > h1').css('font-size', size + 'px');  
+          $('#preview_panel > h1').css('font-size', size + 'vw');  
         });
-
         $("#description_font_size").bind('keyup mouseup', function(){
           var size = $('#description_font_size').val();
-          $('#preview_panel > p').css('font-size', size + 'px');
+          $('#preview_panel > p').css('font-size', size + 'vw');
+        });
+        $("#title_font_color").keyup(function(){
+          var color = $('#title_font_color').val();
+          $('#preview_panel > h1').css('color', color);  
+        });
+        $("#description_font_color").keyup(function(){
+          var color = $('#description_font_color').val();
+          $('#preview_panel > p').css('color', color);  
         });
 
     });

@@ -35,8 +35,8 @@
           <div class="col-sm-12">
             <span class="btn-file">
               <div class="preview_panel" id="preview_panel">
-                <h1 style="font-family: Aclonica; font-size: 40px;">Sample Subevent Title</h1>
-                <p style="font-family: Aclonica; font-size: 15px;">Subevent Description</p>
+                <h1 style="font-family: Aclonica; font-size: 12vw; color: white;">Sample Subevent</h1>
+                <p style="font-family: Aclonica; font-size: 2vw; color: white;">Subevent Description</p>
               </div>    
               <img id="img_preview" src="{{ asset('img/event/noimg.jpg') }}">
               <input type="file" name="img" id="img_upload">
@@ -51,13 +51,16 @@
            <div class="form-group row" style="margin-top: 3%;">
             <label class="col-sm-12 form-control-label" name="title">Title</label>
             <div class="col-sm-12">
-              <input type="text" class="form-control" id="title_field" value="{{old('title', 'Sample Subevent Title')}}" name="title">
+              <input type="text" class="form-control" id="title_field" value="{{old('title', 'Sample Subevent')}}" name="title">
               <div class="row preview_selection">
-                <div class="col-sm-9">
+                <div class="col-sm-8">
                   <input type="text" class="form-control" id="title_font" value="{{old('title_font')}}" name="title_font">
                 </div>
-                <div class="col-sm-3">
-                  <input type="number" min="0" id="title_font_size" class="form-control" value="{{old('title_size', '40')}}" name="title_size">
+                <div class="col-sm-2">
+                  <input type="number" min="0" id="title_font_size" class="form-control" value="{{old('title_size', '12')}}" name="title_size">
+                </div>
+                <div class="col-sm-2">
+                  <input type="text" min="0" id="title_font_color" class="form-control" value="{{old('title_color', 'white')}}" name="title_color">
                 </div>
               </div>
               @if ($errors->has('title'))
@@ -74,11 +77,14 @@
               <div class="col-sm-12">
                 <textarea class="form-control" rows="5" id="description_field" name="description">{{old('description', 'Subevent Description')}}</textarea>
                 <div class="row preview_selection">
-                  <div class="col-sm-9">
+                  <div class="col-sm-8">
                     <input type="text" class="form-control" id="description_font" value="{{old('description_font')}}" name="description_font">
                   </div>
-                  <div class="col-sm-3">
-                    <input type="number" min="0" id="description_font_size" class="form-control" value="{{old('description_size', '15')}}" name="description_size">
+                  <div class="col-sm-2">
+                    <input type="number" min="0" id="description_font_size" class="form-control" value="{{old('description_size', '2')}}" name="description_size">
+                  </div>
+                  <div class="col-sm-2">
+                    <input type="text" min="0" id="description_font_color" class="form-control" value="{{old('description_color', 'white')}}" name="description_color">
                   </div>
                 </div>
                 @if ($errors->has('description'))
@@ -177,12 +183,20 @@
 
         $("#title_font_size").bind('keyup mouseup', function(){
           var size = $('#title_font_size').val();
-          $('#preview_panel > h1').css('font-size', size + 'px');  
+          $('#preview_panel > h1').css('font-size', size + 'vw');  
         });
 
         $("#description_font_size").bind('keyup mouseup', function(){
           var size = $('#description_font_size').val();
-          $('#preview_panel > p').css('font-size', size + 'px');
+          $('#preview_panel > p').css('font-size', size + 'vw');
+        });
+        $("#title_font_color").keyup(function(){
+          var color = $('#title_font_color').val();
+          $('#preview_panel > h1').css('color', color);  
+        });
+        $("#description_font_color").keyup(function(){
+          var color = $('#description_font_color').val();
+          $('#preview_panel > p').css('color', color);  
         });
 
     });

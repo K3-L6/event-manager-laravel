@@ -21,6 +21,7 @@ use QrCode;
 
 class AdminController extends Controller
 {
+
     public function audit()
     {
         return view('audit');
@@ -334,10 +335,12 @@ class AdminController extends Controller
     	$event->title = $request->title;
     	$event->title_font = str_replace('+', ' ', $request->title_font);
     	$event->title_size = $request->title_size;
+        $event->title_color = $request->title_color;
 
     	$event->description = $request->description;
     	$event->description_font = str_replace('+', ' ', $request->description_font);
     	$event->description_size = $request->description_size;
+        $event->description_color = $request->description_color;
 
     	$event->save();
         
@@ -373,7 +376,7 @@ class AdminController extends Controller
                         <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></button>  
                     </form>
 
-                    <form action="/admin/subevent/' . $subevent->id . '" method="get">
+                    <form action="/subevent/entrance/' . $subevent->id . '" method="get">
                         <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-forward"></i></button>  
                     </form>
 
@@ -432,10 +435,12 @@ class AdminController extends Controller
         $subevent->title = $request->title;
         $subevent->title_font = str_replace('+', ' ', $request->title_font);
         $subevent->title_size = $request->title_size;
+        $subevent->title_color = $request->title_color;
 
         $subevent->description = $request->description;
         $subevent->description_font = str_replace('+', ' ', $request->description_font);
         $subevent->description_size = $request->description_size;
+        $subevent->description_color = $request->description_color;
 
         $subevent->event_id = $event->id;
         $subevent->user_id = $request->exhibitor;
@@ -451,7 +456,7 @@ class AdminController extends Controller
 
         
         Flashy::success('Successfully Updated Subevent', '#');
-        return redirect()->to('/admin/subevent/' . $data->id);
+        return redirect()->to('/admin/subevent/' . $subevent->id);
     }
 
     public function subevent_delete($id)
@@ -515,10 +520,12 @@ class AdminController extends Controller
         $subevent->title = $request->title;
         $subevent->title_font = str_replace('+', ' ', $request->title_font);
         $subevent->title_size = $request->title_size;
+        $subevent->title_color = $request->title_color;
 
         $subevent->description = $request->description;
         $subevent->description_font = str_replace('+', ' ', $request->description_font);
         $subevent->description_size = $request->description_size;
+        $subevent->description_color = $request->description_color;
 
         $subevent->event_id = $event->id;
         $subevent->user_id = $request->exhibitor;
