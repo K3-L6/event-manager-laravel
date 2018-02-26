@@ -13,7 +13,18 @@
     <li> <a href="/admin/event"><i class="fa fa-calendar" aria-hidden="true"></i>Event</a></li>
     <li> <a href="/admin/subevent"><i class="fa fa-clock-o" aria-hidden="true"></i>Sub Event</a></li>
     <li> <a href="/admin/guest"><i class="fa fa-users" aria-hidden="true"></i>Guests</a></li>
-    <li> <a href="/admin/report"><i class="fa fa-bar-chart" aria-hidden="true"></i>Reports</a></li>
+    {{-- <li> <a href="/admin/report"><i class="fa fa-bar-chart" aria-hidden="true"></i>Reports</a></li> --}}
+    <li><a href="#dashvariants" aria-expanded="false" data-toggle="collapse"><i class="fa fa-bar-chart" aria-hidden="true"></i>Reports</a>
+      <ul id="dashvariants" class="collapse list-unstyled">
+        <li><a href="#">All-Type Guest List</a></li>
+        <li><a href="#">Walk-In Guest List</a></li>
+        <li><a href="#">Pre-Reg Guest List</a></li>
+        <li><a href="#">All-Type Guest Logs</a></li>
+        <li><a href="#">Walk-In Guest Logs</a></li>
+        <li><a href="#">Pre-Reg Guest Logs</a></li>
+        <li><a href="#">Sub Event Reports</a></li>
+      </ul>
+    </li>
     <li> <a href="/admin/audit"><i class="fa fa-history" aria-hidden="true"></i>Audit Trail</a></li>
     <li> <a href="/admin/setting"><i class="fa fa-cog" aria-hidden="true"></i>Settings</a></li>
   </ul>

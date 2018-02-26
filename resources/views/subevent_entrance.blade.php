@@ -49,6 +49,13 @@
           <p style="font-family: {{$subevent->description_font}}; font-size: {{$subevent->description_size}}vw; color: {{$subevent->description_color}}">{{$subevent->description}}</p>
       </div>  
     </div>
+
+    <form method="post" id="form" action="/subevent/entrance/log">
+      @csrf()
+      <input type="text" name="subeventid" value="{{$subevent->id}}" style="display: none;">
+      <input type="text" id="idcard" name="idcard" style="display: none;">
+    </form>
+    
     <!-- Javascript files-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="{{ asset('js/tether.min.js') }}"></script>
@@ -56,6 +63,13 @@
     <script src="{{ asset('js/jquery.cookie.js') }}"> </script>
     <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('js/front.js') }}"></script>
-
+    <script type="text/javascript">
+      $(function() {
+        $(document).keypress(function(e){
+          $('#idcard').val(e.key);
+          $('#form').submit();
+        });
+      });
+    </script>
   </body>
 </html>

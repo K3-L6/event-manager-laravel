@@ -16,8 +16,6 @@ class CreateEventlogsTable extends Migration
         Schema::create('eventlogs', function (Blueprint $table) {
             $table->increments('id');
             $table->dateTime('time');
-            $table->integer('event_id')->unsigned();
-            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->integer('guest_id')->unsigned();
             $table->foreign('guest_id')->references('id')->on('guests')->onDelete('cascade');
         });

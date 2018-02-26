@@ -49,6 +49,13 @@
           <p style="font-family: {{$event->description_font}}; font-size: {{$event->description_size}}vw; color: {{$event->description_color}}">{{$event->description}}</p>
       </div>  
     </div>
+
+    <form method="post" id="form" action="/event/entrance/log">
+      @csrf()
+      <input type="text" id="idcard" name="idcard" style="display: none;" autofocus>
+    </form>
+    
+
     <!-- Javascript files-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="{{ asset('js/tether.min.js') }}"></script>
@@ -56,6 +63,14 @@
     <script src="{{ asset('js/jquery.cookie.js') }}"> </script>
     <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('js/front.js') }}"></script>
+    <script type="text/javascript">
+      $(function() {
+        $(document).keypress(function(e){
+          $('#idcard').val(e.key);
+          $('#form').submit();
+        });
+      });
+    </script>
 
   </body>
 </html>

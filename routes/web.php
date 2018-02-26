@@ -37,6 +37,7 @@ Route::get('/admin/guest/register', 'AdminController@guest_register_show')->name
 Route::post('/admin/guest/register', 'AdminController@guest_register')->name('admin.guest.register');
 Route::get('/admin/guestapi', 'AdminController@allguest_api')->name('admin.guest.api');
 Route::get('/admin/guest/{id}', 'AdminController@guest')->name('admin.guest');
+Route::get('/admin/guest/print', 'AdminController@guest_listprint')->name('admin.guest');
 Route::post('/admin/guest/print/{id}', 'AdminController@guest_print')->name('admin.guest.print');
 Route::put('/admin/guest/update/{id}', 'AdminController@guest_update')->name('admin.guest.update');
 Route::delete('/admin/guest/delete/{id}', 'AdminController@guest_delete')->name('admin.guest.delete');
@@ -52,9 +53,10 @@ Route::get('/registrator', 'RegistratorController@index')->name('registrator');
 
 
 Route::get('/event/entrance', 'EventController@entrance');
-Route::get('/subevent/entrance/{id}', 'SubeventController@entrance');
+Route::post('/event/entrance/log', 'EventController@log');
 
-Route::get('/subevent/{id}', 'SubeventController@index');
+Route::get('/subevent/entrance/{id}', 'SubeventController@entrance');
+Route::post('/subevent/entrance/log', 'SubeventController@log');
 
 
 

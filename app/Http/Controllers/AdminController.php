@@ -107,7 +107,14 @@ class AdminController extends Controller
         'qrcode' => $guest->qrcode
        ));
 
-       return $pdf->stream($guest->firstname . '_' . $guest->lastname . '_badge.pdf');
+       $user = User::find(aUTH::user()->id);
+       $audit = new Audit;
+       $audit->description = 'printed a guest badge for ' . $guest->firstname . ' ' . $guest->lastname;  
+       $audit->user_id = $user->id;
+       $audit->time = Carbon::now();;
+       $audit->save();
+
+       return $pdf->download($guest->firstname . '_' . $guest->lastname . '_badge.pdf');
     }
 
     public function guest_register_show()
