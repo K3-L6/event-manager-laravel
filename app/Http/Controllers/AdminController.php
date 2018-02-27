@@ -9,18 +9,237 @@ use Flashy;
 use File;
 use Auth;
 use Carbon\Carbon;
-
+use PDF;
+use QrCode;
 
 use App\User;
 use App\Event;
 use App\Subevent;
 use App\Guest;
 use App\Audit;
-use PDF;
-use QrCode;
+use App\Eventlog;
+use App\Subeventlog;
 
 class AdminController extends Controller
 {
+
+    //reports
+    public function report_alltypeguestlist()
+    {
+        return view('report_alltypeguestlist');
+    }
+
+    public function report_walkinguestlist()
+    {
+        return view('report_walkinguestlist');
+    }
+
+    public function report_preregguestlist()
+    {
+        return view('report_preregguestlist');
+    }
+
+    public function report_alltypeguestlogs()
+    {
+        return view('report_alltypeguestlogs');
+    }
+
+    public function report_walkinguestlogs()
+    {
+        return view('report_walkinguestlogs');
+    }
+
+    public function report_preregguestlogs()
+    {
+        return view('report_preregguestlogs');
+    }
+
+    // reports api
+    public function report_alltypeguestlistapi()
+    {
+        $guest = Guest::all();
+
+        return Datatables::of($guest)
+        ->editColumn('name', function($guest){
+            return ucwords($guest->firstname . ' ' . $guest->middlename . ' ' . $guest->lastname);
+        })
+        ->editColumn('designation', function($guest){
+            return ucwords($guest->designation);
+        })
+        ->editColumn('companyname', function($guest){
+            return ucwords($guest->companyname);
+        })
+        ->editColumn('type', function($guest){
+            if ($guest->type == 2) {
+                return 'Walk-In Guest';
+            }else{
+                return 'Pre-Registered Guest';
+            }
+        })
+        ->rawColumns(['status', 'action'])
+        ->make(true);
+    }
+
+    public function report_walkinguestlistapi()
+    {
+        $guest = Guest::where('type', 2)->get();
+
+        return Datatables::of($guest)
+        ->editColumn('name', function($guest){
+            return ucwords($guest->firstname . ' ' . $guest->middlename . ' ' . $guest->lastname);
+        })
+        ->editColumn('designation', function($guest){
+            return ucwords($guest->designation);
+        })
+        ->editColumn('companyname', function($guest){
+            return ucwords($guest->companyname);
+        })
+        ->rawColumns(['status', 'action'])
+        ->make(true);
+    }
+
+    public function report_preregguestlistapi()
+    {
+        $guest = Guest::where('type', 1)->get();
+
+        return Datatables::of($guest)
+        ->editColumn('name', function($guest){
+            return ucwords($guest->firstname . ' ' . $guest->middlename . ' ' . $guest->lastname);
+        })
+        ->editColumn('designation', function($guest){
+            return ucwords($guest->designation);
+        })
+        ->editColumn('companyname', function($guest){
+            return ucwords($guest->companyname);
+        })
+        ->rawColumns(['status', 'action'])
+        ->make(true);
+    }
+
+    public function report_alltypeguestlogsapi()
+    {
+        $eventlogs = Eventlog::all();
+
+        return Datatables::of($eventlogs)
+        ->editColumn('name', function($eventlogs){
+            return ucwords($eventlogs->guest->firstname . ' ' . $eventlogs->guest->middlename . ' ' . $eventlogs->guest->lastname);
+        })
+        ->editColumn('email', function($eventlogs){
+            return ucwords($eventlogs->guest->email);
+        })
+        ->editColumn('mobilenumber', function($eventlogs){
+            return ucwords($eventlogs->guest->mobilenumber);
+        })
+        ->editColumn('designation', function($eventlogs){
+            return ucwords($eventlogs->guest->designation);
+        })
+        ->editColumn('companyname', function($eventlogs){
+            return ucwords($eventlogs->guest->companyname);
+        })
+        ->editColumn('officetelnumber', function($eventlogs){
+            return ucwords($eventlogs->guest->officetelnumber);
+        })
+        ->editColumn('officeaddress', function($eventlogs){
+            return ucwords($eventlogs->guest->officeaddress);
+        })
+        ->editColumn('time', function($eventlogs){
+            return Carbon::parse($eventlogs->time)->format('g:i A');
+        })
+        ->editColumn('date', function($eventlogs){
+            return Carbon::parse($eventlogs->time)->format('F d, Y');
+        })
+        ->editColumn('type', function($eventlogs){
+            if ($eventlogs->guest->type == 2) {
+                return 'Walk-In Guest';
+            }else{
+                return 'Pre-Registered Guest';
+            }
+        })
+        ->make(true);
+    }
+
+    public function report_walkinguestlogsapi()
+    {
+        $eventlogs = Eventlog::whereHas('guest', function($guest){
+            $guest->where('type', 2);
+        })->get();
+        return Datatables::of($eventlogs)
+        ->editColumn('name', function($eventlogs){
+            return ucwords($eventlogs->guest->firstname . ' ' . $eventlogs->guest->middlename . ' ' . $eventlogs->guest->lastname);
+        })
+        ->editColumn('email', function($eventlogs){
+            return ucwords($eventlogs->guest->email);
+        })
+        ->editColumn('mobilenumber', function($eventlogs){
+            return ucwords($eventlogs->guest->mobilenumber);
+        })
+        ->editColumn('designation', function($eventlogs){
+            return ucwords($eventlogs->guest->designation);
+        })
+        ->editColumn('companyname', function($eventlogs){
+            return ucwords($eventlogs->guest->companyname);
+        })
+        ->editColumn('officetelnumber', function($eventlogs){
+            return ucwords($eventlogs->guest->officetelnumber);
+        })
+        ->editColumn('officeaddress', function($eventlogs){
+            return ucwords($eventlogs->guest->officeaddress);
+        })
+        ->editColumn('time', function($eventlogs){
+            return Carbon::parse($eventlogs->time)->format('g:i A');
+        })
+        ->editColumn('date', function($eventlogs){
+            return Carbon::parse($eventlogs->time)->format('F d, Y');
+        })
+        ->make(true);
+    }
+
+    public function report_preregguestlogsapi()
+    {
+        $eventlogs = Eventlog::whereHas('guest', function($guest){
+            $guest->where('type', 1);
+        })->get();
+        return Datatables::of($eventlogs)
+        ->editColumn('name', function($eventlogs){
+            return ucwords($eventlogs->guest->firstname . ' ' . $eventlogs->guest->middlename . ' ' . $eventlogs->guest->lastname);
+        })
+        ->editColumn('email', function($eventlogs){
+            return ucwords($eventlogs->guest->email);
+        })
+        ->editColumn('mobilenumber', function($eventlogs){
+            return ucwords($eventlogs->guest->mobilenumber);
+        })
+        ->editColumn('designation', function($eventlogs){
+            return ucwords($eventlogs->guest->designation);
+        })
+        ->editColumn('companyname', function($eventlogs){
+            return ucwords($eventlogs->guest->companyname);
+        })
+        ->editColumn('officetelnumber', function($eventlogs){
+            return ucwords($eventlogs->guest->officetelnumber);
+        })
+        ->editColumn('officeaddress', function($eventlogs){
+            return ucwords($eventlogs->guest->officeaddress);
+        })
+        ->editColumn('time', function($eventlogs){
+            return Carbon::parse($eventlogs->time)->format('g:i A');
+        })
+        ->editColumn('date', function($eventlogs){
+            return Carbon::parse($eventlogs->time)->format('F d, Y');
+        })
+        ->make(true);
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     public function audit()
     {

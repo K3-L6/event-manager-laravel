@@ -1,7 +1,7 @@
 
 @extends('layouts.app')
 @push('title') 
-  ALL TYPE GUEST LIST REPORT
+  WALK-IN GUEST LOGS
 @endpush
 
 @push('sidebar')
@@ -12,12 +12,12 @@
 <ul class="breadcrumb">
   <div class="container-fluid">
     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-    <li class="breadcrumb-item active">Guest</li>
-    <form action="/admin/guest/register" method="get">
-      <button class="btn btn-primary btn-sm float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Create</button>
+    <li class="breadcrumb-item active">Report</li>
+    <form action="" method="get">
+      <button id="print" class="btn btn-primary btn-sm float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Print</button>
     </form>
     <form action="" method="get">
-      <button class="btn btn-primary btn-sm float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Import</button>
+      <button id="excel" class="btn btn-primary btn-sm float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Excel</button>
     </form>
   </div>
 </ul>
@@ -41,9 +41,14 @@
                   <thead>
                     <tr>
                       <th>Name</th>
-                      <th>Designation</th>
-                      <th>Company Name</th>
-                      <th>Action</th>
+                      <th class="none">Email</th>
+                      <th class="none">Mobile Number</th>
+                      <th class="none">Designation</th>
+                      <th class="none">Company</th>
+                      <th class="none">Office Tel#</th>
+                      <th class="none">Office Address</th>
+                      <th>Time</th>
+                      <th>Date</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -69,22 +74,27 @@
              responsive: true,
              // lengthChange: false,
              buttons: [
-                { extend: 'print', className: 'd-none', title:'Guest List', exportOptions:{ columns:[0, 1, 2]} },
+                { extend: 'print', className: 'd-none', title:'Walk-In Guest List', exportOptions:{ columns:[0, 1, 2, 3, 4, 5, 6, 7, 8]} },
+                { extend: 'excel', className: 'd-none', title:'Walk-In Guest List', exportOptions:{ columns:[0, 1, 2, 3, 4, 5, 6, 7, 8]} },
                 'pageLength',
              ],
+             
+             ajax: "{{ route('admin.report.walkinguestlogs.api') }}",
              columnDefs: [
-                 { "width": "30%", "targets": 0 },
-                 { "width": "30%", "targets": 1 },
-                 { "width": "30%", "targets": 2 },
-                 { "width": "10%", "targets": 3 }
+                 { "width": "50%", "targets": 0 },
+                 { "width": "25%", "targets": 7 },
+                 { "width": "25%", "targets": 8 }
              ],
-             ajax: "{{ route('admin.guest.api') }}",
-
              columns: [
                {data: 'name', name: 'name'},
+               {data: 'email', name: 'email'},
+               {data: 'mobilenumber', name: 'mobilenumber'},
                {data: 'designation', name: 'designation'},
                {data: 'companyname', name: 'companyname'},
-               {data: 'action', name: 'action', orderable:false, searchable:false, printable:false},
+               {data: 'officetelnumber', name: 'officetelnumber'},
+               {data: 'officeaddress', name: 'officeaddress'},
+               {data: 'time', name: 'time'},
+               {data: 'date', name: 'date'},
              ]
          });
          $(document).on('click', '#print', function(){

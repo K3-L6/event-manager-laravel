@@ -16,12 +16,12 @@
     {{-- <li> <a href="/admin/report"><i class="fa fa-bar-chart" aria-hidden="true"></i>Reports</a></li> --}}
     <li><a href="#dashvariants" aria-expanded="false" data-toggle="collapse"><i class="fa fa-bar-chart" aria-hidden="true"></i>Reports</a>
       <ul id="dashvariants" class="collapse list-unstyled">
-        <li><a href="#">All-Type Guest List</a></li>
-        <li><a href="#">Walk-In Guest List</a></li>
-        <li><a href="#">Pre-Reg Guest List</a></li>
-        <li><a href="#">All-Type Guest Logs</a></li>
-        <li><a href="#">Walk-In Guest Logs</a></li>
-        <li><a href="#">Pre-Reg Guest Logs</a></li>
+        <li><a href="/admin/report/alltypeguestlist">All Type Guest List</a></li>
+        <li><a href="/admin/report/walkinguestlist">Walk-In Guest List</a></li>
+        <li><a href="/admin/report/preregguestlist">Pre-Reg Guest List</a></li>
+        <li><a href="/admin/report/alltypeguestlogs">All-Type Guest Logs</a></li>
+        <li><a href="/admin/report/walkinguestlogs">Walk-In Guest Logs</a></li>
+        <li><a href="/admin/report/preregguestlogs">Pre-Reg Guest Logs</a></li>
         <li><a href="#">Sub Event Reports</a></li>
       </ul>
     </li>

@@ -46,6 +46,22 @@ Route::get('/admin/audit', 'AdminController@audit')->name('admin.audit');
 Route::get('/admin/auditapi', 'AdminController@audit_api')->name('admin.audit.api');
 
 
+Route::get('/admin/report/alltypeguestlist', 'AdminController@report_alltypeguestlist')->name('admin.report.alltypeguestlist');
+Route::get('/admin/report/walkinguestlist', 'AdminController@report_walkinguestlist')->name('admin.report.walkinguestlist');
+Route::get('/admin/report/preregguestlist', 'AdminController@report_preregguestlist')->name('admin.report.preregguestlist');
+Route::get('/admin/report/alltypeguestlogs', 'AdminController@report_alltypeguestlogs')->name('admin.report.alltypeguestlogs');
+Route::get('/admin/report/walkinguestlogs', 'AdminController@report_walkinguestlogs')->name('admin.report.walkinguestlogs');
+Route::get('/admin/report/preregguestlogs', 'AdminController@report_preregguestlogs')->name('admin.report.preregguestlogs');
+
+
+Route::get('/admin/report/alltypeguestlistapi', 'AdminController@report_alltypeguestlistapi')->name('admin.report.alltypeguestlist.api');
+Route::get('/admin/report/walkinguestlistapi', 'AdminController@report_walkinguestlistapi')->name('admin.report.walkinguestlist.api');
+Route::get('/admin/report/preregguestlistapi', 'AdminController@report_preregguestlistapi')->name('admin.report.preregguestlist.api');
+Route::get('/admin/report/alltypeguestlogsapi', 'AdminController@report_alltypeguestlogsapi')->name('admin.report.alltypeguestlogs.api');
+Route::get('/admin/report/walkinguestlogsapi', 'AdminController@report_walkinguestlogsapi')->name('admin.report.walkinguestlogs.api');
+Route::get('/admin/report/preregguestlogsapi', 'AdminController@report_preregguestlogsapi')->name('admin.report.preregguestlogs.api');
+
+
 
 Route::get('/exhibitor', 'ExhibitorController@index')->name('exhibitor');
 Route::get('/registrator', 'RegistratorController@index')->name('registrator');

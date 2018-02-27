@@ -63,6 +63,9 @@
     <script src="{{ asset('js/jquery.cookie.js') }}"> </script>
     <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('js/front.js') }}"></script>
+    
+    @include('inc.flashy')
+
     <script type="text/javascript">
       $(function() {
         $(document).keypress(function(e){

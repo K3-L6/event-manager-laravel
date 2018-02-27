@@ -55,7 +55,7 @@
       <input type="text" id="idcard" name="idcard" style="display: none;" autofocus>
     </form>
     
-
+    
     <!-- Javascript files-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="{{ asset('js/tether.min.js') }}"></script>
@@ -63,6 +63,9 @@
     <script src="{{ asset('js/jquery.cookie.js') }}"> </script>
     <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('js/front.js') }}"></script>
+
+    @include('inc.flashy')
+    
     <script type="text/javascript">
       $(function() {
         $(document).keypress(function(e){

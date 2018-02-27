@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Guest;
 use App\Subevent;
 use App\Subeventlog;
+use Flashy;
 
 class SubeventController extends Controller
 {
@@ -20,11 +21,29 @@ class SubeventController extends Controller
     {
     	$guest = Guest::where('idcard', $request->idcard)->first();
     	
-    	$subeventlog = new Subeventlog;
-    	$subeventlog->guest_id = $guest->id;
-    	$subeventlog->subevent_id = $request->subeventid;
-    	$subeventlog->time = Carbon::now();
-    	$subeventlog->save();
+        $existinglogs = Subeventlog::all();
+        $exist = false;
+        foreach ($existinglogs as $log) {
+            if ($log->guest_id == $guest->id) {
+                $exist = true;
+            }
+        }
+        if (!$exist) {
+            $subeventlog = new Subeventlog;
+            $subeventlog->guest_id = $guest->id;
+            $subeventlog->subevent_id = $request->subeventid;
+            $subeventlog->time = Carbon::now();
+            $subeventlog->save(); 
+        }
+
+        $subeventlog = Subeventlog::where('guest_id', $guest->id)->first();
+        $subeventlog->guest_id = $guest->id;
+        $subeventlog->subevent_id = $request->subeventid;
+        $subeventlog->time = Carbon::now();
+        $subeventlog->save();
+
+    	
+        Flashy::info('welcome ' . ucwords($guest->firstname) . ' ' . ucwords($guest->middlename) . ' ' . ucwords($guest->lastname), '#');
     	return redirect()->back();
     }
 }

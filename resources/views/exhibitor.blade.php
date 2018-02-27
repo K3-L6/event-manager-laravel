@@ -70,7 +70,7 @@
                           <td>{{$subevent->title}}</td>
                           <td>{{$subevent->description}}</td>
                           <td>
-                            <form method="get" action="/exhibitor/subevent/{{$subevent->id}}">
+                            <form method="get" action="/subevent/entrance/{{$subevent->id}}">
                               <button type="submit" class="btn btn-primary">Start</button>
                             </form>
                           </td>

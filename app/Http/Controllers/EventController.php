@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Guest;
 use App\Event;
 use App\Eventlog;
+use Flashy;
 
 class EventController extends Controller
 {
@@ -20,10 +21,27 @@ class EventController extends Controller
     {
         $guest = Guest::where('idcard', $request->idcard)->first();
         
-        $eventlog = new Eventlog;
+        $existingeventlogs = Eventlog::all();
+        $exist = false;
+        foreach ($existingeventlogs as $log) {
+            if ($log->guest_id == $guest->id) {
+                $exist = true;
+            }
+        }
+        if (!$exist) {
+            $eventlog = new Eventlog;
+            $eventlog->guest_id = $guest->id;
+            $eventlog->time = Carbon::now();
+            $eventlog->save();    
+        }
+
+        $eventlog = Eventlog::where('guest_id', $guest->id)->first();
         $eventlog->guest_id = $guest->id;
         $eventlog->time = Carbon::now();
         $eventlog->save();
+
+
+        Flashy::info('welcome ' . ucwords($guest->firstname) . ' ' . ucwords($guest->middlename) . ' ' . ucwords($guest->lastname), '#');
         return redirect()->back();
     }
 

@@ -13,7 +13,7 @@
   <div class="container-fluid">
     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
     <li class="breadcrumb-item"><a href="/admin/guest">Guest</a></li>
-    <li class="breadcrumb-item active">Registration</li>
+    <li class="breadcrumb-item active">Update</li>
   </div>
 </ul>
 
