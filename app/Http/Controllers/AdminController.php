@@ -25,9 +25,9 @@ class AdminController extends Controller
 
     //reports
     public function report_alltypeguestlist()
-    {
+     {
         return view('report_alltypeguestlist');
-    }
+     }
 
     public function report_walkinguestlist()
     {
