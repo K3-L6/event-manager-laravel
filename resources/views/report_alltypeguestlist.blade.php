@@ -45,9 +45,9 @@
                       <th>Mobile Number</th>
                       <th class="none">Designation</th>
                       <th>Company</th>
-                      <th class="none">Office Tel#</th>
+                      <th class="none">Office Telephone Number</th>
                       <th class="none">Office Address</th>
-                      <th class="none">Type</th>
+                      <th class="none">Guest Type</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -80,10 +80,10 @@
              
              ajax: "{{ route('admin.report.alltypeguestlist.api') }}",
              columnDefs: [
-                 { "width": "40%", "targets": 0 },
-                 { "width": "30%", "targets": 1 },
+                 { "width": "30%", "targets": 0 },
+                 { "width": "20%", "targets": 1 },
                  { "width": "20%", "targets": 2 },
-                 { "width": "20%", "targets": 3 }
+                 { "width": "30%", "targets": 4 }
              ],
              columns: [
                {data: 'name', name: 'name'},

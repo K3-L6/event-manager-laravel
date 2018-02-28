@@ -1,7 +1,7 @@
 
 @extends('layouts.app')
 @push('title') 
-  ALL TYPE GUEST LIST REPORT
+  Guest List
 @endpush
 
 @push('sidebar')
@@ -16,8 +16,13 @@
     <form action="/admin/guest/register" method="get">
       <button class="btn btn-primary btn-sm float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Create</button>
     </form>
-    <form action="" method="get">
-      <button class="btn btn-primary btn-sm float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Import</button>
+    <form action="/admin/guest/import" id="myexcelform" method="post" enctype="multipart/form-data">
+      @csrf()
+      <label class="btn btn-primary btn-sm float-right btn-file" style="width: 150px; margin-left: 1%; margin-right: 1%;">
+          Import 
+          <input type="file" id="myexcel" name="myexcel">
+      </label>
+      {{-- <button class="btn btn-primary btn-sm float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Import</button> --}}
     </form>
   </div>
 </ul>
@@ -42,7 +47,12 @@
                     <tr>
                       <th>Name</th>
                       <th>Designation</th>
-                      <th>Company Name</th>
+                      <th>Company</th>
+                      <th class="none">Office Telephone Number</th>
+                      <th class="none">Office Address</th>
+                      <th class="none">Email Address</th>
+                      <th class="none">Mobile Number</th>
+                      <th class="none">Guest Type</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -69,7 +79,6 @@
              responsive: true,
              // lengthChange: false,
              buttons: [
-                { extend: 'print', className: 'd-none', title:'Guest List', exportOptions:{ columns:[0, 1, 2]} },
                 'pageLength',
              ],
              columnDefs: [
@@ -84,18 +93,30 @@
                {data: 'name', name: 'name'},
                {data: 'designation', name: 'designation'},
                {data: 'companyname', name: 'companyname'},
+               {data: 'officetelnumber', name: 'officetelnumber'},
+               {data: 'officeaddress', name: 'officeaddress'},
+               {data: 'email', name: 'email'},
+               {data: 'mobilenumber', name: 'mobilenumber'},
+               {data: 'type', name: 'type'},
                {data: 'action', name: 'action', orderable:false, searchable:false, printable:false},
              ]
-         });
-         $(document).on('click', '#print', function(){
-            $(".buttons-print")[0].click();
-         });
-         $(document).on('click', '#excel', function(){
-            $(".buttons-excel")[0].click();
          });
          $('#searchInput').on( 'keyup', function () {
              table.search( this.value ).draw();
          } );
+
+         function readURL(input) {
+           if (input.files && input.files[0]) {
+             var reader = new FileReader();
+             reader.onload = function(e) {
+              $('#myexcelform').submit();
+             }
+             reader.readAsDataURL(input.files[0]);
+           }
+         }
+         $("#myexcel").change(function() {
+           readURL(this);
+         });
 
      });
 

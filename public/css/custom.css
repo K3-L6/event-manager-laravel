@@ -107,13 +107,13 @@
 .main-link{
   display: block;
   height: 100%;
-  color: black;
+  color: #398585;
   width: 100%;
   text-decoration: none;
 }
 
 .main-link:hover{
-  color: black;
+  color: #398585;
   text-decoration: none;
 }
 

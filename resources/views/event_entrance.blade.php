@@ -52,9 +52,10 @@
 
     <form method="post" id="form" action="/event/entrance/log">
       @csrf()
-      <input type="text" id="idcard" name="idcard" style="display: none;" autofocus>
+      <input type="text" id="idcard" name="idcard" style="display: none;">
+      
     </form>
-    
+    {{-- <button id="testBtn">Test</button> --}}
     
     <!-- Javascript files-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -69,8 +70,11 @@
     <script type="text/javascript">
       $(function() {
         $(document).keypress(function(e){
-          $('#idcard').val(e.key);
-          $('#form').submit();
+          var id = $('#idcard').val();
+          $('#idcard').val(id += e.key);
+          if(e.which == 13){
+            $('#form').submit();  
+          }
         });
       });
     </script>

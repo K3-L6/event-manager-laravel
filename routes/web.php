@@ -41,6 +41,8 @@ Route::get('/admin/guest/print', 'AdminController@guest_listprint')->name('admin
 Route::post('/admin/guest/print/{id}', 'AdminController@guest_print')->name('admin.guest.print');
 Route::put('/admin/guest/update/{id}', 'AdminController@guest_update')->name('admin.guest.update');
 Route::delete('/admin/guest/delete/{id}', 'AdminController@guest_delete')->name('admin.guest.delete');
+Route::post('/admin/guest/import', 'AdminController@guest_import')->name('admin.guest.import');
+
 
 Route::get('/admin/audit', 'AdminController@audit')->name('admin.audit');
 Route::get('/admin/auditapi', 'AdminController@audit_api')->name('admin.audit.api');
@@ -64,8 +66,13 @@ Route::get('/admin/report/preregguestlogsapi', 'AdminController@report_prereggue
 
 
 Route::get('/exhibitor', 'ExhibitorController@index')->name('exhibitor');
-Route::get('/registrator', 'RegistratorController@index')->name('registrator');
 
+Route::get('/registrator', 'RegistratorController@index')->name('registrator');
+Route::get('/registrator/walkin/register', 'RegistratorController@walkin')->name('registrator.walkin');
+Route::post('/registrator/walkin/register', 'RegistratorController@guest_register')->name('registrator.walkin');
+Route::get('/registrator/prereg', 'RegistratorController@prereg')->name('registrator.prereg');
+Route::get('/registrator/prereg/update/{id}', 'RegistratorController@prereg_update_show')->name('registrator.prereg.update');
+Route::put('/registrator/prereg/update/{id}', 'RegistratorController@prereg_update')->name('registrator.prereg.update');
 
 
 Route::get('/event/entrance', 'EventController@entrance');

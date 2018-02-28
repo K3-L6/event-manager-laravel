@@ -24,21 +24,21 @@
 			top: 15mm;
 		}
 		#name h1{
-			font-size: 30px;
+			font-size: 25px;
 		}
 		#name p{
 			margin-bottom: 10%;
 		}
 
 		#companyname h1{
-			font-size: 25px;
+			font-size: 20px;
 		}
 		#companyname p{
 			margin-bottom: 10%;
 		}
 
 		#designation h1{
-			font-size: 20px;
+			font-size: 15px;
 		}
 		#designation p{
 			margin-bottom: 10%;

@@ -69,8 +69,11 @@
     <script type="text/javascript">
       $(function() {
         $(document).keypress(function(e){
-          $('#idcard').val(e.key);
-          $('#form').submit();
+          var id = $('#idcard').val();
+          $('#idcard').val(id += e.key);
+          if(e.which == 13){
+            $('#form').submit();  
+          }
         });
       });
     </script>

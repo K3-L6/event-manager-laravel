@@ -35,18 +35,9 @@
               <div class="info d-flex align-items-center">
                 <div class="content">
                   <div class="logo">
-                    @if (count(Auth::user()->role->access) == 1)
-                      <form id="logout" action="{{ route('logout') }}" method="POST">
-                        {{ csrf_field() }}
-                        <a href="javascript:{}" class="main-link" onclick="document.getElementById('logout').submit(); return false;">
-                          <i class="fa fa-chevron-left" style="color: white;"></i>
-                        </a>
-                      </form>  
-                    @else
-                      <a href="/home" class="main-link">
-                          <i class="fa fa-chevron-left" style="color: white;"></i>
-                      </a>
-                    @endif
+                  <a href="/home" class="main-link">
+                      <i class="fa fa-chevron-left" style="color: white;"></i>
+                  </a>
                   </div>
                 </div>
               </div>
@@ -55,25 +46,33 @@
             <div class="col-lg-11 bg-white">
               <div class="form d-flex align-items-center">
                 <div class="content">
-                  
-                  <div class="row">
-                  
-                    <div class="col-md-6 main-widget">
-                      <a href="/registrator/walkin/register" class="main-link">
-                        <img src="{{ asset('img/walkin.png') }}" style="width: 100%; height: 200px;"> 
-                        <h2>Walk-In Guest Registration</h2> 
-                      </a>
-                    </div>
-
-                    <div class="col-md-6 main-widget">
-                      <a href="/registrator/prereg" class="main-link">
-                        <img src="{{ asset('img/prereg.png') }}" style="width: 100%; height: 200px;"> 
-                        <h2>Pre-Registered Guests</h2> 
-                      </a>
-                    </div>
-                    
+                  <h1>Pre Registered Guest</h1>
+                  <div class="table-responsive" style="padding-right: 2%;">
+                    <table id="mytable" class="table" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          <th style="width: 30%">Name</th>
+                          <th style="width: 30%">Designation</th>
+                          <th style="width: 30%">Company</th>
+                          <th style="width: 10%">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @foreach ($guest as $guest)
+                          <tr>
+                          <td>{{ucwords($guest->firstname) . ' ' .ucwords($guest->middlename) . ' ' . ucwords($guest->lastname)}}</td>
+                          <td>{{ucwords($guest->designation)}}</td>
+                          <td>{{ucwords($guest->companyname)}}</td>
+                          <td>
+                            <form method="get" action="/registrator/prereg/update/{{$guest->id}}">
+                              <button type="submit" class="btn btn-primary">></button>
+                            </form>
+                          </td>
+                          </tr>
+                        @endforeach
+                      </tbody>
+                    </table>
                   </div>
-
                 </div>
               </div>
             </div>

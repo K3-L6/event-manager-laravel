@@ -27,15 +27,15 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('guests')->insert([
-            'email' => 'pre@gmail.com',
+            'email' => 'ken@gmail.com',
 
-            'firstname' => 'guest',
-            'middlename' => 'sample',
-            'lastname' => 'pre registered',
+            'firstname' => 'ken',
+            'middlename' => 'robles',
+            'lastname' => 'lising',
 
-            'designation' => 'sample',
-            'companyname' => 'sample',
-            'officeaddress' => 'sample',
+            'designation' => 'web developer',
+            'companyname' => 'golden aurum system solution',
+            'officeaddress' => 'golden city metro manila philippines',
             
             'mobilenumber' => '09999999999',
             'officetelnumber' => '1111111',
@@ -47,18 +47,18 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('guests')->insert([
-            'email' => 'walk@gmail.com',
+            'email' => 'erd@gmail.com',
 
-            'firstname' => 'guest',
-            'middlename' => 'sample',
-            'lastname' => 'walkin',
+            'firstname' => 'erd rico',
+            'middlename' => '',
+            'lastname' => 'manalo',
 
-            'designation' => 'sample',
-            'companyname' => 'sample',
-            'officeaddress' => 'sample',
+            'designation' => 'graphic designer',
+            'companyname' => 'golden aurum system solution',
+            'officeaddress' => 'golden city metro manila philippines',
             
-            'mobilenumber' => '09999999999',
-            'officetelnumber' => '1111111',
+            'mobilenumber' => '09998888888',
+            'officetelnumber' => '2222222',
 
             'idcard' => '2',
             'qrcode' => '2.png',

@@ -12,7 +12,7 @@
   <div class="container-fluid">
     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
     <li class="breadcrumb-item active">Event</li>
-    <form action="/event/entrance" method="get">
+    <form action="/event/entrance" method="get" id="import">
       <button class="btn btn-primary btn-sm float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">START</button>
     </form>
   </div>

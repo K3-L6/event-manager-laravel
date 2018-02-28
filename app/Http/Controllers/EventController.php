@@ -19,7 +19,7 @@ class EventController extends Controller
 
     public function log(Request $request)
     {
-        $guest = Guest::where('idcard', $request->idcard)->first();
+        $guest = Guest::where('idcard', str_replace('Enter', '', $request->idcard))->first();
         
         $existingeventlogs = Eventlog::all();
         $exist = false;

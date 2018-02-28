@@ -16,19 +16,19 @@
       <div class="statistics col-lg-3 col-12">
         <div class="statistic d-flex align-items-center bg-white has-shadow">
           <div class="icon bg-red"><i class="fa fa-bar-chart"></i></div>
-          <div class="text"><strong>0</strong><br><small>Active Guest</small></div>
+          <div class="text"><strong>{{$walkin}}</strong><br><small>Walk-In Guest</small></div>
         </div>
         <div class="statistic d-flex align-items-center bg-white has-shadow">
           <div class="icon bg-orange"><i class="fa fa-dollar"></i></div>
-          <div class="text"><strong>50</strong><br><small>Invited Guest</small></div>
+          <div class="text"><strong>{{$prereg}}</strong><br><small>Pre-Registered Guest</small></div>
         </div>
         <div class="statistic d-flex align-items-center bg-white has-shadow">
           <div class="icon bg-blue"><i class="fa fa-money"></i></div>
-          <div class="text"><strong>50</strong><br><small>Walk-Ins</small></div>
+          <div class="text"><strong>{{$total}}</strong><br><small>Total Guest</small></div>
         </div>
         <div class="statistic d-flex align-items-center bg-white has-shadow">
           <div class="icon bg-green"><i class="fa fa-credit-card"></i></div>
-          <div class="text"><strong>100</strong><br><small>Total Guest</small></div>
+          <div class="text"><strong>{{$guestlogs}}</strong><br><small>Guest Logs</small></div>
         </div>
       </div>
       <!-- Line Chart            -->
@@ -65,9 +65,14 @@
                         gridLines: {
                             color: '#eee'
                         }
+
                     }],
                     yAxes: [{
                         display: true,
+                        ticks: {
+                            suggestedMin: 0,
+                            beginAtZero: true 
+                        },
                         gridLines: {
                             color: '#eee'
                         }
@@ -86,10 +91,10 @@
             },
             data: {
                 labels: [
-                    "Active Guesst",
-                    "Invited Guest",
-                    "Walk-Ins",
-                    "Total Guest"
+                    "Walk-In Guest",
+                    "Pre-Registered Guest",
+                    "Total Guest",
+                    "Guest Logs"
                 ],
                 datasets: [
                     {
@@ -114,7 +119,7 @@
                             '#ffc36d'
                         ],
                         borderWidth: 1,
-                        data: [0, 50, 50, 100],
+                        data: [{{$walkin}}, {{$prereg}}, {{$total}}, {{$guestlogs}}],
                     },
                 ]
             }

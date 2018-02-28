@@ -34,14 +34,6 @@
     {{-- datatables --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/datatables.min.css') }}">
 
-    {{-- color picker --}}
-    <link rel="stylesheet" href="{{ asset('css/colorpicker.css') }}" type="text/css" />
-    <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/colorpicker.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/eye.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/utils.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/layout.js') }}"></script>
-
     {{-- font selector --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/fontselect.css') }}">
 

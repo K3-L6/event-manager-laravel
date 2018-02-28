@@ -11,6 +11,7 @@ use Auth;
 use Carbon\Carbon;
 use PDF;
 use QrCode;
+use Excel;
 
 use App\User;
 use App\Event;
@@ -22,6 +23,51 @@ use App\Subeventlog;
 
 class AdminController extends Controller
 {
+
+    public function guest_import(Request $request)
+    {
+        if ($request->hasFile('myexcel')) 
+        {
+            $path = $request->file('myexcel')->getRealPath();
+            $data = \Excel::load($path)->get();
+            if ($data->count()) 
+            {   
+                foreach ($data as $key => $value) 
+                {
+                    
+                    $arr[] = ['email' => $value['username'],
+                              'firstname' => $value['first_name'],
+                              'middlename' => $value['middle_name'],
+                              'lastname' => $value['last_name'],
+                              'designation' => $value['designation'],
+                              'companyname' => $value['company_name'],
+                              'officeaddress' => $value['office_address'],
+                              'mobilenumber' => $value['mobile_number_format_09xx_xxxxxxx'],
+                              'officetelnumber' => $value['office_tel._no._format_02_xxxxxxx'],
+                              'type' => 1
+
+                             ];
+                }
+
+                if(!empty($arr))
+                {
+                    try{
+                        \DB::table('guests')->insert($arr);
+
+                        Flashy::success('Successfully imported data', '#');
+                        return redirect()->to('/admin/guest');
+                    }catch(\Exception $e){
+                        Flashy::error('Invalid Data File', '#');
+                        return redirect()->to('/admin/guest');
+                    }
+                    
+                }
+
+                Flashy::error('Invalid Data File', '#');
+            }
+        }
+        return "no file";
+    }
 
     //reports
     public function report_alltypeguestlist()
@@ -285,6 +331,16 @@ class AdminController extends Controller
         ->editColumn('companyname', function($guest){
             return ucwords($guest->companyname);
         })
+        ->editColumn('companyname', function($guest){
+            return ucwords($guest->companyname);
+        })
+        ->editColumn('type', function($guest){
+            if ($guest->type == 2) {
+                return 'Walk-In Guest';
+            }else{
+                return 'Pre-Registered Guest';
+            }
+        })
         ->addColumn('action', function($guest){
             return '
                 <div class="btn-group" role="group">
@@ -392,8 +448,29 @@ class AdminController extends Controller
         );
 
         $guest = new Guest;
+        
         $qrimagename = time() . '_' . $request->idcard . '.png';
-        QrCode::format('png')->backgroundColor(34, 49, 63)->color(228, 241, 254)->size(300)->errorCorrection('H')->generate($request->idcard, '../public/img/guest/'. $qrimagename);
+        
+        // RFID Only in QrCode
+        QrCode::format('png')
+        ->backgroundColor(34, 49, 63)
+        ->color(228, 241, 254)
+        ->size(300)->errorCorrection('H')
+        ->generate($request->idcard, '../public/img/guest/'. $qrimagename);
+        
+        // All guest data into QrCode
+        // QrCode::format('png')
+        // ->backgroundColor(34, 49, 63)
+        // ->color(228, 241, 254)
+        // ->size(300)
+        // ->errorCorrection('H')
+        // ->generate(
+        //     'Name : ' . ucwords($request->firstname) . ' ' . ucwords($request->middlename) . ' ' . ucwords($request->middlename) . '' .
+        //     'Company : ' . ucwords($request->companyname) . '' .
+        //     'Designation : ' . ucwords($request->designation) . '' . 
+        //     'Email : ' . $request->email . '' .
+        //     'Mobile Number' . $request->mobilenumber . ''  
+        // , '../public/img/guest/'. $qrimagename);
 
         $guest->lastname = $request->lastname;
         $guest->middlename = $request->middlename;
@@ -471,8 +548,29 @@ class AdminController extends Controller
         );
 
         $guest = Guest::find($id);
+        
         $qrimagename = time() . '_' . $request->idcard . '.png';
-        QrCode::format('png')->size(300)->errorCorrection('H')->generate($request->idcard, '../public/img/guest/'. $qrimagename);
+        
+        // RFID Only in QrCode
+        QrCode::format('png')
+        ->backgroundColor(34, 49, 63)
+        ->color(228, 241, 254)
+        ->size(300)->errorCorrection('H')
+        ->generate($request->idcard, '../public/img/guest/'. $qrimagename);
+        
+        // All guest data into QrCode
+        // QrCode::format('png')
+        // ->backgroundColor(34, 49, 63)
+        // ->color(228, 241, 254)
+        // ->size(300)
+        // ->errorCorrection('H')
+        // ->generate(
+        //     'Name : ' . ucwords($request->firstname) . ' ' . ucwords($request->middlename) . ' ' . ucwords($request->middlename) . '' .
+        //     'Company : ' . ucwords($request->companyname) . '' .
+        //     'Designation : ' . ucwords($request->designation) . '' . 
+        //     'Email : ' . $request->email . '' .
+        //     'Mobile Number' . $request->mobilenumber . ''  
+        // , '../public/img/guest/'. $qrimagename);
         
         $guest->lastname = $request->lastname;
         $guest->middlename = $request->middlename;
@@ -772,7 +870,15 @@ class AdminController extends Controller
 
     public function index()
     {
-        return view('admin');
+        $walkin = count(Guest::where('type', 2)->get());
+        $prereg = count(Guest::where('type', 1)->get());
+        $total = $walkin + $prereg;
+        $guestlogs = count(Eventlog::all());
+        return view('admin')
+        ->withWalkin($walkin)
+        ->withPrereg($prereg)
+        ->withTotal($total)
+        ->withGuestlogs($guestlogs);
     }
     
 }
