@@ -177,7 +177,7 @@ button, input {
 }
 
 .bg-blue {
-  background: #85b4f2 !important;
+  background: #379392 !important;
   color: #fff;
 }
 
@@ -286,7 +286,7 @@ button, input {
 }
 
 .page {
-  background: #EEF5F9;
+  background: #f5f6fa;
 }
 
 .page .text-white {
@@ -367,7 +367,9 @@ nav.side-navbar a[data-toggle="collapse"]::before {
 }
 
 nav.side-navbar a[aria-expanded="true"] {
-  background: #EEF5F9;
+  border-left: 4px solid #225b5b;
+  color: white;
+  background: #379392;
 }
 
 nav.side-navbar a[aria-expanded="true"]::before {
@@ -431,7 +433,7 @@ nav.side-navbar ul a:hover {
 }
 
 nav.side-navbar ul li.active a {
-  background: #EEF5F9;
+  background: #f5f6fa;
 }
 
 nav.side-navbar ul li.active a:hover {
@@ -444,7 +446,7 @@ nav.side-navbar ul ul {
 
 nav.side-navbar ul ul a {
   padding-left: 50px;
-  background: #EEF5F9;
+  background: #f5f6fa;
 }
 
 nav.side-navbar.shrinked {
@@ -832,12 +834,12 @@ nav.navbar .dropdown-menu h3 {
 * ==========================================================
 */
 section.dashboard-counts .icon {
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
   text-align: center;
-  min-width: 40px;
-  max-width: 40px;
+  min-width: 50px;
+  max-width: 50px;
   border-radius: 50%;
 }
 
@@ -915,12 +917,12 @@ section.dashboard-counts div[class*='col-']:last-of-type .item {
 }
 
 .statistic .icon {
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
   text-align: center;
-  min-width: 40px;
-  max-width: 40px;
+  min-width: 50px;
+  max-width: 50px;
   color: #fff;
   border-radius: 50%;
   margin-right: 15px;

@@ -35,8 +35,8 @@
           <div class="col-sm-12">
             <span class="btn-file">
               <div class="preview_panel" id="preview_panel">
-                <h1 style="font-family: Aclonica; font-size: 12vw; color: white;">Sample Subevent</h1>
-                <p style="font-family: Aclonica; font-size: 2vw; color: white;">Subevent Description</p>
+                <h1 style="font-family: Aclonica; font-size: 20vmin; color: white;">Sample Subevent</h1>
+                <p style="font-family: Aclonica; font-size: 5vmin; color: white;">Subevent Description</p>
               </div>    
               <img id="img_preview" src="{{ asset('img/event/noimg.jpg') }}">
               <input type="file" name="img" id="img_upload">
@@ -57,7 +57,7 @@
                   <input type="text" class="form-control" id="title_font" value="{{old('title_font')}}" name="title_font">
                 </div>
                 <div class="col-sm-2">
-                  <input type="number" min="0" id="title_font_size" class="form-control" value="{{old('title_size', '12')}}" name="title_size">
+                  <input type="number" min="0" id="title_font_size" class="form-control" value="{{old('title_size', '20')}}" name="title_size">
                 </div>
                 <div class="col-sm-2">
                   <input type="text" min="0" id="title_font_color" class="form-control" value="{{old('title_color', 'white')}}" name="title_color">
@@ -81,7 +81,7 @@
                     <input type="text" class="form-control" id="description_font" value="{{old('description_font')}}" name="description_font">
                   </div>
                   <div class="col-sm-2">
-                    <input type="number" min="0" id="description_font_size" class="form-control" value="{{old('description_size', '2')}}" name="description_size">
+                    <input type="number" min="0" id="description_font_size" class="form-control" value="{{old('description_size', '5')}}" name="description_size">
                   </div>
                   <div class="col-sm-2">
                     <input type="text" min="0" id="description_font_color" class="form-control" value="{{old('description_color', 'white')}}" name="description_color">
@@ -183,12 +183,12 @@
 
         $("#title_font_size").bind('keyup mouseup', function(){
           var size = $('#title_font_size').val();
-          $('#preview_panel > h1').css('font-size', size + 'vw');  
+          $('#preview_panel > h1').css('font-size', size + 'vmin');  
         });
 
         $("#description_font_size").bind('keyup mouseup', function(){
           var size = $('#description_font_size').val();
-          $('#preview_panel > p').css('font-size', size + 'vw');
+          $('#preview_panel > p').css('font-size', size + 'vmin');
         });
         $("#title_font_color").keyup(function(){
           var color = $('#title_font_color').val();

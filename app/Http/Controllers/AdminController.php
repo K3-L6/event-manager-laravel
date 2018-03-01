@@ -314,7 +314,13 @@ class AdminController extends Controller
 
     public function allguest()
     {
-        return view('allguest');
+        $walkin = count(Guest::where('type', 2)->get());
+        $prereg = count(Guest::where('type', 1)->get());
+        $total = $walkin + $prereg;   
+        return view('allguest')
+        ->withWalkin($walkin)
+        ->withPrereg($prereg)
+        ->withTotal($total);
     }
 
     public function allguest_api()
@@ -342,17 +348,13 @@ class AdminController extends Controller
             }
         })
         ->addColumn('action', function($guest){
-            return '
-                <div class="btn-group" role="group">
-                    <form action="/admin/guest/' . $guest->id . '" method="get">
-                        <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></button>  
-                    </form>
-
-                    <form action="/admin/guest/print/' . $guest->id . '" method="post">
-                        <input type="hidden" name="_token" value="'. csrf_token() . '">
-                        <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-print"></i></button>  
-                    </form>
-
+            $top = '<div class="btn-group" role="group">';
+            $mid = '
+                <form action="/admin/guest/' . $guest->id . '" method="get">
+                    <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-edit"></i></button>  
+                </form>
+            ';
+            $bot = '
                     <form action="/admin/guest/delete/' . $guest->id . '" method="post">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="'. csrf_token() . '">
@@ -360,6 +362,17 @@ class AdminController extends Controller
                     </form>
                 </div>
             ';
+
+            if($guest->idcard != null && $guest->qrcode != null)
+            {
+                $mid .= '
+                    <form action="/admin/guest/print/' . $guest->id . '" method="post">
+                        <input type="hidden" name="_token" value="'. csrf_token() . '">
+                        <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-print"></i></button>  
+                    </form>
+                ';
+            }
+            return $top .= $mid .= $bot;
         })
         ->rawColumns(['status', 'action'])
         ->make(true);
@@ -382,7 +395,7 @@ class AdminController extends Controller
         'qrcode' => $guest->qrcode
        ));
 
-       $user = User::find(aUTH::user()->id);
+       $user = User::find(Auth::user()->id);
        $audit = new Audit;
        $audit->description = 'printed a guest badge for ' . $guest->firstname . ' ' . $guest->lastname;  
        $audit->user_id = $user->id;
@@ -404,16 +417,16 @@ class AdminController extends Controller
                 'lastname' => 'required|max:50',
                 'middlename' => 'max:50',
                 'firstname' => 'required|max:50',
-                'email' => 'required|max:100',
-                'mobilenumber' => 'required|max:11',
+                'email' => 'required|max:100|unique:guests',
+                'mobilenumber' => 'required|max:20',
 
                 'companyname' => 'required|max:100',
                 'designation' => 'required|max:50',
-                'officetelnumber' => 'required|max:7',
+                'officetelnumber' => 'required|max:20',
                 'officeaddress' => 'required|max:180',
 
 
-                'idcard' => 'required|max:180',
+                'idcard' => 'required|max:180|unique:guests',
             ],
             [
                 'lastname.required' => 'Lastname is required',
@@ -426,9 +439,10 @@ class AdminController extends Controller
 
                 'email.required' => 'Email is required',
                 'email.max' => 'Email must not be greater than 100',
+                'email.unique' => 'Email is already taken',
 
                 'mobilenumber.required' => 'Mobilenumber is required',
-                'mobilenumber.max' => 'Mobilenumber must not be greater than 11',
+                'mobilenumber.max' => 'Mobilenumber must not be greater than 20',
 
                 'companyname.required' => 'Company Name is required',
                 'companyname.max' => 'Company Name must not be greater than 100',
@@ -437,13 +451,14 @@ class AdminController extends Controller
                 'designation.max' => 'Designation must not be greater than 50',
 
                 'officetelnumber.required' => 'Office Tel Number is required',
-                'officetelnumber.max' => 'Office Tel Number must not be greater than 7',
+                'officetelnumber.max' => 'Office Tel Number must not be greater than 20',
 
                 'officeaddress.required' => 'Office Address is required',
                 'officeaddress.max' => 'Office Address must not be greater than 180',
 
                 'idcard.required' => 'RFID Card is required',
                 'idcard.max' => 'RFID Card must not be greater than 180',
+                'idcard.unique' => 'RFID Card is already taken',
             ]
         );
 
@@ -486,7 +501,7 @@ class AdminController extends Controller
         $guest->type = $request->type;
         $guest->save();
 
-        $user = User::find(aUTH::user()->id);
+        $user = User::find(Auth::user()->id);
         $audit = new Audit;
         $audit->description = 'created a guest account for ' . $request->firstname . ' ' . $request->lastname;  
         $audit->user_id = $user->id;
@@ -504,16 +519,16 @@ class AdminController extends Controller
                 'lastname' => 'required|max:50',
                 'middlename' => 'max:50',
                 'firstname' => 'required|max:50',
-                'email' => 'required|max:100',
-                'mobilenumber' => 'required|max:11',
+                'email' => 'required|max:100|unique:guests, "email", ' . $id,
+                'mobilenumber' => 'required|max:20',
 
                 'companyname' => 'required|max:100',
                 'designation' => 'required|max:50',
-                'officetelnumber' => 'required|max:7',
+                'officetelnumber' => 'required|max:20',
                 'officeaddress' => 'required|max:180',
 
 
-                'idcard' => 'required|max:180',
+                'idcard' => 'required|max:180|unique:guests',
             ],
             [
                 'lastname.required' => 'Lastname is required',
@@ -526,9 +541,10 @@ class AdminController extends Controller
 
                 'email.required' => 'Email is required',
                 'email.max' => 'Email must not be greater than 100',
+                'email.unique' =>'Email is already taken',
 
                 'mobilenumber.required' => 'Mobilenumber is required',
-                'mobilenumber.max' => 'Mobilenumber must not be greater than 11',
+                'mobilenumber.max' => 'Mobilenumber must not be greater than 20',
 
                 'companyname.required' => 'Company Name is required',
                 'companyname.max' => 'Company Name must not be greater than 100',
@@ -537,13 +553,14 @@ class AdminController extends Controller
                 'designation.max' => 'Designation must not be greater than 50',
 
                 'officetelnumber.required' => 'Office Tel Number is required',
-                'officetelnumber.max' => 'Office Tel Number must not be greater than 7',
+                'officetelnumber.max' => 'Office Tel Number must not be greater than 20',
 
                 'officeaddress.required' => 'Office Address is required',
                 'officeaddress.max' => 'Office Address must not be greater than 180',
 
                 'idcard.required' => 'RFID Card is required',
                 'idcard.max' => 'RFID Card must not be greater than 180',
+                'idcard.unique' => 'RFID Card is already taken',
             ]
         );
 
@@ -586,7 +603,7 @@ class AdminController extends Controller
         $guest->type = $request->type;
         $guest->save();
 
-        $user = User::find(aUTH::user()->id);
+        $user = User::find(Auth::user()->id);
         $audit = new Audit;
         $audit->description = 'updated a guest account for ' . $request->firstname . ' ' . $request->lastname;  
         $audit->user_id = $user->id;
@@ -601,7 +618,7 @@ class AdminController extends Controller
     {
         $guest = GUest::find($id);
         
-        $user = User::find(aUTH::user()->id);
+        $user = User::find(Auth::user()->id);
         $audit = new Audit;
         $audit->description = 'deleted ' . $guest->firstname . ' ' . $guest->lastname . ' guest account';  
         $audit->user_id = $user->id;
@@ -624,7 +641,26 @@ class AdminController extends Controller
     public function event()
     {
     	$event = Event::where('status', 1)->first();
-    	return view('event')->withEvent($event);
+        $administratorcount = count(User::whereHas('role', function($role){
+            $role->whereHas('access', function($access){
+                $access->where('module', 'administrator');
+            });
+        })->get());
+        $exhibitorcount = count(User::whereHas('role', function($role){
+            $role->whereHas('access', function($access){
+                $access->where('module', 'exhibitor');
+            });
+        })->get());
+        $registratorcount = count(User::whereHas('role', function($role){
+            $role->whereHas('access', function($access){
+                $access->where('module', 'registrator');
+            });
+        })->get());
+    	return view('event')
+        ->withEvent($event)
+        ->withAdministratorcount($administratorcount)
+        ->withExhibitorcount($exhibitorcount)
+        ->withRegistratorcount($registratorcount);
     }
 
     public function event_update(Request $request)
@@ -668,7 +704,7 @@ class AdminController extends Controller
 
     	$event->save();
         
-        $user = User::find(aUTH::user()->id);
+        $user = User::find(Auth::user()->id);
         $audit = new Audit;
         $audit->description = 'updated the event information';
         $audit->user_id = $user->id;
@@ -698,10 +734,6 @@ class AdminController extends Controller
                     
                     <form action="/admin/subevent/' . $subevent->id . '" method="get">
                         <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></button>  
-                    </form>
-
-                    <form action="/subevent/entrance/' . $subevent->id . '" method="get">
-                        <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-forward"></i></button>  
                     </form>
 
                     <form action="/admin/subevent/delete/' . $subevent->id . '" method="post">
@@ -771,7 +803,7 @@ class AdminController extends Controller
 
         $subevent->save();
 
-        $user = User::find(aUTH::user()->id);
+        $user = User::find(Auth::user()->id);
         $audit = new Audit;
         $audit->description = 'updated the ' . $request->title . ' information';
         $audit->user_id = $user->id;
@@ -787,7 +819,7 @@ class AdminController extends Controller
     {
         $subevent = Subevent::find($id);
         
-        $user = User::find(aUTH::user()->id);
+        $user = User::find(Auth::user()->id);
         $audit = new Audit;
         $audit->description = 'deleted the ' . $subevent->title . ' sub event';
         $audit->user_id = $user->id;
@@ -801,7 +833,15 @@ class AdminController extends Controller
 
     public function allsubevent()
     {
-        return view('allsubevent');
+        $subeventcount = count(Subevent::all());
+        $exhibitorcount = count(User::whereHas('role', function($role){
+            $role->whereHas('access', function($access){
+                $access->where('module', 'exhibitor');
+            });
+        })->get());
+        return view('allsubevent')
+        ->withSubeventcount($subeventcount)
+        ->withExhibitorcount($exhibitorcount);
     }
 
     public function subevent_register_show()
@@ -856,7 +896,7 @@ class AdminController extends Controller
 
         $subevent->save();
 
-        $user = User::find(aUTH::user()->id);
+        $user = User::find(Auth::user()->id);
         $audit = new Audit;
         $audit->description = 'registered a new sub event with the title of ' . $request->title;
         $audit->user_id = $user->id;

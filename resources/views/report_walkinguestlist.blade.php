@@ -4,6 +4,10 @@
   WALK-IN GUEST LIST REPORT
 @endpush
 
+@push('loader')
+ @include('layouts.loader')
+@endpush
+
 @push('sidebar')
   @include('layouts.sidebar')
 @endpush
@@ -79,10 +83,10 @@
              
              ajax: "{{ route('admin.report.walkinguestlist.api') }}",
              columnDefs: [
-                 { "width": "40%", "targets": 0 },
-                 { "width": "30%", "targets": 1 },
-                 { "width": "20%", "targets": 2 },
-                 { "width": "20%", "targets": 3 }
+                 { "width": "25%", "targets": 0 },
+                 { "width": "25%", "targets": 1 },
+                 { "width": "25%", "targets": 2 },
+                 { "width": "25%", "targets": 4 }
              ],
              columns: [
                {data: 'name', name: 'name'},
@@ -92,7 +96,8 @@
                {data: 'companyname', name: 'companyname'},
                {data: 'officetelnumber', name: 'officetelnumber'},
                {data: 'officeaddress', name: 'officeaddress'},
-             ]
+             ],
+             initComplete: function(settings, json) {$('.loader').fadeOut();}
          });
          $(document).on('click', '#print', function(){
             $(".buttons-print")[0].click();

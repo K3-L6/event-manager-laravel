@@ -45,8 +45,8 @@
     @include('inc.messages')
     <div class="background">
       <div class="mainpanel">
-          <h1 style="font-family: {{$subevent->title_font}}; font-size: {{$subevent->title_size}}vw; color: {{$subevent->title_color}};">{{$subevent->title}}</h1>
-          <p style="font-family: {{$subevent->description_font}}; font-size: {{$subevent->description_size}}vw; color: {{$subevent->description_color}}">{{$subevent->description}}</p>
+          <h1 style="font-family: {{$subevent->title_font}}; font-size: {{$subevent->title_size+13}}vmin; color: {{$subevent->title_color}};">{{$subevent->title}}</h1>
+          <p style="font-family: {{$subevent->description_font}}; font-size: {{$subevent->description_size+1}}vmin; color: {{$subevent->description_color}}">{{$subevent->description}}</p>
       </div>  
     </div>
 

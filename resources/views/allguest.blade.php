@@ -4,6 +4,10 @@
   Guest List
 @endpush
 
+@push('loader')
+ @include('layouts.loader')
+@endpush
+
 @push('sidebar')
   @include('layouts.sidebar')
 @endpush
@@ -26,9 +30,41 @@
     </form>
   </div>
 </ul>
+  <section class="dashboard-counts no-padding-bottom">
+    <div class="container-fluid">
+      <div class="row bg-white has-shadow">
+        <!-- Item -->
+        <div class="col-xl-4 col-sm-12">
+          <div class="item d-flex align-items-center">
+            <div class="icon bg-blue"><img class="iconimage" src="{{ asset('img/m_walkin.png') }}"></div>
+            <div class="title"><span>Walk-In</span>
+            </div>
+            <div class="number"><strong>{{$walkin}}</strong></div>
+          </div>
+        </div>
+        <!-- Item -->
+        <div class="col-xl-4 col-sm-12">
+          <div class="item d-flex align-items-center">
+            <div class="icon bg-blue"><img class="iconimage" src="{{ asset('img/m_prereg.png') }}"></div>
+            <div class="title"><span>Pre-Registered</span>
+            </div>
+            <div class="number"><strong>{{$prereg}}</strong></div>
+          </div>
+        </div>
+        <!-- Item -->
+        <div class="col-xl-4 col-sm-12">
+          <div class="item d-flex align-items-center">
+            <div class="icon bg-blue"><img class="iconimage" src="{{ asset('img/m_totalguest.png') }}"></div>
+            <div class="title"><span>Total Guest</span>
+            </div>
+            <div class="number"><strong>{{$total}}</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
 	<div class="container" style="padding-top: 3%;">
-		
 		<div class="col-md-12" style="width: 100%;">
           <div class="card">
           	
@@ -99,11 +135,13 @@
                {data: 'mobilenumber', name: 'mobilenumber'},
                {data: 'type', name: 'type'},
                {data: 'action', name: 'action', orderable:false, searchable:false, printable:false},
-             ]
+             ],
+             initComplete: function(settings, json) {$('.loader').fadeOut();}
          });
          $('#searchInput').on( 'keyup', function () {
              table.search( this.value ).draw();
          } );
+
 
          function readURL(input) {
            if (input.files && input.files[0]) {

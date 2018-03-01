@@ -4,6 +4,10 @@
   ALL TYPE GUEST LOGS
 @endpush
 
+@push('loader')
+ @include('layouts.loader')
+@endpush
+
 @push('sidebar')
   @include('layouts.sidebar')
 @endpush
@@ -82,10 +86,10 @@
              
              ajax: "{{ route('admin.report.alltypeguestlogs.api') }}",
              columnDefs: [
-                 { "width": "40%", "targets": 0 },
-                 { "width": "20%", "targets": 7 },
-                 { "width": "20%", "targets": 8 },
-                 { "width": "20%", "targets": 9 }
+                 { "width": "25%", "targets": 0 },
+                 { "width": "25%", "targets": 7 },
+                 { "width": "25%", "targets": 8 },
+                 { "width": "25%", "targets": 9 }
              ],
              columns: [
                {data: 'name', name: 'name'},
@@ -98,7 +102,8 @@
                {data: 'time', name: 'time'},
                {data: 'date', name: 'date'},
                {data: 'type', name: 'type'},
-             ]
+             ],
+             initComplete: function(settings, json) {$('.loader').fadeOut();}
          });
          $(document).on('click', '#print', function(){
             $(".buttons-print")[0].click();

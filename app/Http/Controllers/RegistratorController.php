@@ -35,11 +35,12 @@ class RegistratorController extends Controller
     {
         $this->validate($request,
             [
-                'idcard' => 'required|max:180',
+                'idcard' => 'required|max:180|unique:guests',
             ],
             [
-                'idcard.required' => 'ID Card is required',
-                'idcard.max' => 'ID card must not be greater than 180',
+                'idcard.required' => 'RFID Card is required',
+                'idcard.max' => 'RFID Card must not be greater than 180',
+                'idcard.unique' => 'RFID Card is already taken',
             ]
         );
 
@@ -85,10 +86,9 @@ class RegistratorController extends Controller
     	        'designation' => 'required|max:180',
     	        'cname' => 'required|max:180',
     	        'addr' => 'required|max:180',
-    	        'mobilenum' => 'required|regex:/(09)[0-9]{9}/',
-    	        'telnum' => 'required|max:180',
-    	        
-
+    	        'mobilenum' => 'required|max:20',
+    	        'telnum' => 'required|max:20',
+    	        'idcard' => 'required|max:180|unique:guests',
     	    ],
     	    [
     	        'fname.required' => 'First Name is required',
@@ -101,7 +101,7 @@ class RegistratorController extends Controller
 
     	        'email.required' => 'Email is required',
     	        'email.max' => 'Email must not be greater that 180',
-    	        'email.unique' => 'This Email is already in use',
+    	        'email.unique' => 'Email is already taken',
 
     	        'designation.required' => 'Designation is required',
     	        'designation.max' => 'Designation must not be greater than 180',
@@ -113,31 +113,35 @@ class RegistratorController extends Controller
     	        'addr.max' => 'Office Address must not be greater than 180',
 
     	        'mobilenum.required' => 'Mobile Number is required',
-    	        'mobilenum.max' => 'Mobile Number format 09XXXXXXXXX',
+    	        'mobilenum.max' => 'Mobile Number must not be greater than 20',
 
-    	        'telnum.required' => 'Office Telephone Number is required',
-    	        'telnum.max' => 'Office Telephone format XXX-XXXX',
+    	        'telnum.required' => 'Office Tel # is required',
+    	        'telnum.max' => 'Office Tel # must not be greater than 20',
+
+                'idcard.required' => 'RFID Card is required',
+                'idcard.max' => 'RFID Card must not be greater than 180',
+                'idcard.unique' => 'RFID Card is already taken',
     	    ]
     	);
 
     	    $user = User::find(Auth::user()->id);
-    		$data = new Guest;
+    		$guest = new Guest;
     	    $qrimagename = time() . '_' . $request->idcard . '.png';
     	    QrCode::format('png')->backgroundColor(34, 49, 63)->color(228, 241, 254)->size(300)->errorCorrection('H')->generate($request->idcard, '../public/img/guest/'. $qrimagename);
     	    $papersize = array(0, 0, 360, 360);
-    	    $data->idcard = $request->idcard;
-    		$data->firstname = $request->fname;
-    		$data->middlename = $request->mname;
-    		$data->lastname = $request->lname;
-    		$data->designation = $request->designation;
-    		$data->email =$request->email;
-    		$data->companyname = $request->cname;
-    		$data->officeaddress = $request->addr;
-    		$data->mobilenumber = $request->mobilenum;
-    		$data->officetelnumber = $request->telnum;
-    		$data->type = "2";
-    		$data->qrcode = $qrimagename;
-    	    $data->save(); 
+    	    $guest->idcard = $request->idcard;
+    		$guest->firstname = $request->fname;
+    		$guest->middlename = $request->mname;
+    		$guest->lastname = $request->lname;
+    		$guest->designation = $request->designation;
+    		$guest->email =$request->email;
+    		$guest->companyname = $request->cname;
+    		$guest->officeaddress = $request->addr;
+    		$guest->mobilenumber = $request->mobilenum;
+    		$guest->officetelnumber = $request->telnum;
+    		$guest->type = "2";
+    		$guest->qrcode = $qrimagename;
+    	    $guest->save(); 
     	   
     	    $pdf = PDF::loadView('pdf.badge', array(
     	    'name' => $request->fname . ' ' . $request->mname . ' ' . $request->lname,
@@ -147,7 +151,7 @@ class RegistratorController extends Controller
     	    ));
 
     	    $audit = new Audit;
-    	    $audit->description = 'created a guest account for ' . $data->fname . ' ' . $data->lname;  
+    	    $audit->description = 'created a guest account for ' . $guest->fname . ' ' . $guest->lname;  
     	    $audit->user_id = $user->id;
     	    $audit->time = Carbon::now();;
     	    $audit->save();

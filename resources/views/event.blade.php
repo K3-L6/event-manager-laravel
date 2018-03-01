@@ -12,11 +12,44 @@
   <div class="container-fluid">
     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
     <li class="breadcrumb-item active">Event</li>
-    <form action="/event/entrance" method="get" id="import">
-      <button class="btn btn-primary btn-sm float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">START</button>
+    <form action="/event/entrance" method="get">
+      <button class="btn btn-primary btn-sm float-right" style="width: 300px; margin-left: 1%; margin-right: 1%;">START LOGGING</button>
     </form>
   </div>
 </ul>
+<section class="dashboard-counts no-padding-bottom">
+  <div class="container-fluid">
+    <div class="row bg-white has-shadow">
+      <!-- Item -->
+      <div class="col-xl-4 col-sm-12">
+        <div class="item d-flex align-items-center">
+          <div class="icon bg-blue"><img class="iconimage" src="{{ asset('img/m_administrator.png') }}"></div>
+          <div class="title"><span>Administrator</span>
+          </div>
+          <div class="number"><strong>{{$administratorcount}}</strong></div>
+        </div>
+      </div>
+      <!-- Item -->
+      <div class="col-xl-4 col-sm-12">
+        <div class="item d-flex align-items-center">
+          <div class="icon bg-blue"><img class="iconimage" src="{{ asset('img/m_exhibitor.png') }}"></div>
+          <div class="title"><span>Exhibitor</span>
+          </div>
+          <div class="number"><strong>{{$exhibitorcount}}</strong></div>
+        </div>
+      </div>
+      <!-- Item -->
+      <div class="col-xl-4 col-sm-12">
+        <div class="item d-flex align-items-center">
+          <div class="icon bg-blue"><img class="iconimage" src="{{ asset('img/m_registrator.png') }}"></div>
+          <div class="title"><span>Registrator</span>
+          </div>
+          <div class="number"><strong>{{$registratorcount}}</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <form action="/admin/event" method="post" enctype="multipart/form-data">
   @csrf
@@ -37,8 +70,8 @@
           <div class="col-sm-12">
             <span class="btn-file">
               <div class="preview_panel" id="preview_panel">
-                <h1 style="font-family: {{$event->title_font}}; font-size: {{$event->title_size}}vw; color: {{$event->title_color}};">{{$event->title}}</h1>
-                <p style="font-family: {{$event->description_font}}; font-size: {{$event->description_size}}vw; color: {{$event->description_color}};">{{$event->description}}</p>
+                <h1 style="font-family: {{$event->title_font}}; font-size: {{$event->title_size}}vmin; color: {{$event->title_color}};">{{$event->title}}</h1>
+                <p style="font-family: {{$event->description_font}}; font-size: {{$event->description_size}}vmin; color: {{$event->description_color}};">{{$event->description}}</p>
               </div>    
               <img id="img_preview" src="{{ asset('img/event/' . $event->background) }}">
               <input type="file" name="img" id="img_upload">
@@ -150,11 +183,11 @@
         });
         $("#title_font_size").bind('keyup mouseup', function(){
           var size = $('#title_font_size').val();
-          $('#preview_panel > h1').css('font-size', size + 'vw');  
+          $('#preview_panel > h1').css('font-size', size + 'vmin');  
         });
         $("#description_font_size").bind('keyup mouseup', function(){
           var size = $('#description_font_size').val();
-          $('#preview_panel > p').css('font-size', size + 'vw');
+          $('#preview_panel > p').css('font-size', size + 'vmin');
         });
         $("#title_font_color").keyup(function(){
           var color = $('#title_font_color').val();

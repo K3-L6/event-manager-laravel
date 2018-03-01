@@ -4,6 +4,10 @@
   ALL TYPE GUEST LIST
 @endpush
 
+@push('loader')
+ @include('layouts.loader')
+@endpush
+
 @push('sidebar')
   @include('layouts.sidebar')
 @endpush
@@ -80,10 +84,10 @@
              
              ajax: "{{ route('admin.report.alltypeguestlist.api') }}",
              columnDefs: [
-                 { "width": "30%", "targets": 0 },
-                 { "width": "20%", "targets": 1 },
-                 { "width": "20%", "targets": 2 },
-                 { "width": "30%", "targets": 4 }
+                 { "width": "25%", "targets": 0 },
+                 { "width": "25%", "targets": 1 },
+                 { "width": "25%", "targets": 2 },
+                 { "width": "25%", "targets": 4 }
              ],
              columns: [
                {data: 'name', name: 'name'},
@@ -94,7 +98,8 @@
                {data: 'officetelnumber', name: 'officetelnumber'},
                {data: 'officeaddress', name: 'officeaddress'},
                {data: 'type', name: 'type'},
-             ]
+             ],
+             initComplete: function(settings, json) {$('.loader').fadeOut();}
          });
          $(document).on('click', '#print', function(){
             $(".buttons-print")[0].click();

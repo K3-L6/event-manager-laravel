@@ -67,6 +67,7 @@
                       </thead>
                       <tbody>
                         @foreach ($subevent as $subevent)
+                        <tr>
                           <td>{{$subevent->title}}</td>
                           <td>{{$subevent->description}}</td>
                           <td>
@@ -74,6 +75,7 @@
                               <button type="submit" class="btn btn-primary">Start</button>
                             </form>
                           </td>
+                        </tr>
                         @endforeach
                       </tbody>
                     </table>

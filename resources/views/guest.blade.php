@@ -100,9 +100,9 @@
               <div class="form-group row">
                 <label class="col-sm-3 form-control-label" name="mobilenumber">Guest Type</label>
                 <div class="col-sm-9">
-                  <select class="form-control" name="type">
+                  <select class="form-control" value="{{$guest->type}}" name="type">
                     <option value="1">Pre Registered Guest</option>
-                    <option value="2" selected>Walk-In Guest</option>
+                    <option value="2">Walk-In Guest</option>
                   </select>
                 </div>
               </div>

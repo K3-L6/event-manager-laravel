@@ -26,45 +26,42 @@ class DatabaseSeeder extends Seeder
             'status' => 1,
         ]);
 
-        DB::table('guests')->insert([
-            'email' => 'ken@gmail.com',
+        // DB::table('guests')->insert([
+        //     'email' => 'ken@gmail.com',
 
-            'firstname' => 'ken',
-            'middlename' => 'robles',
-            'lastname' => 'lising',
+        //     'firstname' => 'ken',
+        //     'middlename' => 'robles',
+        //     'lastname' => 'lising',
 
-            'designation' => 'web developer',
-            'companyname' => 'golden aurum system solution',
-            'officeaddress' => 'golden city metro manila philippines',
+        //     'designation' => 'web developer',
+        //     'companyname' => 'golden aurum system solution',
+        //     'officeaddress' => 'golden city metro manila philippines',
             
-            'mobilenumber' => '09999999999',
-            'officetelnumber' => '1111111',
+        //     'mobilenumber' => '09999999999',
+        //     'officetelnumber' => '1111111',
 
-            'idcard' => '1',
-            'qrcode' => '1.png',
+        //     'type' => 1,
+        // ]);
 
-            'type' => 1,
-        ]);
+        // DB::table('guests')->insert([
+        //     'email' => 'erd@gmail.com',
 
-        DB::table('guests')->insert([
-            'email' => 'erd@gmail.com',
+        //     'firstname' => 'erd rico',
+        //     'middlename' => '',
+        //     'lastname' => 'manalo',
 
-            'firstname' => 'erd rico',
-            'middlename' => '',
-            'lastname' => 'manalo',
-
-            'designation' => 'graphic designer',
-            'companyname' => 'golden aurum system solution',
-            'officeaddress' => 'golden city metro manila philippines',
+        //     'designation' => 'graphic designer',
+        //     'companyname' => 'golden aurum system solution',
+        //     'officeaddress' => 'golden city metro manila philippines',
             
-            'mobilenumber' => '09998888888',
-            'officetelnumber' => '2222222',
+        //     'mobilenumber' => '09998888888',
+        //     'officetelnumber' => '2222222',
 
-            'idcard' => '2',
-            'qrcode' => '2.png',
+        //     'idcard' => '2',
+        //     'qrcode' => '2.png',
 
-            'type' => 2,
-        ]);
+        //     'type' => 2,
+        // ]);
 
 
 

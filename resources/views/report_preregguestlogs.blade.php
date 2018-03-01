@@ -4,6 +4,10 @@
   PRE-REGISTERED GUEST LOGS
 @endpush
 
+@push('loader')
+ @include('layouts.loader')
+@endpush
+
 @push('sidebar')
   @include('layouts.sidebar')
 @endpush
@@ -81,9 +85,9 @@
              
              ajax: "{{ route('admin.report.preregguestlogs.api') }}",
              columnDefs: [
-                 { "width": "50%", "targets": 0 },
-                 { "width": "25%", "targets": 7 },
-                 { "width": "25%", "targets": 8 }
+                 { "width": "40%", "targets": 0 },
+                 { "width": "30%", "targets": 7 },
+                 { "width": "30%", "targets": 8 }
              ],
              columns: [
                {data: 'name', name: 'name'},
@@ -95,7 +99,8 @@
                {data: 'officeaddress', name: 'officeaddress'},
                {data: 'time', name: 'time'},
                {data: 'date', name: 'date'},
-             ]
+             ],
+             initComplete: function(settings, json) {$('.loader').fadeOut();}
          });
          $(document).on('click', '#print', function(){
             $(".buttons-print")[0].click();

@@ -48,6 +48,8 @@
     </script>
 </head>
 <body>
+    
+    @stack('loader')
     <div class="page home-page">
       
         @include('layouts.topbar')
@@ -86,6 +88,13 @@
     <script src="{{ asset('js/front.js') }}"></script>
     <script src="{{ asset('js/datatables.min.js') }}"></script>
     <script src="{{ asset('js/jquery.fontselect.js') }}"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $(".iconimage").animate({height: "35px"});
+        });
+    </script>
 
     @include('inc.flashy')
     @stack('scripts')

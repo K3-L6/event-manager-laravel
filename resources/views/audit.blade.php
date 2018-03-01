@@ -4,6 +4,10 @@
   AUDIT TRAIL
 @endpush
 
+@push('loader')
+ @include('layouts.loader')
+@endpush
+
 @push('sidebar')
   @include('layouts.sidebar')
 @endpush
@@ -83,7 +87,8 @@
                {data: 'role', name: 'role'},
                {data: 'description', name: 'description'},
                {data: 'time', name: 'time'},
-             ]
+             ],
+             initComplete: function(settings, json) {$('.loader').fadeOut();}
          });
          $(document).on('click', '#print', function(){
             $(".buttons-print")[0].click();

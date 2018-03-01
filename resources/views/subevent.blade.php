@@ -14,6 +14,11 @@
     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
     <li class="breadcrumb-item"><a href="/admin/subevent">Subevent</a></li>
     <li class="breadcrumb-item active">Detail</li>
+    <form action="/subevent/entrance/{{$subevent->id}}' . '" method="get">
+        <button type="submit" class="btn btn-primary btn-sm float-right" style="width: 300px; margin-left: 1%; margin-right: 1%;">
+          START LOGGING
+        </button>  
+    </form>
   </div>
 </ul>
 
@@ -36,8 +41,8 @@
           <div class="col-sm-12">
             <span class="btn-file">
               <div class="preview_panel" id="preview_panel">
-                <h1 style="font-family: {{$subevent->title_font}}; font-size: {{$subevent->title_size}}vw; color: {{$subevent->title_color}};">{{$subevent->title}}</h1>
-                <p style="font-family: {{$subevent->description_font}}; font-size: {{$subevent->description_size}}vw;  color: {{$subevent->description_color}};">{{$subevent->description}}</p>
+                <h1 style="font-family: {{$subevent->title_font}}; font-size: {{$subevent->title_size}}vmin; color: {{$subevent->title_color}};">{{$subevent->title}}</h1>
+                <p style="font-family: {{$subevent->description_font}}; font-size: {{$subevent->description_size}}vmin;  color: {{$subevent->description_color}};">{{$subevent->description}}</p>
               </div>    
               <img id="img_preview" src="{{ asset('img/subevent/' . $subevent->background) }}">
               <input type="file" name="img" id="img_upload">
@@ -184,11 +189,11 @@
         });
         $("#title_font_size").bind('keyup mouseup', function(){
           var size = $('#title_font_size').val();
-          $('#preview_panel > h1').css('font-size', size + 'vw');  
+          $('#preview_panel > h1').css('font-size', size + 'vmin');  
         });
         $("#description_font_size").bind('keyup mouseup', function(){
           var size = $('#description_font_size').val();
-          $('#preview_panel > p').css('font-size', size + 'vw');
+          $('#preview_panel > p').css('font-size', size + 'vmin');
         });
         $("#title_font_color").keyup(function(){
           var color = $('#title_font_color').val();

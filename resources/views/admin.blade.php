@@ -3,6 +3,17 @@
   Dashboard 
 @endpush
 
+@push('loader')
+ @include('layouts.loader')
+ @push('scripts')
+    <script type="text/javascript">
+        $(document).ready(function () {
+           $('.loader').fadeOut(3000); 
+        }); 
+    </script>
+ @endpush
+@endpush
+
 @push('sidebar')
   @include('layouts.sidebar')
 @endpush
@@ -15,19 +26,19 @@
       <!-- Statistics -->
       <div class="statistics col-lg-3 col-12">
         <div class="statistic d-flex align-items-center bg-white has-shadow">
-          <div class="icon bg-red"><i class="fa fa-bar-chart"></i></div>
-          <div class="text"><strong>{{$walkin}}</strong><br><small>Walk-In Guest</small></div>
+          <div class="icon bg-blue"><img class="iconimage" src="{{ asset('img/m_walkin.png') }}"></div>
+          <div class="text"><strong>{{$walkin}}</strong><br><small>Walk-In</small></div>
         </div>
         <div class="statistic d-flex align-items-center bg-white has-shadow">
-          <div class="icon bg-orange"><i class="fa fa-dollar"></i></div>
-          <div class="text"><strong>{{$prereg}}</strong><br><small>Pre-Registered Guest</small></div>
+          <div class="icon bg-blue"><img class="iconimage" src="{{ asset('img/m_prereg.png') }}"></div>
+          <div class="text"><strong>{{$prereg}}</strong><br><small>Pre-Registered</small></div>
         </div>
         <div class="statistic d-flex align-items-center bg-white has-shadow">
-          <div class="icon bg-blue"><i class="fa fa-money"></i></div>
+          <div class="icon bg-blue"><img class="iconimage" src="{{ asset('img/m_totalguest.png') }}"></div>
           <div class="text"><strong>{{$total}}</strong><br><small>Total Guest</small></div>
         </div>
         <div class="statistic d-flex align-items-center bg-white has-shadow">
-          <div class="icon bg-green"><i class="fa fa-credit-card"></i></div>
+          <div class="icon bg-blue"><img class="iconimage" src="{{ asset('img/m_guestlog.png') }}"></div>
           <div class="text"><strong>{{$guestlogs}}</strong><br><small>Guest Logs</small></div>
         </div>
       </div>
@@ -100,23 +111,23 @@
                     {
                         label: "Event Sales Chart",
                         backgroundColor: [
-                            '#ff7676',
-                            '#54e69d',
-                            '#85b4f2',
-                            '#ffc36d'
+                            '#379392',
+                            '#379392',
+                            '#379392',
+                            '#379392'
                         
                         ],
                         hoverBackgroundColor: [
-                            '#ff7676',
-                            '#54e69d',
-                            '#85b4f2',
-                            '#ffc36d'
+                            '#379392',
+                            '#379392',
+                            '#379392',
+                            '#379392'
                         ],
                         borderColor: [
-                            '#ff7676',
-                            '#54e69d',
-                            '#85b4f2',
-                            '#ffc36d'
+                            '#379392',
+                            '#379392',
+                            '#379392',
+                            '#379392'
                         ],
                         borderWidth: 1,
                         data: [{{$walkin}}, {{$prereg}}, {{$total}}, {{$guestlogs}}],
@@ -124,6 +135,7 @@
                 ]
             }
         });
+
     });
 
 </script>
