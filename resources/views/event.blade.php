@@ -1,7 +1,4 @@
 @extends('layouts.app')
-@push('title') 
-  EVENT DETAILS
-@endpush
 
 @push('sidebar')
   @include('layouts.sidebar')
@@ -13,7 +10,7 @@
     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
     <li class="breadcrumb-item active">Event</li>
     <form action="/event/entrance" method="get">
-      <button class="btn btn-primary btn-sm float-right" style="width: 300px; margin-left: 1%; margin-right: 1%;">START LOGGING</button>
+      <button class="btn btn-primary float-right" style="width: 300px; margin-left: 1%; margin-right: 1%;">START LOGGING</button>
     </form>
   </div>
 </ul>
@@ -60,11 +57,15 @@
     <div class="col-md-12 mx-auto">
     
       <div class="card">
-    
-        <div class="card-header d-flex align-items-center">
-          <div class="card-close">
-          </div>
+        
+        <div class="card-close">    
+          
         </div>
+
+        <div class="card-header d-flex align-items-center">
+          <h2>EVENT DETAILS</h2>
+        </div>
+        
         <div class="card-body">
           
           <div class="col-sm-12">

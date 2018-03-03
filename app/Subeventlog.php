@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Subeventlog extends Model
 {
     public $timestamps = false;
+
+    public function guest()
+    {
+    	return $this->belongsTo(Guest::class);
+    }
 }

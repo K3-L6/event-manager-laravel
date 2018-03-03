@@ -1,8 +1,4 @@
-
 @extends('layouts.app')
-@push('title') 
-  ALL TYPE GUEST LOGS
-@endpush
 
 @push('loader')
  @include('layouts.loader')
@@ -16,12 +12,19 @@
 <ul class="breadcrumb">
   <div class="container-fluid">
     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-    <li class="breadcrumb-item active">Report</li>
+    <li class="breadcrumb-item active">Event Attendance</li>
+    <div class="float-right">
+      <select class="report-filter" onchange="location = this.value">
+        <option value="/admin/report/alltypeguestlogs" selected>All Guest Type</option>
+        <option value="/admin/report/preregguestlogs">Pre Registered Guest</option>
+        <option value="/admin/report/walkinguestlogs">Walk In Guest</option>
+      </select>
+    </div>
     <form action="" method="get">
-      <button id="print" class="btn btn-primary btn-sm float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Print</button>
+      <button id="print" class="btn btn-primary float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Print</button>
     </form>
     <form action="" method="get">
-      <button id="excel" class="btn btn-primary btn-sm float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Excel</button>
+      <button id="excel" class="btn btn-primary float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Excel</button>
     </form>
   </div>
 </ul>
@@ -36,7 +39,7 @@
           	</div>
       			
             <div class="card-header d-flex align-items-center">
-      			  
+      			  <h2>ALL TYPE GUEST ATTENDACE REPORT</h2>
       			</div>
 
             <div class="card-body">
@@ -72,15 +75,18 @@
 <script type="text/javascript">
   $(function() {
           var table = $('#mytable').DataTable({
-             dom: 'Btpi',
+             dom: 
+                  "<'row'<'col-sm-12'B>>" +
+                  "<'row'<'col-sm-12'tr>>" +
+                  "<'row'<'col-sm-3'i><'col-sm-9'p>>",
              processing: true,
              serverSide: true,
              colReorder: true,
              responsive: true,
              // lengthChange: false,
              buttons: [
-                { extend: 'print', className: 'd-none', title:'Guest Logs', exportOptions:{ columns:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]} },
-                { extend: 'excel', className: 'd-none', title:'Guest Logs', exportOptions:{ columns:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]} },
+                { extend: 'print', className: 'd-none', title:'ALL TYPE GUEST ATTENDACE REPORT', exportOptions:{ columns:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]} },
+                { extend: 'excel', className: 'd-none', title:'ALL TYPE GUEST ATTENDACE REPORT', exportOptions:{ columns:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]} },
                 'pageLength',
              ],
              

@@ -70,6 +70,168 @@ class AdminController extends Controller
     }
 
     //reports
+    public function report_subevent_alllogs($id)
+    {
+        $subevent = Subevent::find($id);
+        return view('report_alltypeguestlogs_subevent')->withSubevent($subevent);
+    }
+    public function report_subevent_prereglogs($id)
+    {
+        $subevent = Subevent::find($id);
+        return view('report_preregguestlogs_subevent')->withSubevent($subevent);
+    }
+    public function report_subevent_walkinlogs($id)
+    {
+        $subevent = Subevent::find($id);
+        return view('report_walkinguestlogs_subevent')->withSubevent($subevent);
+    }
+
+
+    public function report_subevent_alllogs_api($id)
+    {
+        $subeventlogs = Subeventlog::where('subevent_id', $id)->get();
+
+        return Datatables::of($subeventlogs)
+        ->editColumn('name', function($subeventlogs){
+            return ucwords($subeventlogs->guest->firstname . ' ' . $subeventlogs->guest->middlename . ' ' . $subeventlogs->guest->lastname);
+        })
+        ->editColumn('email', function($subeventlogs){
+            return ucwords($subeventlogs->guest->email);
+        })
+        ->editColumn('mobilenumber', function($subeventlogs){
+            return ucwords($subeventlogs->guest->mobilenumber);
+        })
+        ->editColumn('designation', function($subeventlogs){
+            return ucwords($subeventlogs->guest->designation);
+        })
+        ->editColumn('companyname', function($subeventlogs){
+            return ucwords($subeventlogs->guest->companyname);
+        })
+        ->editColumn('officetelnumber', function($subeventlogs){
+            return ucwords($subeventlogs->guest->officetelnumber);
+        })
+        ->editColumn('officeaddress', function($subeventlogs){
+            return ucwords($subeventlogs->guest->officeaddress);
+        })
+        ->editColumn('time', function($subeventlogs){
+            return Carbon::parse($subeventlogs->time)->format('g:i A');
+        })
+        ->editColumn('date', function($subeventlogs){
+            return Carbon::parse($subeventlogs->time)->format('F d, Y');
+        })
+        ->editColumn('type', function($subeventlogs){
+            if ($subeventlogs->guest->type == 2) {
+                return 'Walk-In Guest';
+            }else{
+                return 'Pre-Registered Guest';
+            }
+        })
+        ->make(true);
+    }
+
+    public function report_subevent_prereglogs_api($id)
+    {
+        $subeventlogs = Subeventlog::where('subevent_id', $id)->whereHas('guest', function($guest){
+            $guest->where('type', 1);
+        })->get();
+
+        return Datatables::of($subeventlogs)
+        ->editColumn('name', function($subeventlogs){
+            return ucwords($subeventlogs->guest->firstname . ' ' . $subeventlogs->guest->middlename . ' ' . $subeventlogs->guest->lastname);
+        })
+        ->editColumn('email', function($subeventlogs){
+            return ucwords($subeventlogs->guest->email);
+        })
+        ->editColumn('mobilenumber', function($subeventlogs){
+            return ucwords($subeventlogs->guest->mobilenumber);
+        })
+        ->editColumn('designation', function($subeventlogs){
+            return ucwords($subeventlogs->guest->designation);
+        })
+        ->editColumn('companyname', function($subeventlogs){
+            return ucwords($subeventlogs->guest->companyname);
+        })
+        ->editColumn('officetelnumber', function($subeventlogs){
+            return ucwords($subeventlogs->guest->officetelnumber);
+        })
+        ->editColumn('officeaddress', function($subeventlogs){
+            return ucwords($subeventlogs->guest->officeaddress);
+        })
+        ->editColumn('time', function($subeventlogs){
+            return Carbon::parse($subeventlogs->time)->format('g:i A');
+        })
+        ->editColumn('date', function($subeventlogs){
+            return Carbon::parse($subeventlogs->time)->format('F d, Y');
+        })
+        ->make(true);
+    }
+
+    public function report_subevent_walkinlogs_api($id)
+    {
+        $subeventlogs = Subeventlog::where('subevent_id', $id)->whereHas('guest', function($guest){
+            $guest->where('type', 2);
+        })->get();
+
+        return Datatables::of($subeventlogs)
+        ->editColumn('name', function($subeventlogs){
+            return ucwords($subeventlogs->guest->firstname . ' ' . $subeventlogs->guest->middlename . ' ' . $subeventlogs->guest->lastname);
+        })
+        ->editColumn('email', function($subeventlogs){
+            return ucwords($subeventlogs->guest->email);
+        })
+        ->editColumn('mobilenumber', function($subeventlogs){
+            return ucwords($subeventlogs->guest->mobilenumber);
+        })
+        ->editColumn('designation', function($subeventlogs){
+            return ucwords($subeventlogs->guest->designation);
+        })
+        ->editColumn('companyname', function($subeventlogs){
+            return ucwords($subeventlogs->guest->companyname);
+        })
+        ->editColumn('officetelnumber', function($subeventlogs){
+            return ucwords($subeventlogs->guest->officetelnumber);
+        })
+        ->editColumn('officeaddress', function($subeventlogs){
+            return ucwords($subeventlogs->guest->officeaddress);
+        })
+        ->editColumn('time', function($subeventlogs){
+            return Carbon::parse($subeventlogs->time)->format('g:i A');
+        })
+        ->editColumn('date', function($subeventlogs){
+            return Carbon::parse($subeventlogs->time)->format('F d, Y');
+        })
+        ->make(true);
+    }
+
+    public function report_subevent()
+    {
+        return view('report_subevent');
+    }
+    public function report_subevent_api()
+    {
+        $event = Event::where('status', '1')->first();
+        $subevent = Subevent::where('event_id', $event->id)->with('user')->get();
+
+        return Datatables::of($subevent)
+        ->editColumn('exhibitor', function($subevent){
+            $user = User::find($subevent->user_id);
+            return $user->firstname . ' ' . $user->lastname;
+        })
+        ->addColumn('action', function($subevent){
+            return '
+                <div class="btn-group" role="group">
+                    
+                    <form action="/admin/report/subevent/all/' . $subevent->id . '" method="get">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-chevron-right"></i></button>  
+                    </form>
+
+                </div>
+                
+            ';
+        })
+        ->make(true);
+    }
+
     public function report_alltypeguestlist()
      {
         return view('report_alltypeguestlist');
@@ -351,14 +513,14 @@ class AdminController extends Controller
             $top = '<div class="btn-group" role="group">';
             $mid = '
                 <form action="/admin/guest/' . $guest->id . '" method="get">
-                    <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-edit"></i></button>  
+                    <button type="submit" class="btn btn-info"><i class="fa fa-edit"></i></button>  
                 </form>
             ';
             $bot = '
                     <form action="/admin/guest/delete/' . $guest->id . '" method="post">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="'. csrf_token() . '">
-                        <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                     </form>
                 </div>
             ';
@@ -368,7 +530,7 @@ class AdminController extends Controller
                 $mid .= '
                     <form action="/admin/guest/print/' . $guest->id . '" method="post">
                         <input type="hidden" name="_token" value="'. csrf_token() . '">
-                        <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-print"></i></button>  
+                        <button type="submit" class="btn btn-success"><i class="fa fa-print"></i></button>  
                     </form>
                 ';
             }
@@ -528,7 +690,7 @@ class AdminController extends Controller
                 'officeaddress' => 'required|max:180',
 
 
-                'idcard' => 'required|max:180|unique:guests',
+                'idcard' => 'required|max:180|unique:guests, "idcard", ' . $id,
             ],
             [
                 'lastname.required' => 'Lastname is required',
@@ -733,13 +895,13 @@ class AdminController extends Controller
                 <div class="btn-group" role="group">
                     
                     <form action="/admin/subevent/' . $subevent->id . '" method="get">
-                        <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></button>  
+                        <button type="submit" class="btn btn-info"><i class="fa fa-eye"></i></button>  
                     </form>
 
                     <form action="/admin/subevent/delete/' . $subevent->id . '" method="post">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="'. csrf_token() . '">
-                        <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                     </form>
                 </div>
                 

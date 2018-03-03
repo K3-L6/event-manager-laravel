@@ -1,8 +1,4 @@
-
 @extends('layouts.app')
-@push('title') 
-  Guest List
-@endpush
 
 @push('loader')
  @include('layouts.loader')
@@ -18,11 +14,11 @@
     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
     <li class="breadcrumb-item active">Guest</li>
     <form action="/admin/guest/register" method="get">
-      <button class="btn btn-primary btn-sm float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Create</button>
+      <button class="btn btn-primary float-right" style="width: 300px; margin-left: 1%; margin-right: 1%;">Create</button>
     </form>
     <form action="/admin/guest/import" id="myexcelform" method="post" enctype="multipart/form-data">
       @csrf()
-      <label class="btn btn-primary btn-sm float-right btn-file" style="width: 150px; margin-left: 1%; margin-right: 1%;">
+      <label class="btn btn-primary float-right btn-file" style="width: 300px; margin-left: 1%; margin-right: 1%;">
           Import 
           <input type="file" id="myexcel" name="myexcel">
       </label>
@@ -30,6 +26,7 @@
     </form>
   </div>
 </ul>
+
   <section class="dashboard-counts no-padding-bottom">
     <div class="container-fluid">
       <div class="row bg-white has-shadow">
@@ -73,7 +70,7 @@
           	</div>
       			
             <div class="card-header d-flex align-items-center">
-      			  
+      			  <h2>Guest List</h2>
       			</div>
 
             <div class="card-body">
@@ -108,7 +105,10 @@
 <script type="text/javascript">
   $(function() {
           var table = $('#mytable').DataTable({
-             dom: 'Btpi',
+             dom: 
+                  "<'row'<'col-sm-12'B>>" +
+                  "<'row'<'col-sm-12'tr>>" +
+                  "<'row'<'col-sm-3'i><'col-sm-9'p>>",
              processing: true,
              serverSide: true,
              colReorder: true,

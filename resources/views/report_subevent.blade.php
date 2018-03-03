@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @push('loader')
@@ -13,9 +12,7 @@
 <ul class="breadcrumb">
   <div class="container-fluid">
     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-    <li class="breadcrumb-item active">Audit</li>
-    <form action="" method="get">
-    </form>
+    <li class="breadcrumb-item active">Subevent List</li>
   </div>
 </ul>
 
@@ -29,7 +26,7 @@
           	</div>
       			
             <div class="card-header d-flex align-items-center">
-      			  <h2>AUDIT TRAIL</h2>
+      			  <h2>SUBEVENT LIST</h2>
       			</div>
 
             <div class="card-body">
@@ -37,10 +34,10 @@
                 <table id="mytable" class="table" cellspacing="0" width="100%">
                   <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>Role</th>
+                      <th>Title</th>
+                      <th>Description</th>
+                      <th>Exhibitor</th>
                       <th>Action</th>
-                      <th>Time</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -69,25 +66,28 @@
              responsive: true,
              // lengthChange: false,
              buttons: [
-                { extend: 'print', className: 'd-none', title:'Audit Trail', exportOptions:{ columns:[0, 1, 2, 3]} },
-                { extend: 'excel', className: 'd-none', title:'Audit Trail', exportOptions:{ columns:[0, 1, 2, 3] } },
+                { extend: 'print', className: 'd-none', title:'Events', exportOptions:{ columns:[0, 1, 2]} },
+                { extend: 'excel', className: 'd-none', title:'Events', exportOptions:{ columns:[0, 1, 2] } },
                 'pageLength',
              ],
              columnDefs: [
-                 { "width": "20%", "targets": 0 },
-                 { "width": "15%", "targets": 1 },
-                 { "width": "45%", "targets": 2 },
-                 { "width": "20%", "targets": 3 }
+                 { "width": "30%", "targets": 0 },
+                 { "width": "30%", "targets": 1 },
+                 { "width": "30%", "targets": 2 },
+                 { "width": "10%", "targets": 3 }
              ],
-             ajax: "{{ route('admin.audit.api') }}",
+             ajax: "{{ route('admin.report.subevent.api') }}",
 
              columns: [
-               {data: 'user', name: 'user'},
-               {data: 'role', name: 'role'},
+               {data: 'title', name: 'title'},
                {data: 'description', name: 'description'},
-               {data: 'time', name: 'time'},
+               {data: 'exhibitor', name: 'exhibitor'},
+               {data: 'action', name: 'action', orderable:false, searchable:false, printable:false},
              ],
              initComplete: function(settings, json) {$('.loader').fadeOut();}
+         });
+         $(document).on('click', '#print', function(){
+            $(".buttons-print")[0].click();
          });
          $('#searchInput').on( 'keyup', function () {
              table.search( this.value ).draw();

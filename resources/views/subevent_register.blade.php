@@ -1,8 +1,4 @@
-
 @extends('layouts.app')
-@push('title') 
-  SUBEVENT REGISTRATION
-@endpush
 
 @push('sidebar')
   @include('layouts.sidebar')
@@ -25,11 +21,15 @@
     <div class="col-md-12 mx-auto">
     
       <div class="card">
-    
-        <div class="card-header d-flex align-items-center">
-          <div class="card-close">
-          </div>
+        
+        <div class="card-close">
+        
         </div>
+        
+        <div class="card-header d-flex align-items-center">
+          <h2>SUBEVENT REGISTRATION</h2>
+        </div>
+        
         <div class="card-body">
           
           <div class="col-sm-12">

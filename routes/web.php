@@ -63,6 +63,20 @@ Route::get('/admin/report/alltypeguestlogsapi', 'AdminController@report_alltypeg
 Route::get('/admin/report/walkinguestlogsapi', 'AdminController@report_walkinguestlogsapi')->name('admin.report.walkinguestlogs.api');
 Route::get('/admin/report/preregguestlogsapi', 'AdminController@report_preregguestlogsapi')->name('admin.report.preregguestlogs.api');
 
+// making
+Route::get('/admin/report/subevent', 'AdminController@report_subevent')->name('admin.report.subevent');
+Route::get('/admin/report/subeventapi', 'AdminController@report_subevent_api')->name('admin.report.subevent.api');
+
+Route::get('/admin/report/subevent/all/{id}', 'AdminController@report_subevent_alllogs')->name('admin.report.subevent.alllogs');
+Route::get('/admin/report/subevent/prereg/{id}', 'AdminController@report_subevent_prereglogs')->name('admin.report.subevent.prereglogs');
+Route::get('/admin/report/subevent/walkin/{id}', 'AdminController@report_subevent_walkinlogs')->name('admin.report.subevent.walkinlogs');
+
+Route::get('/admin/report/subevent/allapi/{id}', 'AdminController@report_subevent_alllogs_api')->name('admin.report.subevent.alllogsapi');
+Route::get('/admin/report/subevent/preregapi/{id}', 'AdminController@report_subevent_prereglogs_api')->name('admin.report.subevent.prereglogsapi');
+Route::get('/admin/report/subevent/walkinapi/{id}', 'AdminController@report_subevent_walkinlogs_api')->name('admin.report.subevent.walkinlogsapi');
+
+
+
 
 
 Route::get('/exhibitor', 'ExhibitorController@index')->name('exhibitor');

@@ -35,6 +35,9 @@
 }
 
 table{
+    margin: 0 auto;
+    width: 100%;
+    clear: both;
   min-height: 180px;
 }
 
@@ -131,7 +134,9 @@ table{
 }
 
 
-
+.select-fix{
+  height: inherit;
+}
 
 
 
@@ -327,4 +332,29 @@ table{
     -moz-transform: perspective(508px) rotateY(180deg);
     opacity: 0;
   }
+}
+
+table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before {
+  background-color: #379392;
+  top: 14px;
+}
+
+table{
+  min-height: 280px;
+}
+
+.report-filter{
+  background-color: #379392;
+  color: white;
+  border-radius: 3px;
+  height: 37px;
+  text-align-last: center; 
+  font-family: "Helvetica Neue";
+  font-size: 15px;
+  font-weight: normal;
+  margin: 0px;
+}
+
+.report-filter option{
+  color: white;
 }

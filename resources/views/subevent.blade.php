@@ -1,8 +1,4 @@
-
 @extends('layouts.app')
-@push('title') 
-  SUBEVENT DETAILS
-@endpush
 
 @push('sidebar')
   @include('layouts.sidebar')
@@ -15,7 +11,7 @@
     <li class="breadcrumb-item"><a href="/admin/subevent">Subevent</a></li>
     <li class="breadcrumb-item active">Detail</li>
     <form action="/subevent/entrance/{{$subevent->id}}' . '" method="get">
-        <button type="submit" class="btn btn-primary btn-sm float-right" style="width: 300px; margin-left: 1%; margin-right: 1%;">
+        <button type="submit" class="btn btn-primary float-right" style="width: 300px; margin-left: 1%; margin-right: 1%;">
           START LOGGING
         </button>  
     </form>
@@ -31,11 +27,15 @@
     <div class="col-md-12 mx-auto">
     
       <div class="card">
-    
-        <div class="card-header d-flex align-items-center">
-          <div class="card-close">
-          </div>
+        
+        <div class="card-close">
+          
         </div>
+
+        <div class="card-header d-flex align-items-center">  
+          <h2>SUBEVENT DETAILS</h2>
+        </div>
+
         <div class="card-body">
           
           <div class="col-sm-12">

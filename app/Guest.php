@@ -10,4 +10,9 @@ class Guest extends Model
     {
     	return $this->hasMany(Eventlog::class);
     }
+
+    public function subeventlog()
+    {
+    	return $this->hasMany(Subevent::class);
+    }
 }

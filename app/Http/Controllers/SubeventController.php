@@ -21,28 +21,12 @@ class SubeventController extends Controller
     {
     	$guest = Guest::where('idcard', str_replace('Enter', '', $request->idcard))->first();
     	
-        $existinglogs = Subeventlog::all();
-        $exist = false;
-        foreach ($existinglogs as $log) {
-            if ($log->guest_id == $guest->id) {
-                $exist = true;
-            }
-        }
-        if (!$exist) {
-            $subeventlog = new Subeventlog;
-            $subeventlog->guest_id = $guest->id;
-            $subeventlog->subevent_id = $request->subeventid;
-            $subeventlog->time = Carbon::now();
-            $subeventlog->save(); 
-        }
-
-        $subeventlog = Subeventlog::where('guest_id', $guest->id)->first();
+        $subeventlog = new Subeventlog;
         $subeventlog->guest_id = $guest->id;
         $subeventlog->subevent_id = $request->subeventid;
         $subeventlog->time = Carbon::now();
-        $subeventlog->save();
+        $subeventlog->save(); 
 
-    	
         Flashy::info('welcome ' . ucwords($guest->firstname) . ' ' . ucwords($guest->middlename) . ' ' . ucwords($guest->lastname), '#');
     	return redirect()->back();
     }

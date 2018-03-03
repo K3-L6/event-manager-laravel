@@ -1,8 +1,4 @@
-
 @extends('layouts.app')
-@push('title') 
-  GUEST REGISTRATION
-@endpush
 
 @push('sidebar')
   @include('layouts.sidebar')

@@ -12,12 +12,13 @@
 <ul class="breadcrumb">
   <div class="container-fluid">
     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-    <li class="breadcrumb-item active">Event Attendance</li>
+    <li class="breadcrumb-item"><a href="/admin/report/subevent">Subevent List</a></li>
+    <li class="breadcrumb-item active">Logs</li>
     <div class="float-right">
       <select class="report-filter" onchange="location = this.value">
-        <option value="/admin/report/alltypeguestlogs">All Guest Type</option>
-        <option value="/admin/report/preregguestlogs" selected>Pre Registered Guest</option>
-        <option value="/admin/report/walkinguestlogs">Walk In Guest</option>
+        <option value="/admin/report/subevent/all/{{$subevent->id}}">All Guest Type</option>
+        <option value="/admin/report/subevent/prereg/{{$subevent->id}}" selected>Pre Registered Guest</option>
+        <option value="/admin/report/subevent/walkin/{{$subevent->id}}">Walk In Guest</option>
       </select>
     </div>
     <form action="" method="get">
@@ -39,7 +40,7 @@
           	</div>
       			
             <div class="card-header d-flex align-items-center">
-      			  <h2>PRE-REGISTERED GUEST ATTENDANCE REPORT</h2>
+      			  <h2>PRE REGISTERED GUEST LOGS REPORT FOR {{strtoupper($subevent->title)}}</h2>
       			</div>
 
             <div class="card-body">
@@ -84,12 +85,12 @@
              responsive: true,
              // lengthChange: false,
              buttons: [
-                { extend: 'print', className: 'd-none', title:'PRE-REGISTERED GUEST ATTENDANCE REPORT', exportOptions:{ columns:[0, 1, 2, 3, 4, 5, 6, 7, 8]} },
-                { extend: 'excel', className: 'd-none', title:'PRE-REGISTERED GUEST ATTENDANCE REPORT', exportOptions:{ columns:[0, 1, 2, 3, 4, 5, 6, 7, 8]} },
+                { extend: 'print', className: 'd-none', title:'PRE REGISTERED GUEST LOGS REPORT FOR {{strtoupper($subevent->title)}}', exportOptions:{ columns:[0, 1, 2, 3, 4, 5, 6, 7, 8]} },
+                { extend: 'excel', className: 'd-none', title:'PRE REGISTERED GUEST LOGS REPORT FOR {{strtoupper($subevent->title)}}', exportOptions:{ columns:[0, 1, 2, 3, 4, 5, 6, 7, 8]} },
                 'pageLength',
              ],
              
-             ajax: "{{ route('admin.report.preregguestlogs.api') }}",
+             ajax: "/admin/report/subevent/preregapi/{{$subevent->id}}",
              columnDefs: [
                  { "width": "40%", "targets": 0 },
                  { "width": "30%", "targets": 7 },
