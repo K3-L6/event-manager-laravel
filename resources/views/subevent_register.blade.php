@@ -101,7 +101,7 @@
                 <select class="form-control" name="exhibitor">
                   <option disabled selected>Select Exhibitor</option>
                   @foreach ($users as $user)
-                    <option value="{{$user->id}}">{{$user->firstname . ' ' . $user->lastname}}</option>
+                    <option value="{{$user->id}}">{{ucwords($user->firstname) . ' ' . ucwords($user->middlename) . ' ' . ucwords($user->lastname)}}</option>
                   @endforeach
                 </select>
                 @if ($errors->has('exhibitor'))

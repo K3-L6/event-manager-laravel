@@ -15,43 +15,13 @@
     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
     <li class="breadcrumb-item active">Audit</li>
     <form action="" method="get">
+      <button id="print" class="btn btn-primary  float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Print</button>
+    </form>
+    <form action="" method="get">
+      <button id="excel" class="btn btn-primary float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Excel</button>
     </form>
   </div>
 </ul>
-
-<section class="dashboard-counts no-padding-bottom">
-  <div class="container-fluid">
-    <div class="row bg-white has-shadow">
-      <!-- Item -->
-      <div class="col-xl-4 col-sm-12">
-        <div class="item d-flex align-items-center">
-          <div class="icon bg-blue"><img class="iconimage" src="{{ asset('img/m_administrator.png') }}"></div>
-          <div class="title"><span>Administrator</span>
-          </div>
-          <div class="number"><strong>{{$administratorcount}}</strong></div>
-        </div>
-      </div>
-      <!-- Item -->
-      <div class="col-xl-4 col-sm-12">
-        <div class="item d-flex align-items-center">
-          <div class="icon bg-blue"><img class="iconimage" src="{{ asset('img/m_exhibitor.png') }}"></div>
-          <div class="title"><span>Exhibitor</span>
-          </div>
-          <div class="number"><strong>{{$exhibitorcount}}</strong></div>
-        </div>
-      </div>
-      <!-- Item -->
-      <div class="col-xl-4 col-sm-12">
-        <div class="item d-flex align-items-center">
-          <div class="icon bg-blue"><img class="iconimage" src="{{ asset('img/m_registrator.png') }}"></div>
-          <div class="title"><span>Registrator</span>
-          </div>
-          <div class="number"><strong>{{$registratorcount}}</strong></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 	<div class="container" style="padding-top: 3%;">
 		
@@ -63,7 +33,7 @@
           	</div>
       			
             <div class="card-header d-flex align-items-center">
-      			  <h2>AUDIT TRAIL</h2>
+      			  <h2>AUDIT TRAIL REPORT</h2>
       			</div>
 
             <div class="card-body">
@@ -71,7 +41,6 @@
                 <table id="mytable" class="table" cellspacing="0" width="100%">
                   <thead>
                     <tr>
-                      <th>Avatar</th>
                       <th>Name</th>
                       <th>Role</th>
                       <th>Action</th>
@@ -104,27 +73,31 @@
              responsive: true,
              // lengthChange: false,
              buttons: [
-                { extend: 'print', className: 'd-none', title:'Audit Trail', exportOptions:{ columns:[0, 1, 2, 3, 4]} },
-                { extend: 'excel', className: 'd-none', title:'Audit Trail', exportOptions:{ columns:[0, 1, 2, 3, 4] } },
+                { extend: 'print', className: 'd-none', title:'Audit Trail Report', exportOptions:{ columns:[0, 1, 2, 3]} },
+                { extend: 'excel', className: 'd-none', title:'Audit Trail Report', exportOptions:{ columns:[0, 1, 2, 3] } },
                 'pageLength',
              ],
              columnDefs: [
-                 { "width": "10%", "targets": 0 },
-                 { "width": "25%", "targets": 1 },
-                 { "width": "20%", "targets": 2 },
-                 { "width": "25%", "targets": 3 },
-                 { "width": "20%", "targets": 4 }
+                 { "width": "20%", "targets": 0 },
+                 { "width": "15%", "targets": 1 },
+                 { "width": "40%", "targets": 2 },
+                 { "width": "25%", "targets": 3 }
              ],
-             ajax: "{{ route('admin.audit.api') }}",
+             ajax: "{{ route('admin.report.auditapi') }}",
 
              columns: [
-               {data: 'avatar', name: 'avatar'},
                {data: 'user', name: 'user'},
                {data: 'role', name: 'role'},
                {data: 'description', name: 'description'},
                {data: 'time', name: 'time'},
              ],
              initComplete: function(settings, json) {$('.loader').fadeOut();}
+         });
+         $(document).on('click', '#print', function(){
+            $(".buttons-print")[0].click();
+         });
+         $(document).on('click', '#excel', function(){
+            $(".buttons-excel")[0].click();
          });
          $('#searchInput').on( 'keyup', function () {
              table.search( this.value ).draw();

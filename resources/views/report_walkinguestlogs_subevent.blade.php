@@ -12,20 +12,19 @@
 <ul class="breadcrumb">
   <div class="container-fluid">
     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-    <li class="breadcrumb-item active">Guest List</li>
+    <li class="breadcrumb-item"><a href="/admin/report/subevent">Subevent List</a></li>
+    <li class="breadcrumb-item active">Logs</li>
     <div class="float-right">
       <select class="report-filter" onchange="location = this.value">
-        <option value="/admin/report/alltypeguestlist">All Guest Type</option>
-        <option value="/admin/report/preregguestlist" selected>Pre Registered Guest</option>
-        <option value="/admin/report/walkinguestlist">Walk In Guest</option>
+        <option value="/admin/report/subevent/all/{{$subevent->id}}">All Guest Type</option>
+        <option value="/admin/report/subevent/prereg/{{$subevent->id}}">Pre Registered Guest</option>
+        <option value="/admin/report/subevent/walkin/{{$subevent->id}}" selected>Walk In Guest</option>
       </select>
     </div>
-    <form action="/admin/report/preregguestlist/print" id="printForm" method="post">
-      @csrf()
+    <form action="" method="get">
       <button id="print" class="btn btn-primary float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Print</button>
     </form>
-    <form action="/admin/report/preregguestlist/excel" id="excelForm" method="post">
-      @csrf()
+    <form action="" method="get">
       <button id="excel" class="btn btn-primary float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Excel</button>
     </form>
   </div>
@@ -41,7 +40,7 @@
           	</div>
       			
             <div class="card-header d-flex align-items-center">
-      			  <h2>PRE-REGISTERED GUEST LIST REPORT</h2>
+      			  <h2>WALK IN GUEST LOGS REPORT FOR {{strtoupper($subevent->title)}}</h2>
       			</div>
 
             <div class="card-body">
@@ -50,12 +49,14 @@
                   <thead>
                     <tr>
                       <th>Name</th>
-                      <th>Email</th>
-                      <th>Mobile Number</th>
+                      <th class="none">Email</th>
+                      <th class="none">Mobile Number</th>
                       <th class="none">Designation</th>
-                      <th>Company</th>
+                      <th class="none">Company</th>
                       <th class="none">Office Tel#</th>
                       <th class="none">Office Address</th>
+                      <th>Time</th>
+                      <th>Date</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -84,17 +85,16 @@
              responsive: true,
              // lengthChange: false,
              buttons: [
-                { extend: 'print', className: 'd-none', title:'PRE-REGISTERED GUEST LIST REPORT', exportOptions:{ columns:[0, 1, 2, 3, 4, 5, 6]} },
-                { extend: 'excel', className: 'd-none', title:'PRE-REGISTERED GUEST LIST REPORT', exportOptions:{ columns:[0, 1, 2, 3, 4, 5, 6]} },
+                { extend: 'print', className: 'd-none', title:'WALK IN GUEST LOGS REPORT FOR {{strtoupper($subevent->title)}}', exportOptions:{ columns:[0, 1, 2, 3, 4, 5, 6, 7, 8]} },
+                { extend: 'excel', className: 'd-none', title:'WALK IN GUEST LOGS REPORT FOR {{strtoupper($subevent->title)}}', exportOptions:{ columns:[0, 1, 2, 3, 4, 5, 6, 7, 8]} },
                 'pageLength',
              ],
              
-             ajax: "{{ route('admin.report.preregguestlist.api') }}",
+             ajax: "/admin/report/subevent/walkinapi/{{$subevent->id}}",
              columnDefs: [
-                 { "width": "25%", "targets": 0 },
-                 { "width": "25%", "targets": 1 },
-                 { "width": "25%", "targets": 2 },
-                 { "width": "25%", "targets": 3 }
+                 { "width": "40%", "targets": 0 },
+                 { "width": "30%", "targets": 7 },
+                 { "width": "30%", "targets": 8 }
              ],
              columns: [
                {data: 'name', name: 'name'},
@@ -104,22 +104,16 @@
                {data: 'companyname', name: 'companyname'},
                {data: 'officetelnumber', name: 'officetelnumber'},
                {data: 'officeaddress', name: 'officeaddress'},
+               {data: 'time', name: 'time'},
+               {data: 'date', name: 'date'},
              ],
              initComplete: function(settings, json) {$('.loader').fadeOut();}
          });
          $(document).on('click', '#print', function(){
-            $('#printForm').submit(function(){
-              if(!table.data().any()){return false;}
-              $(".buttons-print")[0].click();
-              return true;
-            });
+            $(".buttons-print")[0].click();
          });
          $(document).on('click', '#excel', function(){
-            $('#excelForm').submit(function(){
-              if(!table.data().any()){return false;}
-              $(".buttons-excel")[0].click();
-              return true;
-            });
+            $(".buttons-excel")[0].click();
          });
          $('#searchInput').on( 'keyup', function () {
              table.search( this.value ).draw();

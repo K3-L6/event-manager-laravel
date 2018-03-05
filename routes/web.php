@@ -49,16 +49,27 @@ Route::get('/admin/auditapi', 'AdminController@audit_api')->name('admin.audit.ap
 
 
 Route::get('/admin/report/alltypeguestlist', 'AdminController@report_alltypeguestlist')->name('admin.report.alltypeguestlist');
+Route::post('/admin/report/alltypeguestlist/print', 'AdminController@report_alltypeguestlist_print')->name('admin.report.alltypeguestlist.print');
+Route::post('/admin/report/alltypeguestlist/excel', 'AdminController@report_alltypeguestlist_excel')->name('admin.report.alltypeguestlist.excel');
+Route::get('/admin/report/alltypeguestlistapi', 'AdminController@report_alltypeguestlistapi')->name('admin.report.alltypeguestlist.api');
+
 Route::get('/admin/report/walkinguestlist', 'AdminController@report_walkinguestlist')->name('admin.report.walkinguestlist');
+Route::post('/admin/report/walkinguestlist/print', 'AdminController@report_walkinguestlist_print')->name('admin.report.walkinguestlist.print');
+Route::post('/admin/report/walkinguestlist/excel', 'AdminController@report_walkinguestlist_excel')->name('admin.report.walkinguestlist.excel');
+Route::get('/admin/report/walkinguestlistapi', 'AdminController@report_walkinguestlistapi')->name('admin.report.walkinguestlist.api');
+
+
 Route::get('/admin/report/preregguestlist', 'AdminController@report_preregguestlist')->name('admin.report.preregguestlist');
+Route::post('/admin/report/preregguestlist/print', 'AdminController@report_preregguestlist_print')->name('admin.report.preregguestlist.print');
+Route::post('/admin/report/preregguestlist/excel', 'AdminController@report_preregguestlist_excel')->name('admin.report.preregguestlist.excel');
+Route::get('/admin/report/preregguestlistapi', 'AdminController@report_preregguestlistapi')->name('admin.report.preregguestlist.api');
+
+
 Route::get('/admin/report/alltypeguestlogs', 'AdminController@report_alltypeguestlogs')->name('admin.report.alltypeguestlogs');
 Route::get('/admin/report/walkinguestlogs', 'AdminController@report_walkinguestlogs')->name('admin.report.walkinguestlogs');
 Route::get('/admin/report/preregguestlogs', 'AdminController@report_preregguestlogs')->name('admin.report.preregguestlogs');
 
 
-Route::get('/admin/report/alltypeguestlistapi', 'AdminController@report_alltypeguestlistapi')->name('admin.report.alltypeguestlist.api');
-Route::get('/admin/report/walkinguestlistapi', 'AdminController@report_walkinguestlistapi')->name('admin.report.walkinguestlist.api');
-Route::get('/admin/report/preregguestlistapi', 'AdminController@report_preregguestlistapi')->name('admin.report.preregguestlist.api');
 Route::get('/admin/report/alltypeguestlogsapi', 'AdminController@report_alltypeguestlogsapi')->name('admin.report.alltypeguestlogs.api');
 Route::get('/admin/report/walkinguestlogsapi', 'AdminController@report_walkinguestlogsapi')->name('admin.report.walkinguestlogs.api');
 Route::get('/admin/report/preregguestlogsapi', 'AdminController@report_preregguestlogsapi')->name('admin.report.preregguestlogs.api');
@@ -74,6 +85,18 @@ Route::get('/admin/report/subevent/walkin/{id}', 'AdminController@report_subeven
 Route::get('/admin/report/subevent/allapi/{id}', 'AdminController@report_subevent_alllogs_api')->name('admin.report.subevent.alllogsapi');
 Route::get('/admin/report/subevent/preregapi/{id}', 'AdminController@report_subevent_prereglogs_api')->name('admin.report.subevent.prereglogsapi');
 Route::get('/admin/report/subevent/walkinapi/{id}', 'AdminController@report_subevent_walkinlogs_api')->name('admin.report.subevent.walkinlogsapi');
+
+Route::get('/admin/report/subeventlist', 'AdminController@report_subeventlist')->name('admin.report.subeventlist');
+Route::get('/admin/report/subeventlistapi', 'AdminController@report_subeventlistapi')->name('admin.report.subeventlistapi');
+
+Route::get('/admin/report/audit', 'AdminCOntroller@report_audit')->name('admin.report.audit');
+Route::get('/admin/reoprt/auditapi', 'AdminController@report_auditapi')->name('admin.report.auditapi');
+
+Route::get('/admin/usersetting', 'AdminController@usersetting')->name('admin.usersetting');
+Route::get('/admin/usersettingapi', 'AdminController@usersetting_api')->name('admin.usersetting.api');
+Route::get('/admin/user/register', 'AdminController@user_register_show')->name('admin.user.register');
+Route::post('/admin/user/register', 'AdminController@user_register')->name('admin.user.register');
+Route::delete('/admin/user/delete/{id}', 'AdminController@user_delete')->name('admin.user.delete');
 
 
 

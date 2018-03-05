@@ -1,9 +1,8 @@
-
 @extends('layouts.app')
 
-@push('loader')
+{{-- @push('loader')
  @include('layouts.loader')
-@endpush
+@endpush --}}
 
 @push('sidebar')
   @include('layouts.sidebar')
@@ -13,8 +12,12 @@
 <ul class="breadcrumb">
   <div class="container-fluid">
     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-    <li class="breadcrumb-item active">Audit</li>
-    <form action="" method="get">
+    <li class="breadcrumb-item active">Users</li>
+    <form action="/admin/subevent/register" method="get">
+      <button class="btn btn-primary float-right" style="width: 300px; margin-left: 1%; margin-right: 1%;">CREATE ROLE</button>
+    </form>
+    <form action="/admin/user/register" method="get">
+      <button class="btn btn-primary float-right" style="width: 300px; margin-left: 1%; margin-right: 1%;">CREATE USERS</button>
     </form>
   </div>
 </ul>
@@ -53,6 +56,7 @@
   </div>
 </section>
 
+
 	<div class="container" style="padding-top: 3%;">
 		
 		<div class="col-md-12" style="width: 100%;">
@@ -63,7 +67,7 @@
           	</div>
       			
             <div class="card-header d-flex align-items-center">
-      			  <h2>AUDIT TRAIL</h2>
+      			  <h2>USERS LIST</h2>
       			</div>
 
             <div class="card-body">
@@ -75,7 +79,6 @@
                       <th>Name</th>
                       <th>Role</th>
                       <th>Action</th>
-                      <th>Time</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -104,27 +107,28 @@
              responsive: true,
              // lengthChange: false,
              buttons: [
-                { extend: 'print', className: 'd-none', title:'Audit Trail', exportOptions:{ columns:[0, 1, 2, 3, 4]} },
-                { extend: 'excel', className: 'd-none', title:'Audit Trail', exportOptions:{ columns:[0, 1, 2, 3, 4] } },
+                { extend: 'print', className: 'd-none', title:'Events', exportOptions:{ columns:[0, 1, 2]} },
+                { extend: 'excel', className: 'd-none', title:'Events', exportOptions:{ columns:[0, 1, 2] } },
                 'pageLength',
              ],
              columnDefs: [
                  { "width": "10%", "targets": 0 },
-                 { "width": "25%", "targets": 1 },
-                 { "width": "20%", "targets": 2 },
-                 { "width": "25%", "targets": 3 },
-                 { "width": "20%", "targets": 4 }
+                 { "width": "35%", "targets": 1 },
+                 { "width": "30%", "targets": 2 },
+                 { "width": "15%", "targets": 3 }
              ],
-             ajax: "{{ route('admin.audit.api') }}",
+             ajax: "{{ route('admin.usersetting.api') }}",
 
              columns: [
                {data: 'avatar', name: 'avatar'},
-               {data: 'user', name: 'user'},
+               {data: 'name', name: 'name'},
                {data: 'role', name: 'role'},
-               {data: 'description', name: 'description'},
-               {data: 'time', name: 'time'},
+               {data: 'action', name: 'action', orderable:false, searchable:false, printable:false},
              ],
              initComplete: function(settings, json) {$('.loader').fadeOut();}
+         });
+         $(document).on('click', '#print', function(){
+            $(".buttons-print")[0].click();
          });
          $('#searchInput').on( 'keyup', function () {
              table.search( this.value ).draw();

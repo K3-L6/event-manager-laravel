@@ -66,7 +66,7 @@ class DatabaseSeeder extends Seeder
 
 
     	DB::table('roles')->insert([
-    	    'name' => 'makapangyarihan',
+    	    'name' => 'Super User',
     	    'description' => 'this role has all access in all module',
     	]);
 
@@ -121,8 +121,9 @@ class DatabaseSeeder extends Seeder
 
 
     	DB::table('users')->insert([
-    	    'lastname' => 'Sari',
-    	    'firstname' => 'Dorofei',
+    	    'lastname' => 'ngo',
+    	    // 'middlename' => '',
+            'firstname' => 'amci',
     	    'email' => 'superadmin@gmail.com',
     	    'password' => bcrypt('password'),
     	    'avatar' => 'noimg.jpg',
@@ -130,8 +131,9 @@ class DatabaseSeeder extends Seeder
     	]);
 
     	DB::table('users')->insert([
-    	    'lastname' => 'Dalton',
-    	    'firstname' => 'Waylon',
+    	    'lastname' => 'lising',
+            'middlename' => 'robles',
+    	    'firstname' => 'john kenneth',
     	    'email' => 'admin@gmail.com',
     	    'password' => bcrypt('password'),
     	    'avatar' => 'noimg.jpg',
@@ -139,8 +141,8 @@ class DatabaseSeeder extends Seeder
     	]);
 
     	DB::table('users')->insert([
-    	    'lastname' => 'Henderson',
-    	    'firstname' => 'Justine',
+    	    'lastname' => 'montemayor',
+    	    'firstname' => 'christian',
     	    'email' => 'exhibitor@gmail.com',
     	    'password' => bcrypt('password'),
     	    'avatar' => 'noimg.jpg',
@@ -148,8 +150,8 @@ class DatabaseSeeder extends Seeder
     	]);
 
     	DB::table('users')->insert([
-    	    'lastname' => 'Lang',
-    	    'firstname' => 'Abdullah',
+    	    'lastname' => 'manalo',
+    	    'firstname' => 'erd rico',
     	    'email' => 'registrator@gmail.com',
     	    'password' => bcrypt('password'),
     	    'avatar' => 'noimg.jpg',

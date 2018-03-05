@@ -15,6 +15,7 @@ use Excel;
 
 use App\User;
 use App\Event;
+use App\Role;
 use App\Subevent;
 use App\Guest;
 use App\Audit;
@@ -69,7 +70,188 @@ class AdminController extends Controller
         return "no file";
     }
 
+    public function usersetting()
+    {
+        $administratorcount = count(User::whereHas('role', function($role){
+            $role->whereHas('access', function($access){
+                $access->where('module', 'administrator');
+            });
+        })->get());
+        $exhibitorcount = count(User::whereHas('role', function($role){
+            $role->whereHas('access', function($access){
+                $access->where('module', 'exhibitor');
+            });
+        })->get());
+        $registratorcount = count(User::whereHas('role', function($role){
+            $role->whereHas('access', function($access){
+                $access->where('module', 'registrator');
+            });
+        })->get());
+        return view('usersetting')
+        ->withAdministratorcount($administratorcount)
+        ->withExhibitorcount($exhibitorcount)
+        ->withRegistratorcount($registratorcount);
+    }
+
+    public function user_delete($id)
+    {
+        $user = User::find($id);
+        $user->delete();
+
+        Flashy::success('Successfully Deleted A User');
+        return redirect()->to('/admin/usersetting');
+    }
+
+    public function user_register_show()
+    {
+        $role = Role::all();
+        return view('user_register')
+        ->withRole($role);
+    }
+
+    public function user_register(Request $request)
+    {
+        $this->validate($request,
+            [
+                'lastname' => 'required|max:50',
+                'middlename' => 'max:50',
+                'firstname' => 'required|max:50',
+
+                'email' => 'required|max:50',
+                'password' => 'required|min:12|max:50|confirmed',
+
+                'role' => 'required',
+
+                'img' => 'required',
+            ],
+            [
+                'lastname.required' => 'Last name is required',
+                'lastname.max' => 'Last name must not be greater than 50',
+
+                'middlename.max' => 'Middle name must not be greater than 50',
+
+                'firstname.required' => 'First name is required',
+                'firstname.max' => 'First name must not be greater than 50',
+
+                'email.required' => 'Email is required',
+                'email.max' => 'Email must not be greater than 50',
+
+                'password.required' => 'Password is required',
+                'password.min' => 'Password must not be less than 12',
+                'password.max' => 'Password must not be greater than 50',
+                'password.confirmed' => 'Password does not match',
+
+                'role.required' => 'Role is required',
+
+                'img.required' => 'Avatar is required',
+            ]
+        );
+
+
+        $user = new User;
+
+        $img = $request->file('img');
+        $filename = time() . '_' . $img->getClientOriginalName();
+        Image::make($img)->save( public_path('/img/user/' . $filename) );
+        $user->avatar = $filename;
+        
+        $user->lastname = $request->lastname;
+        $user->middlename = $request->middlename;
+        $user->firstname = $request->firstname;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->role_id = $request->role;
+
+        $user->save();
+
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'registered a new user named ' . $request->lastname . ' ' . $request->middlename . ' ' . $request->lastname;
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();;
+        $audit->save();
+        
+        Flashy::success('Successfully Created a User', '#');
+        return redirect()->to('/admin/usersetting');
+    }
+
+    
+
+    public function usersetting_api()
+    {
+        $user = User::with('role')->get();
+
+        return Datatables::of($user)
+        ->editColumn('avatar', function($user){
+            return '
+                <img src="'. asset('img/user/' . $user->avatar) .'" style="height: 50px; width: 50px;">
+            ';
+        })
+        ->editColumn('name', function($user){
+            return ucwords(ucwords($user->firstname) . ' ' . ucwords($user->middlename) . ' ' . ucwords($user->lastname));
+        })
+        ->editColumn('role', function($user){
+            return ucwords($user->role->name);
+        })
+        ->addColumn('action', function($user){
+            return '
+                <div class="btn-group" role="group">
+                    
+                    <form action="/admin/guest/' . $user->id . '" method="get">
+                        <button type="submit" class="btn btn-info"><i class="fa fa-edit"></i></button>  
+                    </form>
+                    <form action="/admin/user/delete/' . $user->id . '" method="post">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="'. csrf_token() . '">
+                        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                    </form>
+                </div>
+            ';
+        })
+        ->rawColumns(['avatar', 'action'])
+        ->make(true);
+    }
+
     //reports
+    public function report_audit()
+    {
+        return view('report_audit');
+    }
+    public function report_auditapi()
+    {
+        $audit = Audit::with('user')->get();
+
+        return Datatables::of($audit)
+        ->editColumn('user', function($audit){
+            return ucwords($audit->user->firstname . ' ' . $audit->user->lastname);
+        })
+        ->editColumn('role', function($audit){
+            return ucwords($audit->user->role->name);
+        })
+        ->editColumn('description', function($audit){
+            return ucwords($audit->description);
+        })
+        ->editColumn('time', function($audit){
+            return Carbon::parse($audit->time)->format('F d, Y g:i A');
+        })
+        ->make(true);   
+    }
+    public function report_subeventlist()
+    {
+        return view('report_subeventlist');
+    }
+    public function report_subeventlistapi()
+    {
+        $event = Event::where('status', '1')->first();
+        $subevent = Subevent::where('event_id', $event->id)->with('user')->get();
+
+        return Datatables::of($subevent)
+        ->editColumn('exhibitor', function($subevent){
+            $user = User::find($subevent->user_id);
+            return $user->firstname . ' ' . $user->lastname;
+        })
+        ->make(true);   
+    }
     public function report_subevent_alllogs($id)
     {
         $subevent = Subevent::find($id);
@@ -233,19 +415,98 @@ class AdminController extends Controller
     }
 
     public function report_alltypeguestlist()
-     {
+    {
         return view('report_alltypeguestlist');
-     }
+    }
+
+    public function report_alltypeguestlist_print(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'printed all type guest list report';  
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        Flashy::success('Successfully Printed All Type Guest List Report');
+        return redirect()->back();
+    }
+
+    public function report_alltypeguestlist_excel(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'exported to excel all type guest list report';  
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        Flashy::success('Successfully Exported To Excel All Type Guest List Report');
+        return redirect()->back();
+    }
 
     public function report_walkinguestlist()
     {
         return view('report_walkinguestlist');
     }
 
+    public function report_walkinguestlist_print(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'printed walk in guest list report';  
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        Flashy::success('Successfully Printed Walk In Guest List Report');
+        return redirect()->back();
+    }
+
+    public function report_walkinguestlist_excel(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'exported to excel walk in guest list report';  
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        Flashy::success('Successfully Exported To Excel Walk In Guest List Report');
+        return redirect()->back();
+    }
+
     public function report_preregguestlist()
     {
         return view('report_preregguestlist');
     }
+
+    public function report_preregguestlist_print(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'printed pre registered guest list report';  
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        Flashy::success('Successfully Printed Pre Registered Guest List Report');
+        return redirect()->back();
+    }
+
+    public function report_preregguestlist_excel(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'exported to excel pre registered guest list report';  
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        Flashy::success('Successfully Exported To Excel Pre Registered Guest List Report');
+        return redirect()->back();
+    }
+
 
     public function report_alltypeguestlogs()
     {
@@ -451,7 +712,25 @@ class AdminController extends Controller
 
     public function audit()
     {
-        return view('audit');
+        $administratorcount = count(User::whereHas('role', function($role){
+            $role->whereHas('access', function($access){
+                $access->where('module', 'administrator');
+            });
+        })->get());
+        $exhibitorcount = count(User::whereHas('role', function($role){
+            $role->whereHas('access', function($access){
+                $access->where('module', 'exhibitor');
+            });
+        })->get());
+        $registratorcount = count(User::whereHas('role', function($role){
+            $role->whereHas('access', function($access){
+                $access->where('module', 'registrator');
+            });
+        })->get());
+        return view('audit')
+        ->withAdministratorcount($administratorcount)
+        ->withExhibitorcount($exhibitorcount)
+        ->withRegistratorcount($registratorcount);
     }
 
     public function audit_api()
@@ -459,8 +738,13 @@ class AdminController extends Controller
         $audit = Audit::with('user')->get();
 
         return Datatables::of($audit)
+        ->editColumn('avatar', function($audit){
+            return '
+                <img src="'. asset('img/user/' . $audit->user->avatar) .'" style="height: 50px; width: 50px;">
+            ';
+        })
         ->editColumn('user', function($audit){
-            return ucwords($audit->user->firstname . ' ' . $audit->user->lastname);
+            return ucwords(ucwords($audit->user->firstname) . ' ' . ucwords($audit->user->middlename) . ' ' . ucwords($audit->user->lastname));
         })
         ->editColumn('role', function($audit){
             return ucwords($audit->user->role->name);
@@ -471,6 +755,7 @@ class AdminController extends Controller
         ->editColumn('time', function($audit){
             return Carbon::parse($audit->time)->diffForHumans();
         })
+        ->rawColumns(['avatar'])
         ->make(true);
     }
 
@@ -888,7 +1173,7 @@ class AdminController extends Controller
         return Datatables::of($subevent)
         ->editColumn('exhibitor', function($subevent){
             $user = User::find($subevent->user_id);
-            return $user->firstname . ' ' . $user->lastname;
+            return ucwords($user->firstname) . ' ' . ucwords($user->middlename) . ' ' . ucwords($user->lastname);
         })
         ->addColumn('action', function($subevent){
             return '
@@ -1008,7 +1293,11 @@ class AdminController extends Controller
 
     public function subevent_register_show()
     {
-        $users = User::where('role_id', 3)->get();
+        $users = User::whereHas('role', function($role){
+            $role->whereHas('access', function($access){
+                $access->where('module', 'exhibitor');
+            });
+        })->get();
         return view('subevent_register')->withUsers($users);
     }
 

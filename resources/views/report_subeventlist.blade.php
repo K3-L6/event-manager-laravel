@@ -12,9 +12,16 @@
 <ul class="breadcrumb">
   <div class="container-fluid">
     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-    <li class="breadcrumb-item active">Subevent</li>
+    <li class="breadcrumb-item active">Subevent List</li>
+    <form action="" method="get">
+      <button id="print" class="btn btn-primary  float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Print</button>
+    </form>
+    <form action="" method="get">
+      <button id="excel" class="btn btn-primary float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Excel</button>
+    </form>
   </div>
 </ul>
+
 
 	<div class="container" style="padding-top: 3%;">
 		
@@ -26,7 +33,7 @@
           	</div>
       			
             <div class="card-header d-flex align-items-center">
-      			  <h2>SUBEVENT LIST</h2>
+      			  <h2>SUBEVENT LIST REPORT</h2>
       			</div>
 
             <div class="card-body">
@@ -37,7 +44,6 @@
                       <th>Title</th>
                       <th>Description</th>
                       <th>Exhibitor</th>
-                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -66,28 +72,29 @@
              responsive: true,
              // lengthChange: false,
              buttons: [
-                { extend: 'print', className: 'd-none', title:'Events', exportOptions:{ columns:[0, 1, 2]} },
-                { extend: 'excel', className: 'd-none', title:'Events', exportOptions:{ columns:[0, 1, 2] } },
+                { extend: 'print', className: 'd-none', title:'Subevent List Report', exportOptions:{ columns:[0, 1, 2]} },
+                { extend: 'excel', className: 'd-none', title:'Subevent List Report', exportOptions:{ columns:[0, 1, 2] } },
                 'pageLength',
              ],
              columnDefs: [
                  { "width": "30%", "targets": 0 },
-                 { "width": "30%", "targets": 1 },
-                 { "width": "30%", "targets": 2 },
-                 { "width": "10%", "targets": 3 }
+                 { "width": "40%", "targets": 1 },
+                 { "width": "30%", "targets": 2 }
              ],
-             ajax: "{{ route('admin.report.subevent.api') }}",
+             ajax: "{{ route('admin.report.subeventlistapi') }}",
 
              columns: [
                {data: 'title', name: 'title'},
                {data: 'description', name: 'description'},
                {data: 'exhibitor', name: 'exhibitor'},
-               {data: 'action', name: 'action', orderable:false, searchable:false, printable:false},
              ],
              initComplete: function(settings, json) {$('.loader').fadeOut();}
          });
          $(document).on('click', '#print', function(){
             $(".buttons-print")[0].click();
+         });
+         $(document).on('click', '#excel', function(){
+            $(".buttons-excel")[0].click();
          });
          $('#searchInput').on( 'keyup', function () {
              table.search( this.value ).draw();
