@@ -236,10 +236,38 @@ class AdminController extends Controller
         })
         ->make(true);   
     }
+
     public function report_subeventlist()
     {
         return view('report_subeventlist');
     }
+
+    public function report_subeventlist_print()
+    {
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'printed subevent list report';  
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        Flashy::success('Successfully Printed Subevent List Report');
+        return redirect()->back();
+    }
+
+    public function report_subeventlist_excel()
+    {
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'exported to excel subevent list report';  
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        Flashy::success('Successfully Exported To Excel Subevent List Report');
+        return redirect()->back();
+    }
+
     public function report_subeventlistapi()
     {
         $event = Event::where('status', '1')->first();
@@ -513,14 +541,92 @@ class AdminController extends Controller
         return view('report_alltypeguestlogs');
     }
 
+    public function report_alltypeguestlogs_print(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'printed all type guest attendance report';  
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        Flashy::success('Successfully Printed All Type Guest Attendance Report');
+        return redirect()->back();
+    }
+
+    public function report_alltypeguestlogs_excel(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'exported to excel all type guest attendance report';  
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        Flashy::success('Successfully Exported To Excel All Type Guest Attendance Report');
+        return redirect()->back();
+    }
+
     public function report_walkinguestlogs()
     {
         return view('report_walkinguestlogs');
     }
 
+    public function report_walkinguestlogs_print(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'printed walk in guest attendance report';  
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        Flashy::success('Successfully Printed Walk In Guest Attendance Report');
+        return redirect()->back();
+    }
+
+    public function report_walkinguestlogs_excel(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'exported to excel walk in guest attendance report';  
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        Flashy::success('Successfully Exported To Excel Walk In Guest Attendance Report');
+        return redirect()->back();
+    }
+
     public function report_preregguestlogs()
     {
         return view('report_preregguestlogs');
+    }
+
+    public function report_preregguestlogs_print(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'printed pre registered guest attendance report';  
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        Flashy::success('Successfully Printed Pre Registered Guest Attendance Report');
+        return redirect()->back();
+    }
+
+    public function report_preregguestlogs_excel(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'exported to excel pre registered guest attendance report';  
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        Flashy::success('Successfully Exported To Excel Pre Registered Guest Attendance Report');
+        return redirect()->back();
     }
 
     // reports api

@@ -13,10 +13,12 @@
   <div class="container-fluid">
     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
     <li class="breadcrumb-item active">Subevent List</li>
-    <form action="" method="get">
+    <form action="/admin/report/subeventlist/print" id="printForm" method="post">
+      @csrf()
       <button id="print" class="btn btn-primary  float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Print</button>
     </form>
-    <form action="" method="get">
+    <form action="/admin/report/subeventlist/excel" id="excelForm" method="post">
+      @csrf()
       <button id="excel" class="btn btn-primary float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Excel</button>
     </form>
   </div>
@@ -72,8 +74,8 @@
              responsive: true,
              // lengthChange: false,
              buttons: [
-                { extend: 'print', className: 'd-none', title:'Subevent List Report', exportOptions:{ columns:[0, 1, 2]} },
-                { extend: 'excel', className: 'd-none', title:'Subevent List Report', exportOptions:{ columns:[0, 1, 2] } },
+                { extend: 'print', className: 'd-none', title:'SUBEVENT LIST REPORT', exportOptions:{ columns:[0, 1, 2]} },
+                { extend: 'excel', className: 'd-none', title:'SUBEVENT LIST REPORT', exportOptions:{ columns:[0, 1, 2] } },
                 'pageLength',
              ],
              columnDefs: [
@@ -91,10 +93,18 @@
              initComplete: function(settings, json) {$('.loader').fadeOut();}
          });
          $(document).on('click', '#print', function(){
-            $(".buttons-print")[0].click();
+            $('#printForm').submit(function(){
+              if(!table.data().any()){return false;}
+              $(".buttons-print")[0].click();
+              return true;
+            });
          });
          $(document).on('click', '#excel', function(){
-            $(".buttons-excel")[0].click();
+            $('#excelForm').submit(function(){
+              if(!table.data().any()){return false;}
+              $(".buttons-excel")[0].click();
+              return true;
+            });
          });
          $('#searchInput').on( 'keyup', function () {
              table.search( this.value ).draw();

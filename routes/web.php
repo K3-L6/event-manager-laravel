@@ -66,12 +66,18 @@ Route::get('/admin/report/preregguestlistapi', 'AdminController@report_prereggue
 
 
 Route::get('/admin/report/alltypeguestlogs', 'AdminController@report_alltypeguestlogs')->name('admin.report.alltypeguestlogs');
-Route::get('/admin/report/walkinguestlogs', 'AdminController@report_walkinguestlogs')->name('admin.report.walkinguestlogs');
-Route::get('/admin/report/preregguestlogs', 'AdminController@report_preregguestlogs')->name('admin.report.preregguestlogs');
-
-
+Route::post('/admin/report/alltypeguestlogs/print', 'AdminController@report_alltypeguestlogs_print')->name('admin.report.alltypeguestlogs.print');
+Route::post('/admin/report/alltypeguestlogs/excel', 'AdminController@report_alltypeguestlogs_excel')->name('admin.report.alltypeguestlogs.excel');
 Route::get('/admin/report/alltypeguestlogsapi', 'AdminController@report_alltypeguestlogsapi')->name('admin.report.alltypeguestlogs.api');
+
+Route::get('/admin/report/walkinguestlogs', 'AdminController@report_walkinguestlogs')->name('admin.report.walkinguestlogs');
+Route::post('/admin/report/walkinguestlogs/print', 'AdminController@report_walkinguestlogs_print')->name('admin.report.walkinguestlogs.print');
+Route::post('/admin/report/walkinguestlogs/excel', 'AdminController@report_walkinguestlogs_excel')->name('admin.report.walkinguestlogs.excel');
 Route::get('/admin/report/walkinguestlogsapi', 'AdminController@report_walkinguestlogsapi')->name('admin.report.walkinguestlogs.api');
+
+Route::get('/admin/report/preregguestlogs', 'AdminController@report_preregguestlogs')->name('admin.report.preregguestlogs');
+Route::post('/admin/report/preregguestlogs/print', 'AdminController@report_preregguestlogs_print')->name('admin.report.preregguestlogs.print');
+Route::post('/admin/report/preregguestlogs/excel', 'AdminController@report_preregguestlogs_excel')->name('admin.report.preregguestlogs.excel');
 Route::get('/admin/report/preregguestlogsapi', 'AdminController@report_preregguestlogsapi')->name('admin.report.preregguestlogs.api');
 
 // making
@@ -87,6 +93,8 @@ Route::get('/admin/report/subevent/preregapi/{id}', 'AdminController@report_sube
 Route::get('/admin/report/subevent/walkinapi/{id}', 'AdminController@report_subevent_walkinlogs_api')->name('admin.report.subevent.walkinlogsapi');
 
 Route::get('/admin/report/subeventlist', 'AdminController@report_subeventlist')->name('admin.report.subeventlist');
+Route::post('/admin/report/subeventlist/print', 'AdminController@report_subeventlist_print')->name('admin.report.subeventlist.print');
+Route::post('/admin/report/subeventlist/excel', 'AdminController@report_subeventlist_excel')->name('admin.report.subeventlist.excel');
 Route::get('/admin/report/subeventlistapi', 'AdminController@report_subeventlistapi')->name('admin.report.subeventlistapi');
 
 Route::get('/admin/report/audit', 'AdminCOntroller@report_audit')->name('admin.report.audit');
