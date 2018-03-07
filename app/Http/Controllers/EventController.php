@@ -7,6 +7,10 @@ use Carbon\Carbon;
 use App\Guest;
 use App\Event;
 use App\Eventlog;
+use App\User;
+use App\Audit;
+
+use Auth;
 use Flashy;
 
 class EventController extends Controller
@@ -14,7 +18,26 @@ class EventController extends Controller
     public function entrance()
     {
     	$event = Event::first();
+
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'started attendance logging for the ' . $event->title . ' event';
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
     	return view('event_entrance')->withEvent($event);
+    }
+
+    public function exit()
+    {
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'ended attendance logging for the ' . $event->title . ' event';
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+        return redirect()->to('/home');
     }
 
     public function log(Request $request)
@@ -52,12 +75,6 @@ class EventController extends Controller
         
         
         
-    }
-
-    public function exit()
-    {
-        $event = Event::first();
-        return view('event_exit')->withEvent($event);
     }
 
 }

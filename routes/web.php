@@ -99,6 +99,8 @@ Route::post('/admin/report/subeventlist/excel', 'AdminController@report_subevent
 Route::get('/admin/report/subeventlistapi', 'AdminController@report_subeventlistapi')->name('admin.report.subeventlistapi');
 
 Route::get('/admin/report/audit', 'AdminCOntroller@report_audit')->name('admin.report.audit');
+Route::post('/admin/report/audit/print', 'AdminController@report_audit_print')->name('admin.report.audit.print');
+Route::post('/admin/report/audit/excel', 'AdminController@report_audit_excel')->name('admin.report.audit.excel');
 Route::get('/admin/reoprt/auditapi', 'AdminController@report_auditapi')->name('admin.report.auditapi');
 
 Route::get('/admin/usersetting', 'AdminController@usersetting')->name('admin.usersetting');
@@ -123,9 +125,11 @@ Route::put('/registrator/prereg/update/{id}', 'RegistratorController@prereg_upda
 
 Route::get('/event/entrance', 'EventController@entrance');
 Route::post('/event/entrance/log', 'EventController@log');
+Route::post('/event/exit', 'EventController@exit');
 
 Route::get('/subevent/entrance/{id}', 'SubeventController@entrance');
 Route::post('/subevent/entrance/log', 'SubeventController@log');
+Route::post('/subevent/exit/{id}', 'SubeventController@exit');
 
 
 

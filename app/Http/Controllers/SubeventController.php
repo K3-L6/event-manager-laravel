@@ -7,6 +7,10 @@ use Carbon\Carbon;
 use App\Guest;
 use App\Subevent;
 use App\Subeventlog;
+use App\User;
+use App\Audit;
+
+use Auth;
 use Flashy;
 
 class SubeventController extends Controller
@@ -14,7 +18,28 @@ class SubeventController extends Controller
     public function entrance($id)
     {
     	$subevent = Subevent::find($id);
+
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'started logging for the ' . $subevent->title . ' subevent';
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
     	return view('subevent_entrance')->withSubevent($subevent);
+    }
+
+    public function exit($id)
+    {
+        $subevent = Subevent::find($id);
+
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'ended logging for the ' . $subevent->title . ' subevent';
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+        return redirect()->to('/home');
     }
 
     public function log(Request $request)

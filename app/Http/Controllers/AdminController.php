@@ -217,6 +217,33 @@ class AdminController extends Controller
     {
         return view('report_audit');
     }
+
+    public function report_audit_print()
+    {
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'printed audit trail report';  
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        Flashy::success('Successfully Printed Audit Trail Report');
+        return redirect()->back();
+    }
+
+    public function report_audit_excel()
+    {
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'exported to excel audit trail report';  
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        Flashy::success('Successfully Exported To Excel Audit Trail Report');
+        return redirect()->back();
+    }
+
     public function report_auditapi()
     {
         $audit = Audit::with('user')->get();

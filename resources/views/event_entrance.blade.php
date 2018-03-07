@@ -55,6 +55,10 @@
       <input type="text" id="idcard" name="idcard" style="display: none;">
       
     </form>
+
+    <form method="post" id="exit" action="/event/exit">
+      @csrf()
+    </form>
     {{-- <button id="testBtn">Test</button> --}}
     
     <!-- Javascript files-->
@@ -75,6 +79,11 @@
           if(e.which == 13){
             $('#form').submit();  
           }
+        });
+        $(document).keyup(function(e) {
+            if (e.keyCode == 27) {
+              $('#exit').submit();
+            }
         });
       });
     </script>

@@ -55,6 +55,10 @@
       <input type="text" name="subeventid" value="{{$subevent->id}}" style="display: none;">
       <input type="text" id="idcard" name="idcard" style="display: none;">
     </form>
+
+    <form method="post" id="exit" action="/subevent/exit/{{$subevent->id}}">
+      @csrf()
+    </form>
     
     <!-- Javascript files-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -74,6 +78,11 @@
           if(e.which == 13){
             $('#form').submit();  
           }
+        });
+        $(document).keyup(function(e) {
+            if (e.keyCode == 27) {
+              $('#exit').submit();
+            }
         });
       });
     </script>
