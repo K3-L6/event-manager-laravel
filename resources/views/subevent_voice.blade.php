@@ -27,7 +27,7 @@
      } 
 
      body {
-         background-image: url('{{ asset('/img/event/' . $event->background) }}');
+         background-image: url('{{ asset('/img/subevent/' . $subevent->background) }}');
          background-size: cover;
          background-repeat: no-repeat;
          background-position: left top;
@@ -39,25 +39,24 @@
     <script type="text/javascript" src="{{ asset('js/fontawesome.js') }}"></script>
 
     {{-- fonts --}}
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family={{$event->title_font}}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family={{$event->description_font}}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family={{$subevent->title_font}}">
   </head>
-  <body>
+  <body onload="start_tts()">
     @include('inc.messages')
     <div class="background">
       <div class="mainpanel">
-          <h1 style="font-family: {{$event->title_font}}; font-size: {{$event->title_size+5}}vmin; color: {{$event->title_color}};">{{$event->title}}</h1>
-          <p style="font-family: {{$event->description_font}}; font-size: {{$event->description_size+1}}vmin; color: {{$event->description_color}}">{{$event->description}}</p>
+          <h1 style="font-family: {{$subevent->title_font}}; font-size: {{$subevent->title_size+5}}vmin; color: {{$subevent->title_color}};">
+            Welcome
+          </h1>
+
+          <h1 style="font-family: {{$subevent->title_font}}; font-size: {{$subevent->title_size-10}}vmin; color: {{$subevent->title_color}};">
+            {{ucwords($guest->firstname) . ' ' . ucwords($guest->lastname)}}
+          </h1>
+          
       </div>  
     </div>
 
-    <form method="post" id="form" action="/event/entrance/log">
-      @csrf()
-      <input type="text" id="idcard" name="idcard" style="display: none;">
-      
-    </form>
-
-    <form method="post" id="exit" action="/event/exit">
+    <form method="post" id="exit" action="/subevent/exit/{{$subevent->id}}">
       @csrf()
     </form>
     {{-- <button id="testBtn">Test</button> --}}
@@ -73,25 +72,40 @@
     @include('inc.flashy')
     
     <script type="text/javascript">
-      $(function() {
-        window.history.pushState(null, "", window.location.href);        
-        window.onpopstate = function() {
-            window.history.pushState(null, "", window.location.href);
-        };
-        
-        $(document).keypress(function(e){
-          var id = $('#idcard').val();
-          $('#idcard').val(id += e.key);
-          if(e.which == 13){
-            $('#form').submit();  
-          }
+        jQuery(document).ready(function() {
+            window.history.pushState(null, "", window.location.href);        
+            window.onpopstate = function() {
+                window.history.pushState(null, "", window.location.href);
+            };
+            setTimeout(function() {
+                 document.location.href = '/subevent/entrance/{{$subevent->id}}';
+            }, 3000);
         });
         $(document).keyup(function(e) {
             if (e.keyCode == 27) {
               $('#exit').submit();
             }
         });
-      });
+
+        function start_tts(){
+            checkCompatibilty();
+            speak();
+        }
+
+        function checkCompatibilty () {
+            if(!('speechSynthesis' in window)){
+                alert('Your browser is not supported. Use latest version of google chrome for christ sake.');
+            }
+        };
+        
+        function speak () {
+            var msg = new SpeechSynthesisUtterance();
+            msg.volume = 1;
+            msg.rate = 0.8;
+            msg.Pitch = 1.5;
+            msg.text = "{{'Welcome ' . $guest->firstname . ' ' . $guest->lastname}}";
+            window.speechSynthesis.speak(msg);
+        };
     </script>
 
   </body>

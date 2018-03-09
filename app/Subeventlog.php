@@ -12,4 +12,9 @@ class Subeventlog extends Model
     {
     	return $this->belongsTo(Guest::class);
     }
+
+    public function subevent()
+    {
+    	return $this->belongsTo(Subevent::class);
+    }
 }

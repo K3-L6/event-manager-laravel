@@ -117,12 +117,11 @@ class AdminController extends Controller
                 'middlename' => 'max:50',
                 'firstname' => 'required|max:50',
 
-                'email' => 'required|max:50',
-                'password' => 'required|min:12|max:50|confirmed',
+                'email' => 'required|max:50|unique:users',
+                'password' => 'required|min:6|max:50|confirmed',
 
                 'role' => 'required',
 
-                'img' => 'required',
             ],
             [
                 'lastname.required' => 'Last name is required',
@@ -135,25 +134,31 @@ class AdminController extends Controller
 
                 'email.required' => 'Email is required',
                 'email.max' => 'Email must not be greater than 50',
+                'email.unique' => 'Email is already in use',
 
                 'password.required' => 'Password is required',
-                'password.min' => 'Password must not be less than 12',
+                'password.min' => 'Password must not be less than 6',
                 'password.max' => 'Password must not be greater than 50',
                 'password.confirmed' => 'Password does not match',
 
                 'role.required' => 'Role is required',
 
-                'img.required' => 'Avatar is required',
             ]
         );
 
 
         $user = new User;
 
-        $img = $request->file('img');
-        $filename = time() . '_' . $img->getClientOriginalName();
-        Image::make($img)->save( public_path('/img/user/' . $filename) );
-        $user->avatar = $filename;
+        if($request->hasFile('img'))
+        {
+            $img = $request->file('img');
+            $filename = time() . '_' . $img->getClientOriginalName();
+            Image::make($img)->save( public_path('/img/user/' . $filename) );
+            $user->avatar = $filename;    
+        }else{
+            $user->avatar = 'noimg.jpg';
+        }
+        
         
         $user->lastname = $request->lastname;
         $user->middlename = $request->middlename;
@@ -312,15 +317,107 @@ class AdminController extends Controller
         $subevent = Subevent::find($id);
         return view('report_alltypeguestlogs_subevent')->withSubevent($subevent);
     }
+
+    public function report_subevent_alllogs_print($id)
+    {
+        $subevent = Subevent::find($id);
+
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'printed all type guest logs report from ' . $subevent->title . ' subevevent';
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        Flashy::success('Successfully Printed All Type Guest Logs Report From ' . $subevent->title . ' Subevent', '#');
+        return redirect()->back();
+    }
+
+    public function report_subevent_alllogs_excel($id)
+    {
+        $subevent = Subevent::find($id);
+
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'exported to excel all type guest logs report from ' . $subevent->title . ' subevevent';
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        Flashy::success('Successfully Exported To Excel All Type Guest Logs Report From ' . $subevent->title . ' Subevent', '#');
+        return redirect()->back();
+    }
+
     public function report_subevent_prereglogs($id)
     {
         $subevent = Subevent::find($id);
         return view('report_preregguestlogs_subevent')->withSubevent($subevent);
     }
+
+    public function report_subevent_prereglogs_print($id)
+    {
+        $subevent = Subevent::find($id);
+
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'printed pre registered guest logs report from ' . $subevent->title . ' subevevent';
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        Flashy::success('Successfully Printed Pre Registered Guest Logs Report From ' . $subevent->title . ' Subevent', '#');
+        return redirect()->back();
+    }
+
+    public function report_subevent_prereglogs_excel($id)
+    {
+        $subevent = Subevent::find($id);
+
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'exported to excel pre registered guest logs report from ' . $subevent->title . ' subevevent';
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        Flashy::success('Successfully Exported To Excel Pre Registered Guest Logs Report From ' . $subevent->title . ' Subevent', '#');
+        return redirect()->back();
+    }
+
     public function report_subevent_walkinlogs($id)
     {
         $subevent = Subevent::find($id);
         return view('report_walkinguestlogs_subevent')->withSubevent($subevent);
+    }
+
+    public function report_subevent_walkinlogs_print($id)
+    {
+        $subevent = Subevent::find($id);
+
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'printed walk in guest logs report from ' . $subevent->title . ' subevevent';
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        Flashy::success('Successfully Printed Walk In Guest Logs Report From ' . $subevent->title . ' Subevent', '#');
+        return redirect()->back();
+    }
+
+    public function report_subevent_walkinlogs_excel($id)
+    {
+        $subevent = Subevent::find($id);
+
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'exported to excel walk in guest logs report from ' . $subevent->title . ' subevevent';
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        Flashy::success('Successfully Exported To Excel Walk In Guest Logs Report From ' . $subevent->title . ' Subevent', '#');
+        return redirect()->back();
     }
 
 
@@ -967,12 +1064,14 @@ class AdminController extends Controller
     public function guest_print($id)
     {
        $guest = Guest::find($id);
+       $event = Event::first();
        $papersize = array(0, 0, 360, 360);
        $pdf = PDF::loadView('pdf.badge', array(
         'name' => $guest->firstname . ' ' . $guest->middlename . ' ' . $guest->lastname,
         'companyname' => $guest->companyname,
         'designation' => $guest->designation,
-        'qrcode' => $guest->qrcode
+        'qrcode' => $guest->qrcode,
+        'eventname' => $event->title
        ));
 
        $user = User::find(Auth::user()->id);
@@ -1441,7 +1540,7 @@ class AdminController extends Controller
                 'title' => 'required|max:150',
                 'description' => 'max:500',
                 'exhibitor' => 'required',
-                'img' => 'required|image',
+                'img' => 'image',
 
             ],
             [
@@ -1452,7 +1551,6 @@ class AdminController extends Controller
 
                 'exhibitor.required' => 'Exhibitor is required',
 
-                'img.required' => 'Background is required',
                 'img.image' => 'Background must be an image',
             ]
         );
@@ -1460,10 +1558,16 @@ class AdminController extends Controller
         $event = Event::where('status', 1)->first();
         $subevent = new Subevent;
         
-        $background = $request->file('img');
-        $filename = time() . '_' . $background->getClientOriginalName();
-        Image::make($background)->save( public_path('/img/subevent/' . $filename) );
-        $subevent->background = $filename;
+        if($request->hasFile('img'))
+        {
+            $background = $request->file('img');
+            $filename = time() . '_' . $background->getClientOriginalName();
+            Image::make($background)->save( public_path('/img/subevent/' . $filename) );
+            $subevent->background = $filename;    
+        }else{
+            $subevent->background = 'sample.jpg';
+        }
+        
         
         $subevent->title = $request->title;
         $subevent->title_font = str_replace('+', ' ', $request->title_font);

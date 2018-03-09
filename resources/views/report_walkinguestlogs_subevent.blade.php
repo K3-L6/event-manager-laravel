@@ -21,10 +21,12 @@
         <option value="/admin/report/subevent/walkin/{{$subevent->id}}" selected>Walk In Guest</option>
       </select>
     </div>
-    <form action="" method="get">
+    <form action="/admin/report/subevent/walkin/print/{{$subevent->id}}" id="printForm" method="post">
+      @csrf()
       <button id="print" class="btn btn-primary float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Print</button>
     </form>
-    <form action="" method="get">
+    <form action="/admin/report/subevent/walkin/excel/{{$subevent->id}}" id="excelForm" method="post">
+      @csrf()
       <button id="excel" class="btn btn-primary float-right" style="width: 150px; margin-left: 1%; margin-right: 1%;">Excel</button>
     </form>
   </div>
@@ -110,10 +112,18 @@
              initComplete: function(settings, json) {$('.loader').fadeOut();}
          });
          $(document).on('click', '#print', function(){
-            $(".buttons-print")[0].click();
+            $('#printForm').submit(function(){
+              if(!table.data().any()){return false;}
+              $(".buttons-print")[0].click();
+              return true;
+            });
          });
          $(document).on('click', '#excel', function(){
-            $(".buttons-excel")[0].click();
+            $('#excelForm').submit(function(){
+              if(!table.data().any()){return false;}
+              $(".buttons-excel")[0].click();
+              return true;
+            });
          });
          $('#searchInput').on( 'keyup', function () {
              table.search( this.value ).draw();

@@ -4,44 +4,56 @@
 	<title></title>
 	<style type="text/css">
 		* { margin: 0; padding: 0; }
-		@page { size: 210mm 74.25mm; }
+		@page { size: 101.6mm 76.2mm; }
 		body{
 			background-color: #34495E;
 			color: white;
 			font-family: monospace;
 		}
+		p{
+			font-style: italic;
+			font-size: 8px;
+		}
 		#qrimg img{
 			position: absolute;
-			width: 70mm;
-			height: 74.25mm;
+			width: 101.6mm;
+			height: 45mm;
 			z-index: -1;
 		}
 		#infowrapper{
 			position: relative;
 			text-align: center;
-			width: 130mm;
-			left: 75mm;
-			top: 15mm;
+			width: 101.6mm;
+			left: 0mm;
+			top: 45mm;
 		}
 		#name h1{
-			font-size: 25px;
+			padding-top: 8%;
+			font-size: 16px;
 		}
 		#name p{
-			margin-bottom: 10%;
+			margin-bottom: 5%;
 		}
 
 		#companyname h1{
-			font-size: 20px;
+			font-size: 12px;
 		}
 		#companyname p{
-			margin-bottom: 10%;
+			margin-bottom: 5%;
 		}
 
 		#designation h1{
-			font-size: 15px;
+			font-size: 12px;
 		}
 		#designation p{
-			margin-bottom: 10%;
+			margin-bottom: 3%;
+		}
+		#eventname h1{
+			font-style: italic;
+			text-align: right;
+			margin-right: 5%;
+			font-family: Century Gothic Ms;
+			font-size: 8px;
 		}
 	</style>
 </head>
@@ -64,6 +76,9 @@
 		<div id="designation">
 			<h1>{{ucwords($designation)}}</h1>
 			<p>(Designation)</p>
+		</div>
+		<div id="eventname">
+			<h1>{{ucwords($eventname)}}</h1>
 		</div>		
 	</div>
 </body>

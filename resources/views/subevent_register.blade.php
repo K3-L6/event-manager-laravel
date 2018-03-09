@@ -38,7 +38,7 @@
                 <h1 style="font-family: Aclonica; font-size: 20vmin; color: white;">Sample Subevent</h1>
                 <p style="font-family: Aclonica; font-size: 5vmin; color: white;">Subevent Description</p>
               </div>    
-              <img id="img_preview" src="{{ asset('img/event/noimg.jpg') }}">
+              <img id="img_preview" src="{{ asset('img/event/sample.jpg') }}">
               <input type="file" name="img" id="img_upload">
             </span>
             @if ($errors->has('img'))

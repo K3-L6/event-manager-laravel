@@ -18,6 +18,7 @@
     <!-- Font Awesome CDN-->
     <!-- you can replace it by local Font Awesome-->
     <script src="https://use.fontawesome.com/99347ac47f.js"></script>
+
     <!-- Font Icons CSS-->
     <link rel="stylesheet" href="https://file.myfontastic.com/da58YPMQ7U5HY8Rb6UxkNf/icons.css">
     <!-- Tweaks for older IEs--><!--[if lt IE 9]>
@@ -35,18 +36,18 @@
               <div class="info d-flex align-items-center">
                 <div class="content">
                   <div class="logo">
-                  @if (count(Auth::user()->role->access) == 1)
-                    <form id="logout" action="{{ route('logout') }}" method="POST">
-                      {{ csrf_field() }}
-                      <a href="javascript:{}" class="main-link" onclick="document.getElementById('logout').submit(); return false;">
-                        <i class="fa fa-chevron-left" style="color: white;"></i>
+                    @if (count(Auth::user()->role->access) == 1)
+                      <form id="logout" action="{{ route('logout') }}" method="POST">
+                        {{ csrf_field() }}
+                        <a href="javascript:{}" class="main-link" onclick="document.getElementById('logout').submit(); return false;">
+                          <i class="fa fa-chevron-left" style="color: white;"></i>
+                        </a>
+                      </form>  
+                    @else
+                      <a href="/home" class="main-link">
+                          <i class="fa fa-chevron-left" style="color: white;"></i>
                       </a>
-                    </form>  
-                  @else
-                    <a href="/home" class="main-link">
-                        <i class="fa fa-chevron-left" style="color: white;"></i>
-                    </a>
-                  @endif
+                    @endif
                   </div>
                 </div>
               </div>
@@ -71,11 +72,23 @@
                           <td>{{$subevent->title}}</td>
                           <td>{{$subevent->description}}</td>
                           <td>
-                            <form method="get" action="/subevent/entrance/{{$subevent->id}}">
-                              <button type="submit" class="btn btn-primary">Start</button>
-                            </form>
+                            <div class="btn-group" role="group">
+
+                              <button class="btn btn-sm btn-success btn-block" data-toggle="modal" data-target="#myModal{{$subevent->id}}">
+                                <i class="fa fa-plus"></i>
+                              </button>
+
+                              <form method="get" action="/exhibitor/guestlogslist/{{$subevent->id}}">
+                                <button type="submit" class="btn btn-sm btn-info btn-block"><i class="fa fa-check"></i></button>
+                              </form>
+
+                              <form method="get" action="/subevent/entrance/{{$subevent->id}}">
+                                <button type="submit" class="btn btn-sm btn-primary btn-block"><i class="fa fa-chevron-right"></i></button>
+                              </form>
+                            </div>
                           </td>
                         </tr>
+
                         @endforeach
                       </tbody>
                     </table>
@@ -87,6 +100,36 @@
         </div>
       </div>
       
+      @foreach ($subevents as $x)
+        <div class="modal fade" id="myModal{{$x->id}}">
+          <div class="modal-dialog">
+            <div class="modal-content">
+
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">MANUAL GUEST LOG FOR {{strtoupper($x->title)}}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+
+              <!-- Modal body -->
+              <div class="modal-body">
+                <div class="form-group row">
+                  <div class="col-sm-12">
+                    <form action="/exhibitor/manuallog/{{$x->id}}" method="post">
+                      @csrf()
+                      <input type="text" class="form-control" value="{{old('idcard')}}" style="font-size: 50px; text-align: center;" name="idcard">
+                      <button type="submit" class="btn btn-primary btn-block" style="margin-top: 1%;">SAVE</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      @endforeach
+      
+      
     </div>
     <!-- Javascript files-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -95,6 +138,7 @@
     <script src="{{ asset('js/jquery.cookie.js') }}"> </script>
     <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('js/front.js') }}"></script>
+
 
   </body>
 </html>

@@ -46,15 +46,28 @@ class SubeventController extends Controller
     {
         try{
             $guest = Guest::where('idcard', str_replace('Enter', '', $request->idcard))->first();
-            
-            $subeventlog = new Subeventlog;
-            $subeventlog->guest_id = $guest->id;
-            $subeventlog->subevent_id = $request->subeventid;
-            $subeventlog->time = Carbon::now();
-            $subeventlog->save(); 
 
-            Flashy::info('welcome ' . ucwords($guest->firstname) . ' ' . ucwords($guest->middlename) . ' ' . ucwords($guest->lastname), '#');
-            return redirect()->back();
+            $existingsubeventlogs = Subeventlog::where('subevent_id', $request->subeventid)->get();
+            $exist = false;
+            foreach ($existingsubeventlogs as $log) {
+                if ($log->guest_id == $guest->id) {
+                    $exist = true;
+                }
+            }
+            if (!$exist) {
+                $subeventlog = new Subeventlog;
+                $subeventlog->guest_id = $guest->id;
+                $subeventlog->subevent_id = $request->subeventid;
+                $subeventlog->time = Carbon::now();
+                $subeventlog->save(); 
+
+                $subevent = Subevent::find($request->subeventid);
+
+                return view('subevent_voice')->withGuest($guest)->withSubevent($subevent);
+            }else{
+                Flashy::error('Guest Is Already Logged', '#');
+                return redirect()->back();
+            }
         }
         catch(\Exception $e){
             Flashy::error('User Not Found', '#');

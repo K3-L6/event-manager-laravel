@@ -31,6 +31,8 @@ class EventController extends Controller
 
     public function exit()
     {
+        $event = Event::first();
+        
         $user = User::find(Auth::user()->id);
         $audit = new Audit;
         $audit->description = 'ended attendance logging for the ' . $event->title . ' event';
@@ -56,25 +58,22 @@ class EventController extends Controller
                 $eventlog = new Eventlog;
                 $eventlog->guest_id = $guest->id;
                 $eventlog->time = Carbon::now();
-                $eventlog->save();    
+                $eventlog->save();
+
+                $event = Event::first();
+
+                return view('event_voice')->withGuest($guest)->withEvent($event);
+            }else{
+                Flashy::error('Guest Is Already Logged', '#');
+                return redirect()->back();
             }
-
-            $eventlog = Eventlog::where('guest_id', $guest->id)->first();
-            $eventlog->guest_id = $guest->id;
-            $eventlog->time = Carbon::now();
-            $eventlog->save();
-
-
-            Flashy::info('welcome ' . ucwords($guest->firstname) . ' ' . ucwords($guest->middlename) . ' ' . ucwords($guest->lastname), '#');
-            return redirect()->back();
         }
         catch(\Exception $e){
-            Flashy::error('User Not Found');
+            Flashy::error('Guest ID Not Found');
             return redirect()->back();
         }
         
-        
-        
     }
+
 
 }

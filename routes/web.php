@@ -86,11 +86,19 @@ Route::get('/admin/report/subevent', 'AdminController@report_subevent')->name('a
 Route::get('/admin/report/subeventapi', 'AdminController@report_subevent_api')->name('admin.report.subevent.api');
 
 Route::get('/admin/report/subevent/all/{id}', 'AdminController@report_subevent_alllogs')->name('admin.report.subevent.alllogs');
-Route::get('/admin/report/subevent/prereg/{id}', 'AdminController@report_subevent_prereglogs')->name('admin.report.subevent.prereglogs');
-Route::get('/admin/report/subevent/walkin/{id}', 'AdminController@report_subevent_walkinlogs')->name('admin.report.subevent.walkinlogs');
-
+Route::post('/admin/report/subevent/all/print/{id}', 'AdminController@report_subevent_alllogs_print')->name('admin.report.subevent.alllogsprint');
+Route::post('/admin/report/subevent/all/excel/{id}', 'AdminController@report_subevent_alllogs_excel')->name('admin.report.subevent.alllogsexcel');
 Route::get('/admin/report/subevent/allapi/{id}', 'AdminController@report_subevent_alllogs_api')->name('admin.report.subevent.alllogsapi');
+
+Route::get('/admin/report/subevent/prereg/{id}', 'AdminController@report_subevent_prereglogs')->name('admin.report.subevent.prereglogs');
+Route::post('/admin/report/subevent/prereg/print/{id}', 'AdminController@report_subevent_prereglogs_print')->name('admin.report.subevent.prereglogsprint');
+Route::post('/admin/report/subevent/prereg/excel/{id}', 'AdminController@report_subevent_prereglogs_excel')->name('admin.report.subevent.prereglogsexcel');
 Route::get('/admin/report/subevent/preregapi/{id}', 'AdminController@report_subevent_prereglogs_api')->name('admin.report.subevent.prereglogsapi');
+
+
+Route::get('/admin/report/subevent/walkin/{id}', 'AdminController@report_subevent_walkinlogs')->name('admin.report.subevent.walkinlogs');
+Route::post('/admin/report/subevent/walkin/print/{id}', 'AdminController@report_subevent_walkinlogs_print')->name('admin.report.subevent.walkinlogsprint');
+Route::post('/admin/report/subevent/walkin/excel/{id}', 'AdminController@report_subevent_walkinlogs_excel')->name('admin.report.subevent.walkinlogsexcel');
 Route::get('/admin/report/subevent/walkinapi/{id}', 'AdminController@report_subevent_walkinlogs_api')->name('admin.report.subevent.walkinlogsapi');
 
 Route::get('/admin/report/subeventlist', 'AdminController@report_subeventlist')->name('admin.report.subeventlist');
@@ -114,6 +122,8 @@ Route::delete('/admin/user/delete/{id}', 'AdminController@user_delete')->name('a
 
 
 Route::get('/exhibitor', 'ExhibitorController@index')->name('exhibitor');
+Route::get('/exhibitor/guestlogslist/{id}', 'ExhibitorController@guestlogslist')->name('exhibitor.logs');
+Route::post('/exhibitor/manuallog/{id}', 'ExhibitorController@manuallog')->name('exhibitor.logs.manual');
 
 Route::get('/registrator', 'RegistratorController@index')->name('registrator');
 Route::get('/registrator/walkin/register', 'RegistratorController@walkin')->name('registrator.walkin');
@@ -125,6 +135,7 @@ Route::put('/registrator/prereg/update/{id}', 'RegistratorController@prereg_upda
 
 Route::get('/event/entrance', 'EventController@entrance');
 Route::post('/event/entrance/log', 'EventController@log');
+Route::get('/event/entrance/voice', 'EventController@voice');
 Route::post('/event/exit', 'EventController@exit');
 
 Route::get('/subevent/entrance/{id}', 'SubeventController@entrance');

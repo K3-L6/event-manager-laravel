@@ -10,4 +10,9 @@ class Subevent extends Model
     {
     	return $this->belongsTo(User::class);
     }
+
+    public function subeventlog()
+    {
+    	return $this->hasMany(Subeventlog::class);
+    }
 }

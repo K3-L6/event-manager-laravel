@@ -123,6 +123,7 @@
                {data: 'role', name: 'role'},
                {data: 'description', name: 'description'},
                {data: 'time', name: 'time'},
+               
              ],
              initComplete: function(settings, json) {$('.loader').fadeOut();}
          });
