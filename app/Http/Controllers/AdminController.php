@@ -14,6 +14,7 @@ use QrCode;
 use Excel;
 
 use App\User;
+use App\Access;
 use App\Event;
 use App\Role;
 use App\Subevent;
@@ -24,6 +25,140 @@ use App\Subeventlog;
 
 class AdminController extends Controller
 {
+
+    public function roles_show()
+    {
+        $administratorcount = count(User::whereHas('role', function($role){
+            $role->whereHas('access', function($access){
+                $access->where('module', 'administrator');
+            });
+        })->get());
+        $exhibitorcount = count(User::whereHas('role', function($role){
+            $role->whereHas('access', function($access){
+                $access->where('module', 'exhibitor');
+            });
+        })->get());
+        $registratorcount = count(User::whereHas('role', function($role){
+            $role->whereHas('access', function($access){
+                $access->where('module', 'registrator');
+            });
+        })->get());
+        return view('roles')
+        ->withAdministratorcount($administratorcount)
+        ->withExhibitorcount($exhibitorcount)
+        ->withRegistratorcount($registratorcount);
+    }
+
+    public function roles_api()
+    {
+        $role = Role::with('access')->get();
+
+        return Datatables::of($role)
+        ->editColumn('name', function($role){
+            return ucwords($role->name);
+        })
+        ->editColumn('description', function($role){
+            return ucwords($role->description);
+        })
+        ->editColumn('modules', function($role){
+            $x = '';
+            foreach ($role->access as $access) {
+                $x .= ucwords($access->module) . ', ';
+            }
+            return substr($x, 0, -2);
+        })
+        ->addColumn('action', function($role){
+            return '
+                <div class="btn-group" role="group">
+                    
+                    <form action="/admin/usersetting/roles/delete/' . $role->id . '" method="post">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="'. csrf_token() . '">
+                        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                    </form>
+
+                </div>
+            ';
+        })
+        ->rawColumns(['action'])
+        ->make(true);
+    }
+
+    public function roles_register(Request $request)
+    {
+        $this->validate($request,
+            [
+                'name' => 'required|max:20',
+                'description' => 'required|max:150',
+            ],
+            [
+                'name.required' => 'Role name is required',
+                'name.max' => 'Role name must not be greater than 20',
+
+                'description.required' => 'Description is required',
+                'description.max' => 'Description must not be greater than 150',
+            ]
+        );
+
+        $role = new Role;
+        $role->name = $request->name;
+        $role->description = $request->description;
+        $role->save();
+
+        $theresmodule = false;
+        if ($request->administrator == 1) {
+            $access = new Access;
+            $access->module = 'administrator';
+            $access->role_id = $role->id;
+            $access->save();
+            $theresmodule = true;
+        }
+        if ($request->exhibitor == 1) {
+            $access = new Access;
+            $access->module = 'exhibitor';
+            $access->role_id = $role->id;
+            $access->save();
+            $theresmodule = true;
+        }
+        if ($request->registrator == 1) {
+            $access = new Access;
+            $access->module = 'registrator';
+            $access->role_id = $role->id;
+            $access->save();
+            $theresmodule = true;
+        }
+        if (!$theresmodule) {
+            $role->delete();
+            Flashy::error('Required Atleast One Module', '#');
+            return redirect()->back();
+        }
+
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'created a new role named ' . $role->name;
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();;
+        $audit->save();
+
+        Flashy::success('Successfully Created Role', '#');
+        return redirect()->back();
+    }
+
+    public function roles_delete($id)
+    {
+        $role = Role::find($id);
+        $role->delete();
+
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'delete a role named ' . $role->name;
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();;
+        $audit->save();
+
+        Flashy::success('Successfully Deleted Role', '#');
+        return redirect()->back();
+    }
 
     public function guest_import(Request $request)
     {

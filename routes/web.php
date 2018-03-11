@@ -112,6 +112,10 @@ Route::post('/admin/report/audit/excel', 'AdminController@report_audit_excel')->
 Route::get('/admin/reoprt/auditapi', 'AdminController@report_auditapi')->name('admin.report.auditapi');
 
 Route::get('/admin/usersetting', 'AdminController@usersetting')->name('admin.usersetting');
+Route::get('/admin/usersetting/roles', 'AdminController@roles_show')->name('admin.roles');
+Route::delete('/admin/usersetting/roles/delete/{id}', 'AdminController@roles_delete')->name('admin.roles.delete');
+Route::get('/admin/usersetting/rolesapi', 'AdminController@roles_api')->name('admin.roles.api');
+Route::post('/admin/usersetting/roles', 'AdminController@roles_register')->name('admin.roles.register');
 Route::get('/admin/usersettingapi', 'AdminController@usersetting_api')->name('admin.usersetting.api');
 Route::get('/admin/user/register', 'AdminController@user_register_show')->name('admin.user.register');
 Route::post('/admin/user/register', 'AdminController@user_register')->name('admin.user.register');

@@ -13,7 +13,7 @@
   <div class="container-fluid">
     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
     <li class="breadcrumb-item active">Users</li>
-    <form action="/admin/subevent/register" method="get">
+    <form action="/admin/usersetting/roles" method="get">
       <button class="btn btn-primary float-right" style="width: 300px; margin-left: 1%; margin-right: 1%;">CREATE ROLE</button>
     </form>
     <form action="/admin/user/register" method="get">
