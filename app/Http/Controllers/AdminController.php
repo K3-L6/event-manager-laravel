@@ -102,6 +102,82 @@ class AdminController extends Controller
         return redirect()->to('/admin/usersetting');
     }
 
+    public function user_update_show($id)
+    {
+        $role = Role::all();
+        $user = User::find($id);
+        return view('user_update')->withUser($user)->withRole($role);
+    }
+
+    public function user_update($id, Request $request)
+    {
+        $this->validate($request,
+            [
+                'lastname' => 'required|max:50',
+                'middlename' => 'max:50',
+                'firstname' => 'required|max:50',
+
+                'email' => 'required|max:50|unique:users, "email", ' . $id,
+                'password' => 'sometimes|nullable|min:6|max:50|confirmed',
+
+                'role' => 'required',
+
+            ],
+            [
+                'lastname.required' => 'Last name is required',
+                'lastname.max' => 'Last name must not be greater than 50',
+
+                'middlename.max' => 'Middle name must not be greater than 50',
+
+                'firstname.required' => 'First name is required',
+                'firstname.max' => 'First name must not be greater than 50',
+
+                'email.required' => 'Email is required',
+                'email.max' => 'Email must not be greater than 50',
+                'email.unique' => 'Email is already in use',
+
+                'password.min' => 'Password must not be less than 6',
+                'password.max' => 'Password must not be greater than 50',
+                'password.confirmed' => 'Password does not match',
+
+                'role.required' => 'Role is required',
+
+            ]
+        );
+
+        $user = User::find($id);
+        
+        if($request->hasFile('img'))
+        {
+            $img = $request->file('img');
+            $filename = time() . '_' . $img->getClientOriginalName();
+            Image::make($img)->save( public_path('/img/user/' . $filename) );
+            $user->avatar = $filename;    
+        }
+
+        if($request->has('password'))
+        {
+            $user->password = bcrypt($request->password);
+        }
+
+        $user->lastname = $request->lastname;
+        $user->middlename = $request->middlename;
+        $user->firstname = $request->firstname;
+        $user->email = $request->email;
+        $user->role_id = $request->role;
+        $user->save();
+
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'updated user information for ' . $request->lastname . ' ' . $request->middlename . ' ' . $request->lastname;
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();;
+        $audit->save();
+
+        Flashy::success('Successfully Upadated a User', '#');
+        return redirect()->to('/admin/usersetting');
+    }
+
     public function user_register_show()
     {
         $role = Role::all();
@@ -202,7 +278,7 @@ class AdminController extends Controller
             return '
                 <div class="btn-group" role="group">
                     
-                    <form action="/admin/guest/' . $user->id . '" method="get">
+                    <form action="/admin/user/update/' . $user->id . '" method="get">
                         <button type="submit" class="btn btn-info"><i class="fa fa-edit"></i></button>  
                     </form>
                     <form action="/admin/user/delete/' . $user->id . '" method="post">
@@ -983,7 +1059,7 @@ class AdminController extends Controller
             return ucwords($audit->description);
         })
         ->editColumn('time', function($audit){
-            return Carbon::parse($audit->time)->diffForHumans();
+            return Carbon::parse($audit->time)->format('F d, Y g:i A');
         })
         ->rawColumns(['avatar'])
         ->make(true);
@@ -1147,8 +1223,6 @@ class AdminController extends Controller
         
         // RFID Only in QrCode
         QrCode::format('png')
-        ->backgroundColor(34, 49, 63)
-        ->color(228, 241, 254)
         ->size(300)->errorCorrection('H')
         ->generate($request->idcard, '../public/img/guest/'. $qrimagename);
         
@@ -1249,8 +1323,6 @@ class AdminController extends Controller
         
         // RFID Only in QrCode
         QrCode::format('png')
-        ->backgroundColor(34, 49, 63)
-        ->color(228, 241, 254)
         ->size(300)->errorCorrection('H')
         ->generate($request->idcard, '../public/img/guest/'. $qrimagename);
         

@@ -6,8 +6,8 @@
 		* { margin: 0; padding: 0; }
 		@page { size: 101.6mm 76.2mm; }
 		body{
-			background-color: #34495E;
-			color: white;
+			/*background-color: #34495E;*/
+			/*color: white;*/
 			font-family: monospace;
 		}
 		p{
@@ -15,8 +15,9 @@
 			font-size: 8px;
 		}
 		#qrimg img{
+			left: 12.5mm;
 			position: absolute;
-			width: 101.6mm;
+			width: 76.6mm;
 			height: 45mm;
 			z-index: -1;
 		}

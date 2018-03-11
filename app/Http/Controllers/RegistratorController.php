@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Guest;
 use App\Audit;
 use App\User;
+use App\Event;
 use Flashy;
 use PDF;
 use QrCode;
@@ -45,7 +46,7 @@ class RegistratorController extends Controller
         );
 
         $qrimagename = time() . '_' . $request->idcard . '.png';
-        QrCode::format('png')->backgroundColor(34, 49, 63)->color(228, 241, 254)->size(300)->errorCorrection('H')->generate($request->idcard, '../public/img/guest/'. $qrimagename);
+        QrCode::format('png')->size(300)->errorCorrection('H')->generate($request->idcard, '../public/img/guest/'. $qrimagename);
         
         $user = User::find(Auth::user()->id);
         $data = Guest::find($id);
@@ -53,11 +54,13 @@ class RegistratorController extends Controller
         $data->qrcode = $qrimagename;
         $data->save();
 
+        $event = Event::first();
         $pdf = PDF::loadView('pdf.badge', array(
         'name' => $request->fname . ' ' . $request->mname . ' ' . $request->lname,
         'companyname' => $request->cname,
         'designation' => $request->designation,
-        'qrcode' => $qrimagename
+        'qrcode' => $qrimagename,
+        'eventname' => $event->title
         ));
 
         $audit = new Audit;
@@ -127,7 +130,7 @@ class RegistratorController extends Controller
     	    $user = User::find(Auth::user()->id);
     		$guest = new Guest;
     	    $qrimagename = time() . '_' . $request->idcard . '.png';
-    	    QrCode::format('png')->backgroundColor(34, 49, 63)->color(228, 241, 254)->size(300)->errorCorrection('H')->generate($request->idcard, '../public/img/guest/'. $qrimagename);
+    	    QrCode::format('png')->size(300)->errorCorrection('H')->generate($request->idcard, '../public/img/guest/'. $qrimagename);
     	    $papersize = array(0, 0, 360, 360);
     	    $guest->idcard = $request->idcard;
     		$guest->firstname = $request->fname;
@@ -143,11 +146,13 @@ class RegistratorController extends Controller
     		$guest->qrcode = $qrimagename;
     	    $guest->save(); 
     	   
+            $event = Event::first();
     	    $pdf = PDF::loadView('pdf.badge', array(
     	    'name' => $request->fname . ' ' . $request->mname . ' ' . $request->lname,
     	    'companyname' => $request->cname,
     	    'designation' => $request->designation,
-    	    'qrcode' => $qrimagename
+    	    'qrcode' => $qrimagename,
+            'eventname' => $event->title
     	    ));
 
     	    $audit = new Audit;

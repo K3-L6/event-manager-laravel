@@ -10,11 +10,7 @@
     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
     <li class="breadcrumb-item"><a href="/admin/subevent">Subevent</a></li>
     <li class="breadcrumb-item active">Detail</li>
-    <form action="/subevent/entrance/{{$subevent->id}}' . '" method="get">
-        <button type="submit" class="btn btn-primary float-right" style="width: 300px; margin-left: 1%; margin-right: 1%;">
-          START LOGGING
-        </button>  
-    </form>
+    
   </div>
 </ul>
 

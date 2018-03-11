@@ -9,7 +9,7 @@
   <div class="container-fluid">
     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
     <li class="breadcrumb-item"><a href="/admin/usersetting">Users</a></li>
-    <li class="breadcrumb-item active">Registration</li>
+    <li class="breadcrumb-item active">Update</li>
   </div>
 </ul>
 
@@ -17,8 +17,9 @@
 		
 		<div class="col-md-12" style="width: 100%;">
 
-      <form action="/admin/user/register" method="post" enctype="multipart/form-data">  
+      <form action="/admin/user/update/{{$user->id}}" method="post" enctype="multipart/form-data">  
       @csrf()
+      @method('put')
         
         <div class="card">
           
@@ -35,9 +36,9 @@
             <div class="row">
               
               <div class="col-md-2">
-                <img src="{{ asset('/img/user/noimg.jpg') }}" id="avatar_preview" style="max-height: 120px; max-width: 100%; min-height: 120px; min-width: 100%;">
+                <img src="{{ asset('/img/user/' . $user->avatar) }}" id="avatar_preview" style="max-height: 120px; max-width: 100%; min-height: 120px; min-width: 100%;">
                 <label class="btn btn-primary btn-sm btn-file" style="width: 120px;">
-                    Browse <input type="file" id="avatar_upload" name="img" style="display: none;">
+                    Browse <input type="file" name="img" id="avatar_upload" style="display: none;">
                 </label>
                 @if ($errors->has('img'))
                     <span class="help-block" style="font-size: 12px; text-align: center;">
@@ -51,7 +52,7 @@
                 <div class="form-group row">
                   <label class="col-sm-3 form-control-label" name="lastname">Last Name</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" value="{{old('lastname')}}" name="lastname">
+                    <input type="text" class="form-control" value="{{old('lastname', ucwords($user->lastname))}}" name="lastname">
                     @if ($errors->has('lastname'))
                         <span class="help-block">
                             <strong>{{ $errors->first('lastname') }}</strong>
@@ -63,7 +64,7 @@
                 <div class="form-group row">
                   <label class="col-sm-3 form-control-label" name="middlename">Middle Name</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" value="{{old('middlename')}}" name="middlename">
+                    <input type="text" class="form-control" value="{{old('middlename', ucwords($user->middlename))}}" name="middlename">
                     @if ($errors->has('middlename'))
                         <span class="help-block">
                             <strong>{{ $errors->first('middlename') }}</strong>
@@ -75,7 +76,7 @@
                 <div class="form-group row">
                   <label class="col-sm-3 form-control-label" name="firstname">First Name</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" value="{{old('firstname')}}" name="firstname">
+                    <input type="text" class="form-control" value="{{old('firstname', ucwords($user->firstname))}}" name="firstname">
                     @if ($errors->has('firstname'))
                         <span class="help-block">
                             <strong>{{ $errors->first('firstname') }}</strong>
@@ -110,7 +111,7 @@
               <div class="form-group row">
                 <label class="col-sm-3 form-control-label" name="email">Email</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" value="{{old('email')}}" name="email">
+                  <input type="text" class="form-control" value="{{old('email', $user->email)}}" name="email">
                   @if ($errors->has('email'))
                       <span class="help-block">
                           <strong>{{ $errors->first('email') }}</strong>
@@ -160,8 +161,8 @@
 
             <div class="form-group row">
               <div class="col-sm-12">
-                <select class="form-control" value="{{old('role')}}" name="role" style="font-size: 50px; text-align: center; text-align-last: center; height: 80px;">
-                  <option selected disabled> Select User Role</option>
+                <select class="form-control" value="{{$user->role_id}}" name="role" style="font-size: 50px; text-align: center; text-align-last: center; height: 80px;">
+                  <option disabled> Select User Role</option>
                   @foreach ($role as $role)
                     <option value="{{$role->id}}">{{ucwords($role->name)}}</option>
                   @endforeach

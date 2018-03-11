@@ -115,6 +115,8 @@ Route::get('/admin/usersetting', 'AdminController@usersetting')->name('admin.use
 Route::get('/admin/usersettingapi', 'AdminController@usersetting_api')->name('admin.usersetting.api');
 Route::get('/admin/user/register', 'AdminController@user_register_show')->name('admin.user.register');
 Route::post('/admin/user/register', 'AdminController@user_register')->name('admin.user.register');
+Route::get('/admin/user/update/{id}', 'AdminController@user_update_show')->name('admin.user.update');
+Route::put('/admin/user/update/{id}', 'AdminController@user_update')->name('admin.user.update');
 Route::delete('/admin/user/delete/{id}', 'AdminController@user_delete')->name('admin.user.delete');
 
 
