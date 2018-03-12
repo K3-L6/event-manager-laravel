@@ -8,6 +8,8 @@ use Auth;
 use Flashy;
 
 use App\Subevent;
+use App\User;
+use App\Audit;
 use App\Subeventlog;
 use App\Guest;
 
@@ -19,6 +21,22 @@ class ExhibitorController extends Controller
     	//hot fix cant access object in a foreach twice so i pass it twice here
     	$subevents = Subevent::where('user_id', Auth::user()->id)->get();
     	return view('exhibitor')->withSubevent($subevent)->withSubevents($subevents);
+    }
+
+    public function guestlogslist_void($id)
+    {
+        $subeventlog = Subeventlog::find($id);
+        
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'void log of ' . $subeventlog->guest->firstname . ' ' . $subeventlog->guest->lastname . ' from ' . $subeventlog->subevent->title;
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        $subeventlog->delete();
+
+        return redirect()->back()->with('success', 'Successfully Voided Log');
     }
 
     public function guestlogslist(Request $request, $id)

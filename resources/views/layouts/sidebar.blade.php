@@ -18,7 +18,7 @@
       <ul id="dashvariants" class="collapse list-unstyled">
         <li><a href="/admin/report/alltypeguestlist">Guest List</a></li>
         <li><a href="/admin/report/subeventlist">Subevent List</a></li>
-        <li><a href="#">Users List</a></li>
+        {{-- <li><a href="#">Users List</a></li> --}}
         {{-- <li><a href="/admin/report/walkinguestlist">Walk-In Guest List</a></li> --}}
         {{-- <li><a href="/admin/report/preregguestlist">Pre-Reg Guest List</a></li> --}}
         <li><a href="/admin/report/alltypeguestlogs">Event Attendance</a></li>

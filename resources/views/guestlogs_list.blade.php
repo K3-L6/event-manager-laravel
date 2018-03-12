@@ -52,8 +52,9 @@
                       <thead>
                         <tr>
                           <th style="width: 40%">Name</th>
-                          <th style="width: 40%">Company</th>
+                          <th style="width: 30%">Company</th>
                           <th style="width: 20%">Designation</th>
+                          <th style="width: 10%">Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -64,6 +65,13 @@
                           </td>
                           <td>{{ucwords($subeventlog->guest->companyname)}}</td>
                           <td>{{ucwords($subeventlog->guest->designation)}}</td>
+                          <td>
+                            <form action="/exhibitor/guestlogslist/void/{{$subeventlog->id}}" method="post">
+                              @method('delete')
+                              @csrf()
+                              <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                            </form>
+                          </td>
                         </tr>
                         @endforeach
                       </tbody>

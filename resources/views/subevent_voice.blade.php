@@ -79,7 +79,7 @@
             };
             setTimeout(function() {
                  document.location.href = '/subevent/entrance/{{$subevent->id}}';
-            }, 3000);
+            }, 5000);
         });
         $(document).keyup(function(e) {
             if (e.keyCode == 27) {

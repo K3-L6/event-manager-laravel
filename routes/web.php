@@ -129,6 +129,7 @@ Route::delete('/admin/user/delete/{id}', 'AdminController@user_delete')->name('a
 
 Route::get('/exhibitor', 'ExhibitorController@index')->name('exhibitor');
 Route::get('/exhibitor/guestlogslist/{id}', 'ExhibitorController@guestlogslist')->name('exhibitor.logs');
+Route::delete('/exhibitor/guestlogslist/void/{id}', 'ExhibitorController@guestlogslist_void')->name('exhibitor.logs.void');
 Route::post('/exhibitor/manuallog/{id}', 'ExhibitorController@manuallog')->name('exhibitor.logs.manual');
 
 Route::get('/registrator', 'RegistratorController@index')->name('registrator');

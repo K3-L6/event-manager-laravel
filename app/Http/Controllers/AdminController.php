@@ -382,7 +382,7 @@ class AdminController extends Controller
 
         $user = User::find(Auth::user()->id);
         $audit = new Audit;
-        $audit->description = 'registered a new user named ' . $request->lastname . ' ' . $request->middlename . ' ' . $request->lastname;
+        $audit->description = 'registered a new user named ' . $request->firstname . ' ' . $request->middlename . ' ' . $request->lastname;
         $audit->user_id = $user->id;
         $audit->time = Carbon::now();;
         $audit->save();
