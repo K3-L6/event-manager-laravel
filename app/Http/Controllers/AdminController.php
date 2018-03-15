@@ -12,6 +12,8 @@ use Carbon\Carbon;
 use PDF;
 use QrCode;
 use Excel;
+use DB;
+use Session;
 
 use App\User;
 use App\Access;
@@ -25,6 +27,101 @@ use App\Subeventlog;
 
 class AdminController extends Controller
 {
+
+    public function show_setting()
+    {
+        $event = Event::first();
+        $status = $event->status;
+        // return $status;
+        return view('setting')->withStatus($status);
+    }
+
+    public function setting_submit(Request $request)
+    {
+        $event = Event::first();
+        $event->status = $request->status;
+        $event->save();
+
+        if ($request->EventReset == 1) {
+            $event = Event::first();
+            $event->title = 'Sample Event';
+            $event->title_font = 'Aclonica';
+            $event->title_size = '20';
+            $event->title_color = 'white';
+
+            $event->description = 'Description Sample';
+            $event->description_font = 'Aclonica';
+            $event->description_size = '5';
+            $event->description_color = 'white';
+
+            $event->background = 'sample.jpg';
+            $event->status = '1';
+            $event->save();
+            DB::table('eventlogs')->delete();
+        }
+        if ($request->DeleteEventLogs == 1) {
+            DB::table('eventlogs')->delete();
+        }
+        if ($request->SubEventReset == 1) {
+            DB::table('subevents')->delete();
+        }
+        if ($request->DeleteSubEventLogs == 1) {
+            DB::table('subeventlogs')->delete();
+        }
+        if ($request->DeleteAllGuest == 1) {
+            DB::table('guests')->delete();
+        }
+        if ($request->DeletePreRegistered == 1) {
+            DB::table('guests')->where('type', '1')->delete();
+        }
+        if ($request->DeleteWalkIn == 1) {
+            DB::table('guests')->where('type', '2')->delete();
+        }
+        if ($request->ResetAudit == 1) {
+            DB::table('audits')->delete();
+        }
+        if ($request->DefaultUser == 1) {
+
+            DB::table('roles')->delete();
+            DB::table('accesses')->delete();
+            DB::table('users')->delete();
+
+            $role = new Role;
+            $role->name = 'Super User';
+            $role->description = 'this role has all access in all module';
+            $role->save();
+
+            $access1 = new Access;
+            $access1->module = 'administrator';
+            $access1->role_id = $role->id;
+            $access1->save();
+
+            $access2 = new Access;
+            $access2->module = 'exhibitor';
+            $access2->role_id = $role->id;
+            $access2->save();
+
+            $access3 = new Access;
+            $access3->module = 'registrator';
+            $access3->role_id = $role->id;
+            $access3->save();
+
+            $user = new User;
+            $user->lastname = 'de la cruz';
+            $user->firstname = 'juan';
+            $user->email = 'superadmin@gmail.com';
+            $user->password = bcrypt('password');
+            $user->avatar = 'noimg.jpg';
+            $user->role_id = $role->id;
+            $user->save();
+            Session::flush();
+            return redirect()->to('/')->with('success', 'Successfully Excecuted Resets');
+        }
+
+
+        Flashy::success('Successfully Excecuted Resets', '#');
+        return redirect()->to('/admin/setting');
+    }
 
     public function roles_show()
     {
@@ -170,19 +267,35 @@ class AdminController extends Controller
             {   
                 foreach ($data as $key => $value) 
                 {
-                    
-                    $arr[] = ['email' => $value['username'],
-                              'firstname' => $value['first_name'],
-                              'middlename' => $value['middle_name'],
-                              'lastname' => $value['last_name'],
-                              'designation' => $value['designation'],
-                              'companyname' => $value['company_name'],
-                              'officeaddress' => $value['office_address'],
-                              'mobilenumber' => $value['mobile_number_format_09xx_xxxxxxx'],
-                              'officetelnumber' => $value['office_tel._no._format_02_xxxxxxx'],
-                              'type' => 1
+                    $guest = GUest::where('email', $value['username'])->count();
+                    if($guest > 0){
+                        $newdata = Guest::where('email', $value['username'])->first();
+                        $newdata->firstname = $value['first_name'];
+                        $newdata->middlename = $value['middle_name'];
+                        $newdata->lastname = $value['last_name'];
+                        $newdata->designation = $value['designation'];
+                        $newdata->companyname = $value['company_name'];
+                        $newdata->officeaddress = $value['office_address'];
+                        $newdata->mobilenumber = $value['mobile_number_format_09xx_xxxxxxx'];
+                        $newdata->officetelnumber = $value['office_tel._no._format_02_xxxxxxx'];
+                        $newdata->type = 1;
+                        $newdata->save();
 
-                             ];
+                    }else{
+                    
+                        $arr[] = ['email' => $value['username'],
+                                  'firstname' => $value['first_name'],
+                                  'middlename' => $value['middle_name'],
+                                  'lastname' => $value['last_name'],
+                                  'designation' => $value['designation'],
+                                  'companyname' => $value['company_name'],
+                                  'officeaddress' => $value['office_address'],
+                                  'mobilenumber' => $value['mobile_number_format_09xx_xxxxxxx'],
+                                  'officetelnumber' => $value['office_tel._no._format_02_xxxxxxx'],
+                                  'type' => 1
+
+                                 ];
+                    }
                 }
 
                 if(!empty($arr))
@@ -193,13 +306,14 @@ class AdminController extends Controller
                         Flashy::success('Successfully imported data', '#');
                         return redirect()->to('/admin/guest');
                     }catch(\Exception $e){
-                        Flashy::error('Invalid Data File', '#');
+                        Flashy::error('Invalid Data File 1', '#');
                         return redirect()->to('/admin/guest');
                     }
                     
                 }
 
-                Flashy::error('Invalid Data File', '#');
+                Flashy::success('Successfully imported data', '#');
+                return redirect()->to('/admin/guest');
             }
         }
         return "no file";
@@ -513,7 +627,7 @@ class AdminController extends Controller
 
     public function report_subeventlistapi()
     {
-        $event = Event::where('status', '1')->first();
+        $event = Event::first();
         $subevent = Subevent::where('event_id', $event->id)->with('user')->get();
 
         return Datatables::of($subevent)
@@ -754,7 +868,7 @@ class AdminController extends Controller
     }
     public function report_subevent_api()
     {
-        $event = Event::where('status', '1')->first();
+        $event = Event::first();
         $subevent = Subevent::where('event_id', $event->id)->with('user')->get();
 
         return Datatables::of($subevent)
@@ -1282,7 +1396,8 @@ class AdminController extends Controller
         'companyname' => $guest->companyname,
         'designation' => $guest->designation,
         'qrcode' => $guest->qrcode,
-        'eventname' => $event->title
+        'eventname' => $event->title,
+        'status' => $event->status
        ));
 
        $user = User::find(Auth::user()->id);
@@ -1357,23 +1472,19 @@ class AdminController extends Controller
         $qrimagename = time() . '_' . $request->idcard . '.png';
         
         // RFID Only in QrCode
-        QrCode::format('png')
-        ->size(300)->errorCorrection('H')
-        ->generate($request->idcard, '../public/img/guest/'. $qrimagename);
+        // QrCode::format('png')
+        // ->size(300)->errorCorrection('H')
+        // ->generate($request->idcard, '../public/img/guest/'. $qrimagename);
         
         // All guest data into QrCode
-        // QrCode::format('png')
-        // ->backgroundColor(34, 49, 63)
-        // ->color(228, 241, 254)
-        // ->size(300)
-        // ->errorCorrection('H')
-        // ->generate(
-        //     'Name : ' . ucwords($request->firstname) . ' ' . ucwords($request->middlename) . ' ' . ucwords($request->middlename) . '' .
-        //     'Company : ' . ucwords($request->companyname) . '' .
-        //     'Designation : ' . ucwords($request->designation) . '' . 
-        //     'Email : ' . $request->email . '' .
-        //     'Mobile Number' . $request->mobilenumber . ''  
-        // , '../public/img/guest/'. $qrimagename);
+        QrCode::format('png')
+        ->size(300)
+        ->errorCorrection('H')
+        ->generate(
+            'ID : ' . ucwords($request->idcard) . '/' .
+            'Email : ' . $request->email . '/' .
+            'Mobile Number' . $request->mobilenumber . '/'  
+        , '../public/img/guest/'. $qrimagename);
 
         $guest->lastname = $request->lastname;
         $guest->middlename = $request->middlename;
@@ -1457,23 +1568,19 @@ class AdminController extends Controller
         $qrimagename = time() . '_' . $request->idcard . '.png';
         
         // RFID Only in QrCode
-        QrCode::format('png')
-        ->size(300)->errorCorrection('H')
-        ->generate($request->idcard, '../public/img/guest/'. $qrimagename);
+        // QrCode::format('png')
+        // ->size(300)->errorCorrection('H')
+        // ->generate($request->idcard, '../public/img/guest/'. $qrimagename);
         
         // All guest data into QrCode
-        // QrCode::format('png')
-        // ->backgroundColor(34, 49, 63)
-        // ->color(228, 241, 254)
-        // ->size(300)
-        // ->errorCorrection('H')
-        // ->generate(
-        //     'Name : ' . ucwords($request->firstname) . ' ' . ucwords($request->middlename) . ' ' . ucwords($request->middlename) . '' .
-        //     'Company : ' . ucwords($request->companyname) . '' .
-        //     'Designation : ' . ucwords($request->designation) . '' . 
-        //     'Email : ' . $request->email . '' .
-        //     'Mobile Number' . $request->mobilenumber . ''  
-        // , '../public/img/guest/'. $qrimagename);
+        QrCode::format('png')
+        ->size(300)
+        ->errorCorrection('H')
+        ->generate(
+            'ID : ' . ucwords($request->idcard) . '/' .
+            'Email : ' . $request->email . '/' .
+            'Mobile Number' . $request->mobilenumber . '/'  
+        , '../public/img/guest/'. $qrimagename);
         
         $guest->lastname = $request->lastname;
         $guest->middlename = $request->middlename;
@@ -1526,7 +1633,7 @@ class AdminController extends Controller
 
     public function event()
     {
-    	$event = Event::where('status', 1)->first();
+    	$event = Event::first();
         $administratorcount = count(User::whereHas('role', function($role){
             $role->whereHas('access', function($access){
                 $access->where('module', 'administrator');
@@ -1569,7 +1676,7 @@ class AdminController extends Controller
     	);
 
 
-    	$event = Event::where('status', 1)->first();
+    	$event = Event::first();
     	if($request->hasFile('img'))
     	{
     		$background = $request->file('img');
@@ -1606,7 +1713,7 @@ class AdminController extends Controller
 
     public function allsubevent_api()
     {
-        $event = Event::where('status', '1')->first();
+        $event = Event::first();
         $subevent = Subevent::where('event_id', $event->id)->with('user')->get();
 
         return Datatables::of($subevent)
@@ -1663,7 +1770,7 @@ class AdminController extends Controller
             ]
         );
 
-        $event = Event::where('status', 1)->first();
+        $event = Event::first();
         $subevent =  Subevent::find($id);
 
         if($request->hasFile('img'))
@@ -1762,7 +1869,7 @@ class AdminController extends Controller
             ]
         );
 
-        $event = Event::where('status', 1)->first();
+        $event = Event::first();
         $subevent = new Subevent;
         
         if($request->hasFile('img'))

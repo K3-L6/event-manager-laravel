@@ -15,7 +15,7 @@
 
 	<div class="container" style="padding-top: 3%;">
 		
-		<div class="col-md-12" style="width: 100%;">
+		<div class="col-12" style="width: 100%;">
 
       <form action="/admin/guest/update/{{$guest->id}}" method="post">  
       @csrf()
@@ -34,8 +34,8 @@
           <div class="card-body">
             
               <div class="form-group row">
-                <label class="col-sm-3 form-control-label" name="lastname">Last Name</label>
-                <div class="col-sm-9">
+                <label class="col-3 form-control-label" name="lastname">Last Name</label>
+                <div class="col-9">
                   <input type="text" class="form-control" value="{{old('lastname', $guest->lastname)}}" name="lastname">
                   @if ($errors->has('lastname'))
                       <span class="help-block">
@@ -46,8 +46,8 @@
               </div>
 
               <div class="form-group row">
-                <label class="col-sm-3 form-control-label" name="middlename">Middle Name</label>
-                <div class="col-sm-9">
+                <label class="col-3 form-control-label" name="middlename">Middle Name</label>
+                <div class="col-9">
                   <input type="text" class="form-control" value="{{old('middlename', $guest->middlename)}}" name="middlename">
                   @if ($errors->has('middlename'))
                       <span class="help-block">
@@ -58,8 +58,8 @@
               </div>
 
               <div class="form-group row">
-                <label class="col-sm-3 form-control-label" name="firstname">First Name</label>
-                <div class="col-sm-9">
+                <label class="col-3 form-control-label" name="firstname">First Name</label>
+                <div class="col-9">
                   <input type="text" class="form-control" value="{{old('firstname', $guest->firstname)}}" name="firstname">
                   @if ($errors->has('firstname'))
                       <span class="help-block">
@@ -70,8 +70,8 @@
               </div>
 
               <div class="form-group row">
-                <label class="col-sm-3 form-control-label" name="email">Email</label>
-                <div class="col-sm-9">
+                <label class="col-3 form-control-label" name="email">Email</label>
+                <div class="col-9">
                   <input type="text" class="form-control" value="{{old('email', $guest->email)}}" name="email">
                   @if ($errors->has('email'))
                       <span class="help-block">
@@ -82,8 +82,8 @@
               </div>
 
               <div class="form-group row">
-                <label class="col-sm-3 form-control-label" name="mobilenumber">Mobile Number</label>
-                <div class="col-sm-9">
+                <label class="col-3 form-control-label" name="mobilenumber">Mobile Number</label>
+                <div class="col-9">
                   <input type="text" class="form-control" value="{{old('mobilenumber', $guest->mobilenumber)}}" name="mobilenumber">
                   @if ($errors->has('mobilenumber'))
                       <span class="help-block">
@@ -94,8 +94,8 @@
               </div>
 
               <div class="form-group row">
-                <label class="col-sm-3 form-control-label" name="mobilenumber">Guest Type</label>
-                <div class="col-sm-9">
+                <label class="col-3 form-control-label" name="mobilenumber">Guest Type</label>
+                <div class="col-9">
                   <select class="form-control" value="{{$guest->type}}" name="type">
                     <option value="1">Pre Registered Guest</option>
                     <option value="2">Walk-In Guest</option>
@@ -119,8 +119,8 @@
           <div class="card-body">
           
               <div class="form-group row">
-                <label class="col-sm-3 form-control-label" name="companyname">Company Name</label>
-                <div class="col-sm-9">
+                <label class="col-3 form-control-label" name="companyname">Company Name</label>
+                <div class="col-9">
                   <input type="text" class="form-control" value="{{old('companyname', $guest->companyname)}}" name="companyname">
                   @if ($errors->has('companyname'))
                       <span class="help-block">
@@ -131,8 +131,8 @@
               </div>
 
               <div class="form-group row">
-                <label class="col-sm-3 form-control-label" name="designation">Designation</label>
-                <div class="col-sm-9">
+                <label class="col-3 form-control-label" name="designation">Designation</label>
+                <div class="col-9">
                   <input type="text" class="form-control" value="{{old('designation', $guest->designation)}}" name="designation">
                   @if ($errors->has('designation'))
                       <span class="help-block">
@@ -143,8 +143,8 @@
               </div>
 
               <div class="form-group row">
-                <label class="col-sm-3 form-control-label" name="officetelnumber">Office Tel Number</label>
-                <div class="col-sm-9">
+                <label class="col-3 form-control-label" name="officetelnumber">Office Tel Number</label>
+                <div class="col-9">
                   <input type="text" class="form-control" value="{{old('officetelnumber', $guest->officetelnumber)}}" name="officetelnumber">
                   @if ($errors->has('officetelnumber'))
                       <span class="help-block">
@@ -155,8 +155,8 @@
               </div>
 
               <div class="form-group row">
-                <label class="col-sm-3 form-control-label" name="officeaddress">Office Address</label>
-                <div class="col-sm-9">
+                <label class="col-3 form-control-label" name="officeaddress">Office Address</label>
+                <div class="col-9">
                   <textarea class="form-control" name="officeaddress" rows="8">{{old('officeaddress', $guest->officeaddress)}}</textarea>
                   @if ($errors->has('officeaddress'))
                       <span class="help-block">
@@ -182,7 +182,7 @@
           <div class="card-body">
           
           <div class="form-group row">
-            <div class="col-sm-12">
+            <div class="col-12">
               <input type="text" class="form-control" value="{{old('idcard', $guest->idcard)}}" style="font-size: 50px; text-align: center;" name="idcard">
               @if ($errors->has('idcard'))
                   <span class="help-block">

@@ -32,7 +32,8 @@
       </ul>
     </li>
     <li> <a href="/admin/audit"><i class="fa fa-history" aria-hidden="true"></i>Audit Trail</a></li>
-    <li> <a href="/admin/usersetting"><i class="fa fa-cog" aria-hidden="true"></i>Users Settings</a></li>
+    <li> <a href="/admin/usersetting"><i class="fa fa-user" aria-hidden="true"></i>Users Control</a></li>
+    <li> <a href="/admin/setting"><i class="fa fa-cog" aria-hidden="true"></i>Settings</a></li>
   </ul>
     
 </nav>

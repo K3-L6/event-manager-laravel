@@ -45,11 +45,20 @@ class RegistratorController extends Controller
             ]
         );
 
-        $qrimagename = time() . '_' . $request->idcard . '.png';
-        QrCode::format('png')->size(300)->errorCorrection('H')->generate($request->idcard, '../public/img/guest/'. $qrimagename);
-        
         $user = User::find(Auth::user()->id);
         $data = Guest::find($id);
+        $qrimagename = time() . '_' . $request->idcard . '.png';
+       
+        // All guest data into QrCode
+        QrCode::format('png')
+        ->size(300)
+        ->errorCorrection('H')
+        ->generate(
+            'ID : ' . ucwords($request->idcard) . '/' .
+            'Email : ' . $data->email . '/' .
+            'Mobile Number' . $data->mobilenumber . '/'  
+        , '../public/img/guest/'. $qrimagename);
+          
         $data->idcard = $request->idcard;
         $data->qrcode = $qrimagename;
         $data->save();
@@ -60,7 +69,8 @@ class RegistratorController extends Controller
         'companyname' => $request->cname,
         'designation' => $request->designation,
         'qrcode' => $qrimagename,
-        'eventname' => $event->title
+        'eventname' => $event->title,
+        'status' => $event->status
         ));
 
         $audit = new Audit;
@@ -130,7 +140,16 @@ class RegistratorController extends Controller
     	    $user = User::find(Auth::user()->id);
     		$guest = new Guest;
     	    $qrimagename = time() . '_' . $request->idcard . '.png';
-    	    QrCode::format('png')->size(300)->errorCorrection('H')->generate($request->idcard, '../public/img/guest/'. $qrimagename);
+            // All guest data into QrCode
+            QrCode::format('png')
+            ->size(300)
+            ->errorCorrection('H')
+            ->generate(
+                'ID : ' . ucwords($request->idcard) . '/' .
+                'Email : ' . $request->email . '/' .
+                'Mobile Number' . $request->mobilenum . '/'  
+            , '../public/img/guest/'. $qrimagename);
+
     	    $papersize = array(0, 0, 360, 360);
     	    $guest->idcard = $request->idcard;
     		$guest->firstname = $request->fname;
@@ -152,7 +171,8 @@ class RegistratorController extends Controller
     	    'companyname' => $request->cname,
     	    'designation' => $request->designation,
     	    'qrcode' => $qrimagename,
-            'eventname' => $event->title
+            'eventname' => $event->title,
+            'status' => $event->status
     	    ));
 
     	    $audit = new Audit;

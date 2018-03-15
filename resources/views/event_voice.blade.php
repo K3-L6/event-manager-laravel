@@ -73,9 +73,12 @@
     
     <script type="text/javascript">
         jQuery(document).ready(function() {
+            msg = new SpeechSynthesisUtterance();
+            var voices = speechSynthesis.getVoices();
+
             window.history.pushState(null, "", window.location.href);        
             window.onpopstate = function() {
-                window.history.pushState(null, "", window.location.href);
+            window.history.pushState(null, "", window.location.href);
             };
             setTimeout(function() {
                  document.location.href = '/event/entrance';
@@ -99,11 +102,14 @@
         };
         
         function speak () {
-            var msg = new SpeechSynthesisUtterance();
+
+            msg.voice = speechSynthesis.getVoices().filter(function (voice) { return voice.name == "Google US English"; })[0];
+            
+            msg.text = "{{'Welcome. ' . $guest->firstname . '. ' . $guest->lastname}}";
+            msg.rate = 1;
+            msg.pitch = 1;
             msg.volume = 1;
-            msg.rate = 0.8;
-            msg.Pitch = 1.5;
-            msg.text = "{{'Welcome ' . $guest->firstname . ' ' . $guest->lastname}}";
+
             window.speechSynthesis.speak(msg);
         };
     </script>

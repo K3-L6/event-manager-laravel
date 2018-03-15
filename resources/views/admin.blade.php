@@ -24,7 +24,7 @@
   <div class="container-fluid">
     <div class="row">
       <!-- Statistics -->
-      <div class="statistics col-lg-3 col-12">
+      <div class="statistics col-3">
         <div class="statistic d-flex align-items-center bg-white has-shadow">
           <div class="icon bg-blue"><img class="iconimage" src="{{ asset('img/m_walkin.png') }}"></div>
           <div class="text"><strong>{{$walkin}}</strong><br><small>Walk-In</small></div>
@@ -43,7 +43,7 @@
         </div>
       </div>
       <!-- Line Chart            -->
-      <div class="chart col-lg-9 col-12">
+      <div class="chart col-9">
         <div class="line-chart bg-white d-flex align-items-center justify-content-center has-shadow">
           <canvas id="barChartExample"></canvas>
         </div>

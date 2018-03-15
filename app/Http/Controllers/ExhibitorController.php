@@ -42,7 +42,7 @@ class ExhibitorController extends Controller
     public function guestlogslist(Request $request, $id)
     {
     	$subevent = Subevent::find($id);
-    	$subeventlog = Subeventlog::where('subevent_id', $id)->get();
+    	$subeventlog = Subeventlog::where('subevent_id', $id)->orderBy('time', 'desc')->get();
     	return view('guestlogs_list')->withSubevent($subevent)->withSubeventlog($subeventlog);
     }
 

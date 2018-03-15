@@ -26,7 +26,7 @@
   <div class="container-fluid">
     <div class="row bg-white has-shadow">
       <!-- Item -->
-      <div class="col-xl-4 col-sm-12">
+      <div class="col-4">
         <div class="item d-flex align-items-center">
           <div class="icon bg-blue"><img class="iconimage" src="{{ asset('img/m_administrator.png') }}"></div>
           <div class="title"><span>Administrator</span>
@@ -35,7 +35,7 @@
         </div>
       </div>
       <!-- Item -->
-      <div class="col-xl-4 col-sm-12">
+      <div class="col-4">
         <div class="item d-flex align-items-center">
           <div class="icon bg-blue"><img class="iconimage" src="{{ asset('img/m_exhibitor.png') }}"></div>
           <div class="title"><span>Exhibitor</span>
@@ -44,7 +44,7 @@
         </div>
       </div>
       <!-- Item -->
-      <div class="col-xl-4 col-sm-12">
+      <div class="col-4">
         <div class="item d-flex align-items-center">
           <div class="icon bg-blue"><img class="iconimage" src="{{ asset('img/m_registrator.png') }}"></div>
           <div class="title"><span>Registrator</span>
@@ -57,9 +57,9 @@
 </section>
 
 
-	<div class="container" style="padding-top: 3%;">
+	<div class="container-fluid" style="padding-top: 3%;">
 		
-		<div class="col-md-12" style="width: 100%;">
+		<div class="col-12" style="width: 100%;">
           <div class="card">
           	
             <div class="card-close">
@@ -98,9 +98,9 @@
   $(function() {
           var table = $('#mytable').DataTable({
              dom: 
-                  "<'row'<'col-sm-12'B>>" +
-                  "<'row'<'col-sm-12'tr>>" +
-                  "<'row'<'col-sm-3'i><'col-sm-9'p>>",
+                  "<'row'<'col-12'B>>" +
+                  "<'row'<'col-12'tr>>" +
+                  "<'row'<'col-3'i><'col-9'p>>",
              processing: true,
              serverSide: true,
              colReorder: true,

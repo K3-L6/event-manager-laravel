@@ -30,7 +30,10 @@ Route::post('/admin/subevent/register', 'AdminController@subevent_register')->na
 Route::delete('/admin/subevent/delete/{id}', 'AdminController@subevent_delete')->name('admin.subevent.delete');
 Route::get('/admin/subeventapi', 'AdminController@allsubevent_api')->name('admin.subevent.api');
 Route::get('/admin/subevent/{id}', 'AdminController@subevent')->name('admin.subevent');
-Route::put('admin/subevent/{id}', 'AdminController@subevent_update')->name('admin.subevent.update');
+Route::put('/admin/subevent/{id}', 'AdminController@subevent_update')->name('admin.subevent.update');
+
+Route::get('/admin/setting', 'AdminController@show_setting');
+Route::post('/admin/setting', 'AdminController@setting_submit');
 
 
 Route::get('/admin/guest', 'AdminController@allguest')->name('admin.guest');

@@ -14,12 +14,12 @@ class DatabaseSeeder extends Seeder
         DB::table('events')->insert([
             'title' => 'Sample Event',
             'title_font' => 'Aclonica',
-            'title_size' => '12',
+            'title_size' => '20',
             'title_color' => 'white',
 
             'description' => 'Description Sample',
             'description_font' => 'Aclonica',
-            'description_size' => '2',
+            'description_size' => '5',
             'description_color' => 'white',
 
             'background' => 'sample.jpg',

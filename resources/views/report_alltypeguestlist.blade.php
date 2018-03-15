@@ -31,7 +31,7 @@
   </div>
 </ul>
 
-	<div class="container" style="padding-top: 3%;">
+	<div class="container-fluid" style="padding-top: 3%;">
 		
 		<div class="col-md-12" style="width: 100%;">
           <div class="card">
@@ -51,10 +51,10 @@
                     <tr>
                       <th>Name</th>
                       <th>Email</th>
-                      <th>Mobile Number</th>
+                      <th>Cell #</th>
                       <th class="none">Designation</th>
                       <th>Company</th>
-                      <th class="none">Office Telephone Number</th>
+                      <th class="none">Company Tel #</th>
                       <th class="none">Office Address</th>
                       <th class="none">Guest Type</th>
                     </tr>
@@ -86,7 +86,12 @@
              pagingType: "full_numbers",
              // lengthChange: false,
              buttons: [
-                { extend: 'print', className: 'd-none', title:'ALL TYPE GUEST LIST REPORT', exportOptions:{ columns:[0, 1, 2, 3, 4, 5, 6, 7]} },
+                { extend: 'print', className: 'd-none', title:'ALL TYPE GUEST LIST REPORT', exportOptions:{ columns:[0, 1, 2, 3, 4, 5, 6, 7]} , 
+                customize: function(win){
+                  $(win.document.body).css( 'font-size', '8px' );
+                  $(win.document.body).find( 'table' ).addClass( 'compact' ).css( 'font-size', 'inherit' );
+                  $(win.document.body).find( 'th' ).css( 'font-size', '8px' );
+                }},
                 { extend: 'excel', className: 'd-none', title:'ALL TYPE GUEST LIST REPORT', exportOptions:{ columns:[0, 1, 2, 3, 4, 5, 6, 7]} },
                 'pageLength',
              ],

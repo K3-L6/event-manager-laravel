@@ -13,9 +13,9 @@
   </div>
 </ul>
 
-	<div class="container" style="padding-top: 3%;">
+	<div class="container-fluid" style="padding-top: 3%;">
 		
-		<div class="col-md-12" style="width: 100%;">
+		<div class="col-12" style="width: 100%;">
 
       <form action="/admin/user/register" method="post" enctype="multipart/form-data">  
       @csrf()
@@ -34,9 +34,9 @@
             
             <div class="row">
               
-              <div class="col-md-2">
+              <div class="col-2">
                 <img src="{{ asset('/img/user/noimg.jpg') }}" id="avatar_preview" style="max-height: 120px; max-width: 100%; min-height: 120px; min-width: 100%;">
-                <label class="btn btn-primary btn-sm btn-file" style="width: 120px;">
+                <label class="btn btn-primary btn-sm btn-file">
                     Browse <input type="file" id="avatar_upload" name="img" style="display: none;">
                 </label>
                 @if ($errors->has('img'))
@@ -46,11 +46,11 @@
                 @endif
               </div>
 
-              <div class="col-md-10">
+              <div class="col-10">
                 
                 <div class="form-group row">
-                  <label class="col-sm-3 form-control-label" name="lastname">Last Name</label>
-                  <div class="col-sm-9">
+                  <label class="col-3 form-control-label" name="lastname">Last Name</label>
+                  <div class="col-9">
                     <input type="text" class="form-control" value="{{old('lastname')}}" name="lastname">
                     @if ($errors->has('lastname'))
                         <span class="help-block">
@@ -61,8 +61,8 @@
                 </div>
 
                 <div class="form-group row">
-                  <label class="col-sm-3 form-control-label" name="middlename">Middle Name</label>
-                  <div class="col-sm-9">
+                  <label class="col-3 form-control-label" name="middlename">Middle Name</label>
+                  <div class="col-9">
                     <input type="text" class="form-control" value="{{old('middlename')}}" name="middlename">
                     @if ($errors->has('middlename'))
                         <span class="help-block">
@@ -73,8 +73,8 @@
                 </div>
 
                 <div class="form-group row">
-                  <label class="col-sm-3 form-control-label" name="firstname">First Name</label>
-                  <div class="col-sm-9">
+                  <label class="col-3 form-control-label" name="firstname">First Name</label>
+                  <div class="col-9">
                     <input type="text" class="form-control" value="{{old('firstname')}}" name="firstname">
                     @if ($errors->has('firstname'))
                         <span class="help-block">
@@ -108,8 +108,8 @@
           <div class="card-body">
           
               <div class="form-group row">
-                <label class="col-sm-3 form-control-label" name="email">Email</label>
-                <div class="col-sm-9">
+                <label class="col-3 form-control-label" name="email">Email</label>
+                <div class="col-9">
                   <input type="text" class="form-control" value="{{old('email')}}" name="email">
                   @if ($errors->has('email'))
                       <span class="help-block">
@@ -120,8 +120,8 @@
               </div>
 
               <div class="form-group row">
-                <label class="col-sm-3 form-control-label" name="password">Password</label>
-                <div class="col-sm-9">
+                <label class="col-3 form-control-label" name="password">Password</label>
+                <div class="col-9">
                   <input type="password" class="form-control" name="password">
                   @if ($errors->has('password'))
                       <span class="help-block">
@@ -132,8 +132,8 @@
               </div>
 
               <div class="form-group row">
-                <label class="col-sm-3 form-control-label" name="password_confirmation">Confirm Password</label>
-                <div class="col-sm-9">
+                <label class="col-3 form-control-label" name="password_confirmation">Confirm Password</label>
+                <div class="col-9">
                   <input type="password" class="form-control" name="password_confirmation">
                   @if ($errors->has('password_confirmation'))
                       <span class="help-block">
@@ -159,7 +159,7 @@
           <div class="card-body">
 
             <div class="form-group row">
-              <div class="col-sm-12">
+              <div class="col-12">
                 <select class="form-control" value="{{old('role')}}" name="role" style="font-size: 50px; text-align: center; text-align-last: center; height: 80px;">
                   <option selected disabled> Select User Role</option>
                   @foreach ($role as $role)

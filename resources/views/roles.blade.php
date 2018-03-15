@@ -22,7 +22,7 @@
   <div class="container-fluid">
     <div class="row bg-white has-shadow">
       <!-- Item -->
-      <div class="col-xl-4 col-sm-12">
+      <div class="col-4">
         <div class="item d-flex align-items-center">
           <div class="icon bg-blue"><img class="iconimage" src="{{ asset('img/m_administrator.png') }}"></div>
           <div class="title"><span>Administrator</span>
@@ -31,7 +31,7 @@
         </div>
       </div>
       <!-- Item -->
-      <div class="col-xl-4 col-sm-12">
+      <div class="col-4">
         <div class="item d-flex align-items-center">
           <div class="icon bg-blue"><img class="iconimage" src="{{ asset('img/m_exhibitor.png') }}"></div>
           <div class="title"><span>Exhibitor</span>
@@ -40,7 +40,7 @@
         </div>
       </div>
       <!-- Item -->
-      <div class="col-xl-4 col-sm-12">
+      <div class="col-4">
         <div class="item d-flex align-items-center">
           <div class="icon bg-blue"><img class="iconimage" src="{{ asset('img/m_registrator.png') }}"></div>
           <div class="title"><span>Registrator</span>
@@ -55,9 +55,9 @@
 
 
 
-<div class="container" style="padding-top: 3%;">
+<div class="container-fluid" style="padding-top: 3%;">
       
-      <div class="col-md-12" style="width: 100%">
+      <div class="col-12" style="width: 100%">
         
         <form method="post" action="/admin/usersetting/roles">
           
@@ -76,8 +76,8 @@
             <div class="card-body">
             
                 <div class="form-group row">
-                  <label class="col-sm-3 form-control-label" name="name">Role Name</label>
-                  <div class="col-sm-9">
+                  <label class="col-3 form-control-label" name="name">Role Name</label>
+                  <div class="col-9">
                     <input type="text" class="form-control" value="{{old('name')}}" name="name">
                     @if ($errors->has('name'))
                         <span class="help-block">
@@ -88,8 +88,8 @@
                 </div>
 
                 <div class="form-group row">
-                  <label class="col-sm-3 form-control-label" name="description">Description</label>
-                  <div class="col-sm-9">
+                  <label class="col-3 form-control-label" name="description">Description</label>
+                  <div class="col-9">
                     <textarea class="form-control" name="description" rows="5">{{old('description')}}</textarea>
                     @if ($errors->has('description'))
                         <span class="help-block">
@@ -101,7 +101,7 @@
                 
                 <div class="row">
 
-                  <div class="col-md-4">
+                  <div class="col-4">
                     <div class="checkbox">
                         <label style="font-size: 20px">
                             <input name="administrator" type="checkbox" value="1">
@@ -111,7 +111,7 @@
                     </div>  
                   </div>
                   
-                  <div class="col-md-4">
+                  <div class="col-4">
                     <div class="checkbox">
                         <label style="font-size: 20px">
                             <input name="exhibitor" type="checkbox" value="1">
@@ -121,7 +121,7 @@
                     </div>  
                   </div>
 
-                  <div class="col-md-4">
+                  <div class="col-4">
                     <div class="checkbox">
                         <label style="font-size: 20px">
                             <input name="registrator" type="checkbox" value="1">
@@ -195,9 +195,9 @@
   $(function() {
           var table = $('#mytable').DataTable({
              dom: 
-                  "<'row'<'col-sm-12'B>>" +
-                  "<'row'<'col-sm-12'tr>>" +
-                  "<'row'<'col-sm-3'i><'col-sm-9'p>>",
+                  "<'row'<'col-12'B>>" +
+                  "<'row'<'col-12'tr>>" +
+                  "<'row'<'col-3'i><'col-9'p>>",
              processing: true,
              serverSide: true,
              colReorder: true,

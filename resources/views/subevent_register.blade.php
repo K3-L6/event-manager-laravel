@@ -16,9 +16,9 @@
 <form action="/admin/subevent/register" method="post" enctype="multipart/form-data">
   @csrf
 
-  <div class="container" style="padding-top: 3%;">
+  <div class="container-fluid" style="padding-top: 3%;">
     
-    <div class="col-md-12 mx-auto">
+    <div class="col-12 mx-auto">
     
       <div class="card">
         
@@ -32,7 +32,7 @@
         
         <div class="card-body">
           
-          <div class="col-sm-12">
+          <div class="col-12">
             <span class="btn-file">
               <div class="preview_panel" id="preview_panel">
                 <h1 style="font-family: Aclonica; font-size: 20vmin; color: white;">Sample Subevent</h1>
@@ -49,17 +49,17 @@
           </div>
         
            <div class="form-group row" style="margin-top: 3%;">
-            <label class="col-sm-12 form-control-label" name="title">Title</label>
-            <div class="col-sm-12">
+            <label class="col-12 form-control-label" name="title">Title</label>
+            <div class="col-12">
               <input type="text" class="form-control" id="title_field" value="{{old('title', 'Sample Subevent')}}" name="title">
               <div class="row preview_selection">
-                <div class="col-sm-8">
+                <div class="col-8">
                   <input type="text" class="form-control" id="title_font" value="{{old('title_font')}}" name="title_font">
                 </div>
-                <div class="col-sm-2">
+                <div class="col-2">
                   <input type="number" min="0" id="title_font_size" class="form-control" value="{{old('title_size', '20')}}" name="title_size">
                 </div>
-                <div class="col-sm-2">
+                <div class="col-2">
                   <input type="text" min="0" id="title_font_color" class="form-control" value="{{old('title_color', 'white')}}" name="title_color">
                 </div>
               </div>
@@ -73,17 +73,17 @@
 
 
             <div class="form-group row">
-              <label class="col-sm-12 form-control-label">Description</label>
-              <div class="col-sm-12">
+              <label class="col-12 form-control-label">Description</label>
+              <div class="col-12">
                 <textarea class="form-control" rows="5" id="description_field" name="description">{{old('description', 'Subevent Description')}}</textarea>
                 <div class="row preview_selection">
-                  <div class="col-sm-8">
+                  <div class="col-8">
                     <input type="text" class="form-control" id="description_font" value="{{old('description_font')}}" name="description_font">
                   </div>
-                  <div class="col-sm-2">
+                  <div class="col-2">
                     <input type="number" min="0" id="description_font_size" class="form-control" value="{{old('description_size', '5')}}" name="description_size">
                   </div>
-                  <div class="col-sm-2">
+                  <div class="col-2">
                     <input type="text" min="0" id="description_font_color" class="form-control" value="{{old('description_color', 'white')}}" name="description_color">
                   </div>
                 </div>
@@ -96,9 +96,8 @@
             </div>
 
             <div class="form-group row">
-              <label class="col-sm-12 form-control-label">Exhibitor</label>
-              <div class="col-sm-12">
-                <select class="form-control" name="exhibitor">
+              <div class="col-12">
+                <select class="form-control" name="exhibitor" style="font-size: 50px; text-align: center; text-align-last: center; height: 80px;">
                   <option disabled selected>Select Exhibitor</option>
                   @foreach ($users as $user)
                     <option value="{{$user->id}}">{{ucwords($user->firstname) . ' ' . ucwords($user->middlename) . ' ' . ucwords($user->lastname)}}</option>

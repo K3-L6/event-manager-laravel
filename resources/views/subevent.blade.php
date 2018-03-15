@@ -18,9 +18,9 @@
   @csrf
   @method('put')
   
-  <div class="container" style="padding-top: 3%;">
+  <div class="container-fluid" style="padding-top: 3%;">
     
-    <div class="col-md-12 mx-auto">
+    <div class="col-12 mx-auto">
     
       <div class="card">
         
@@ -34,7 +34,7 @@
 
         <div class="card-body">
           
-          <div class="col-sm-12">
+          <div class="col-12">
             <span class="btn-file">
               <div class="preview_panel" id="preview_panel">
                 <h1 style="font-family: {{$subevent->title_font}}; font-size: {{$subevent->title_size}}vmin; color: {{$subevent->title_color}};">{{$subevent->title}}</h1>
@@ -51,17 +51,17 @@
           </div>
         
            <div class="form-group row" style="margin-top: 3%;">
-            <label class="col-sm-12 form-control-label" name="title">Title</label>
-            <div class="col-sm-12">
+            <label class="col-12 form-control-label" name="title">Title</label>
+            <div class="col-12">
               <input type="text" class="form-control" id="title_field" value="{{old('title', $subevent->title)}}" name="title">
               <div class="row preview_selection">
-                <div class="col-sm-8">
+                <div class="col-8">
                   <input type="text" class="form-control" id="title_font" value="{{old('title_font', $subevent->title_font)}}" name="title_font">
                 </div>
-                <div class="col-sm-2">
+                <div class="col-2">
                   <input type="number" min="0" id="title_font_size" class="form-control" value="{{old('title_size', $subevent->title_size)}}" name="title_size">
                 </div>
-                <div class="col-sm-2">
+                <div class="col-2">
                   <input type="text" min="0" id="title_font_color" class="form-control" value="{{old('title_color', $subevent->title_color)}}" name="title_color">
                 </div>
               </div>
@@ -75,17 +75,17 @@
 
 
             <div class="form-group row">
-              <label class="col-sm-12 form-control-label">Description</label>
-              <div class="col-sm-12">
+              <label class="col-12 form-control-label">Description</label>
+              <div class="col-12">
                 <textarea class="form-control" rows="5" id="description_field" name="description">{{old('description', $subevent->description)}}</textarea>
                 <div class="row preview_selection">
-                  <div class="col-sm-8">
+                  <div class="col-8">
                     <input type="text" class="form-control" id="description_font" value="{{old('description_font', $subevent->description_font)}}" name="description_font">
                   </div>
-                  <div class="col-sm-2">
+                  <div class="col-2">
                     <input type="number" min="0" id="description_font_size" class="form-control" value="{{old('description_size', $subevent->description_size)}}" name="description_size">
                   </div>
-                  <div class="col-sm-2">
+                  <div class="col-2">
                     <input type="text" min="0" id="description_font_color" class="form-control" value="{{old('description_color', $subevent->description_color)}}" name="description_color">
                   </div>
                 </div>
@@ -98,8 +98,8 @@
             </div>
 
             <div class="form-group row">
-              <label class="col-sm-12 form-control-label">Exhibitor</label>
-              <div class="col-sm-12">
+              <label class="col-12 form-control-label">Exhibitor</label>
+              <div class="col-12">
                 <select class="form-control" name="exhibitor">
                   <option selected value="{{$subevent->user_id}}">{{$subevent->user->firstname . ' ' . $subevent->user->lastname}}</option>
                   @foreach ($users as $user)

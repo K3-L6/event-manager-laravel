@@ -39,7 +39,7 @@ class EventController extends Controller
         $audit->user_id = $user->id;
         $audit->time = Carbon::now();
         $audit->save();
-        return redirect()->to('/home');
+        return redirect()->to('/admin/event');
     }
 
     public function log(Request $request)

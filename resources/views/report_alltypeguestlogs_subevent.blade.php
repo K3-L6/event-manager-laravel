@@ -32,7 +32,7 @@
   </div>
 </ul>
 
-	<div class="container" style="padding-top: 3%;">
+	<div class="container-fluid" style="padding-top: 3%;">
 		
 		<div class="col-md-12" style="width: 100%;">
           <div class="card">
@@ -88,7 +88,12 @@
              responsive: true,
              // lengthChange: false,
              buttons: [
-                { extend: 'print', className: 'd-none', title:'ALL TYPE GUEST LOGS REPORT FOR {{strtoupper($subevent->title)}}', exportOptions:{ columns:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]} },
+                { extend: 'print', className: 'd-none', title:'ALL TYPE GUEST LOGS REPORT FOR {{strtoupper($subevent->title)}}', exportOptions:{ columns:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]}, 
+                customize: function(win){
+                  $(win.document.body).css( 'font-size', '8px' );
+                  $(win.document.body).find( 'table' ).addClass( 'compact' ).css( 'font-size', 'inherit' );
+                  $(win.document.body).find( 'th' ).css( 'font-size', '8px' );
+                }},
                 { extend: 'excel', className: 'd-none', title:'ALL TYPE GUEST LOGS REPORT FOR {{strtoupper($subevent->title)}}', exportOptions:{ columns:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]} },
                 'pageLength',
              ],

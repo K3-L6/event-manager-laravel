@@ -14,7 +14,8 @@
             <a href="/home" class="navbar-brand">
             <div class="brand-text brand-big hidden-lg-down"><span>EventManager</span><strong> Dashboard</strong></div>
             <div class="brand-text brand-small"><strong>EM</strong></div></a>
-            <!-- Toggle Button--><a id="toggle-btn" href="#" class="menu-btn active"><span></span><span></span><span></span></a>
+            <!-- Toggle Button-->
+            <a id="toggle-btn" href="#" class="menu-btn active"><span></span><span></span><span></span></a>
         </div>
         <!-- Navbar Menu -->
         <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
