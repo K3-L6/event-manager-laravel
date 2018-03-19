@@ -9,6 +9,7 @@
     right: 20px;
     font-size: 16px;
     color: #fff;
+    z-index: 1000000000000000000000000000;
 }
 
 .flashy--success {
@@ -100,7 +101,6 @@
 @if(Session::has('flashy_notification.message'))
 <script id="flashy-template" type="text/template">
     <div class="flashy flashy--{{ Session::get('flashy_notification.type') }}">
-        <i class="material-icons">speaker_notes</i>
         <a href="#" class="flashy__body" target="_blank"></a>
     </div>
 </script>

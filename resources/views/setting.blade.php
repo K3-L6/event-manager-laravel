@@ -198,28 +198,52 @@
                 <select class="form-control" value="{{$status}}" name="status" style="font-size: 50px; text-align: center; text-align-last: center; height: 80px;">
                   @switch($status)
                       @case(1)
-                            <option value="1" selected>4 inch Width 3 Inch Height</option>
-                            <option value="2">4 Inch Width 5 Inch Height</option>
-                            <option value="3">5 Inch Width 4 Inch Height</option>
-                            <option value="4">Standard ID-1</option>
+                            <option value="1" selected>76.2 mm by 101.6 mm</option>
+                            <option value="2">127 mm by 101.6 mm</option>
+                            <option value="3">101.6 mm by 127 mm</option>
+                            <option value="4">Standard ID-1 (85.60 mm by 53.98 mm)</option>
+                            <option value="5">Standard ID-2 (105 mm by 74 mm)</option>
+                            <option value="6">Standard ID-3 (125 mm by 88 mm)</option>
                           @break
                       @case(2)
-                            <option value="1">4 inch Width 3 Inch Height</option>
-                            <option value="2" selected>4 Inch Width 5 Inch Height</option>
-                            <option value="3">5 Inch Width 4 Inch Height</option>
-                            <option value="4">Standard ID-1</option>
+                            <option value="1">76.2 mm by 101.6 mm</option>
+                            <option value="2" selected>127 mm by 101.6 mm</option>
+                            <option value="3">101.6 mm by 127 mm</option>
+                            <option value="4">Standard ID-1 (85.60 mm by 53.98 mm)</option>
+                            <option value="5">Standard ID-2 (105 mm by 74 mm)</option>
+                            <option value="6">Standard ID-3 (125 mm by 88 mm)</option>
                           @break
                       @case(3)
-                            <option value="1" selected>4 inch Width 3 Inch Height</option>
-                            <option value="2">4 Inch Width 5 Inch Height</option>
-                            <option value="3" selected>5 Inch Width 4 Inch Height</option>
-                            <option value="4">Standard ID-1</option>
+                            <option value="1">76.2 mm by 101.6 mm</option>
+                            <option value="2">127 mm by 101.6 mm</option>
+                            <option value="3" selected>101.6 mm by 127 mm</option>
+                            <option value="4">Standard ID-1 (85.60 mm by 53.98 mm)</option>
+                            <option value="5">Standard ID-2 (105 mm by 74 mm)</option>
+                            <option value="6">Standard ID-3 (125 mm by 88 mm)</option>
                           @break
                       @case(4)
-                            <option value="1" selected>4 inch Width 3 Inch Height</option>
-                            <option value="2">4 Inch Width 5 Inch Height</option>
-                            <option value="3">5 Inch Width 4 Inch Height</option>
-                            <option value="4" selected>Standard ID-1</option>
+                            <option value="1">76.2 mm by 101.6 mm</option>
+                            <option value="2">127 mm by 101.6 mm</option>
+                            <option value="3">101.6 mm by 127 mm</option>
+                            <option value="4" selected>Standard ID-1 (85.60 mm by 53.98 mm)</option>
+                            <option value="5">Standard ID-2 (105 mm by 74 mm)</option>
+                            <option value="6">Standard ID-3 (125 mm by 88 mm)</option>
+                          @break
+                      @case(5)
+                            <option value="1">76.2 mm by 101.6 mm</option>
+                            <option value="2">127 mm by 101.6 mm</option>
+                            <option value="3">101.6 mm by 127 mm</option>
+                            <option value="4">Standard ID-1 (85.60 mm by 53.98 mm)</option>
+                            <option value="5" selected>Standard ID-2 (105 mm by 74 mm)</option>
+                            <option value="6">Standard ID-3 (125 mm by 88 mm)</option>
+                          @break
+                      @case(6)
+                            <option value="1">76.2 mm by 101.6 mm</option>
+                            <option value="2">127 mm by 101.6 mm</option>
+                            <option value="3">101.6 mm by 127 mm</option>
+                            <option value="4">Standard ID-1 (85.60 mm by 53.98 mm)</option>
+                            <option value="5">Standard ID-2 (105 mm by 74 mm)</option>
+                            <option value="6" selected>Standard ID-3 (125 mm by 88 mm)</option>
                           @break
                   
                   @endswitch

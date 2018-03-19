@@ -176,7 +176,7 @@
           </div>
           
           <div class="card-header d-flex align-items-center">
-             <h2>RFID CARD</h2>
+             <h2>Badge ID</h2>
           </div>
 
           <div class="card-body">

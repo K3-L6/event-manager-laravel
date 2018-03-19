@@ -111,23 +111,23 @@
                     {
                         label: "Event Sales Chart",
                         backgroundColor: [
-                            '#379392',
-                            '#379392',
-                            '#379392',
-                            '#379392'
+                            '#2c3e50',
+                            '#2c3e50',
+                            '#2c3e50',
+                            '#2c3e50'
                         
                         ],
                         hoverBackgroundColor: [
-                            '#379392',
-                            '#379392',
-                            '#379392',
-                            '#379392'
+                            '#2c3e50',
+                            '#2c3e50',
+                            '#2c3e50',
+                            '#2c3e50'
                         ],
                         borderColor: [
-                            '#379392',
-                            '#379392',
-                            '#379392',
-                            '#379392'
+                            '#2c3e50',
+                            '#2c3e50',
+                            '#2c3e50',
+                            '#2c3e50'
                         ],
                         borderWidth: 1,
                         data: [{{$walkin}}, {{$prereg}}, {{$total}}, {{$guestlogs}}],

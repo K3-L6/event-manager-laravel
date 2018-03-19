@@ -54,7 +54,7 @@
               <input type="text" class="form-control" id="title_field" value="{{old('title', 'Sample Subevent')}}" name="title">
               <div class="row preview_selection">
                 <div class="col-8">
-                  <input type="text" class="form-control" id="title_font" value="{{old('title_font')}}" name="title_font">
+                  <input type="text" class="form-control" id="title_font" value="{{old('title_font', 'Aclonica')}}" name="title_font">
                 </div>
                 <div class="col-2">
                   <input type="number" min="0" id="title_font_size" class="form-control" value="{{old('title_size', '20')}}" name="title_size">
@@ -78,7 +78,7 @@
                 <textarea class="form-control" rows="5" id="description_field" name="description">{{old('description', 'Subevent Description')}}</textarea>
                 <div class="row preview_selection">
                   <div class="col-8">
-                    <input type="text" class="form-control" id="description_font" value="{{old('description_font')}}" name="description_font">
+                    <input type="text" class="form-control" id="description_font" value="{{old('description_font', 'Aclonica')}}" name="description_font">
                   </div>
                   <div class="col-2">
                     <input type="number" min="0" id="description_font_size" class="form-control" value="{{old('description_size', '5')}}" name="description_size">

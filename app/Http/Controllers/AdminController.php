@@ -55,7 +55,8 @@ class AdminController extends Controller
             $event->description_color = 'white';
 
             $event->background = 'sample.jpg';
-            $event->status = '1';
+            $event->status = $request->status;
+            
             $event->save();
             DB::table('eventlogs')->delete();
         }
@@ -1397,6 +1398,7 @@ class AdminController extends Controller
         'designation' => $guest->designation,
         'qrcode' => $guest->qrcode,
         'eventname' => $event->title,
+        'idcard' => $guest->idcard,
         'status' => $event->status
        ));
 
@@ -1461,9 +1463,9 @@ class AdminController extends Controller
                 'officeaddress.required' => 'Office Address is required',
                 'officeaddress.max' => 'Office Address must not be greater than 180',
 
-                'idcard.required' => 'RFID Card is required',
-                'idcard.max' => 'RFID Card must not be greater than 180',
-                'idcard.unique' => 'RFID Card is already taken',
+                'idcard.required' => 'Badge ID is required',
+                'idcard.max' => 'Badge ID must not be greater than 180',
+                'idcard.unique' => 'Badge ID is already taken',
             ]
         );
 
@@ -1481,9 +1483,12 @@ class AdminController extends Controller
         ->size(300)
         ->errorCorrection('H')
         ->generate(
-            'ID : ' . ucwords($request->idcard) . '/' .
+            'Name : ' . ucwords($request->firstname . ' ' . $request->middlename . ' ' . $request->lastname) . '/' .
             'Email : ' . $request->email . '/' .
-            'Mobile Number' . $request->mobilenumber . '/'  
+            'Mobile Number : ' . $request->mobilenumber . '/' . 
+            'Designation : ' . $request->designation . '/' . 
+            'Company : ' . $request->companyname . '/' . 
+            'Office Tel Number : ' . $request->officetelnumber . '/'
         , '../public/img/guest/'. $qrimagename);
 
         $guest->lastname = $request->lastname;
@@ -1557,9 +1562,9 @@ class AdminController extends Controller
                 'officeaddress.required' => 'Office Address is required',
                 'officeaddress.max' => 'Office Address must not be greater than 180',
 
-                'idcard.required' => 'RFID Card is required',
-                'idcard.max' => 'RFID Card must not be greater than 180',
-                'idcard.unique' => 'RFID Card is already taken',
+                'idcard.required' => 'Badge ID is required',
+                'idcard.max' => 'Badge ID must not be greater than 180',
+                'idcard.unique' => 'Badge ID is already taken',
             ]
         );
 
@@ -1577,9 +1582,12 @@ class AdminController extends Controller
         ->size(300)
         ->errorCorrection('H')
         ->generate(
-            'ID : ' . ucwords($request->idcard) . '/' .
+            'Name : ' . ucwords($request->firstname . ' ' . $request->middlename . ' ' . $request->lastname) . '/' .
             'Email : ' . $request->email . '/' .
-            'Mobile Number' . $request->mobilenumber . '/'  
+            'Mobile Number : ' . $request->mobilenumber . '/' . 
+            'Designation : ' . $request->designation . '/' . 
+            'Company : ' . $request->companyname . '/' . 
+            'Office Tel Number : ' . $request->officetelnumber . '/'
         , '../public/img/guest/'. $qrimagename);
         
         $guest->lastname = $request->lastname;

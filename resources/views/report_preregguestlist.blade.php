@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@push('loader')
+{{-- @push('loader')
  @include('layouts.loader')
 @endpush
-
+ --}}
 @push('sidebar')
   @include('layouts.sidebar')
 @endpush

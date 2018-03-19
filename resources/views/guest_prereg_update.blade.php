@@ -173,7 +173,7 @@
                </div>
 
                <div class="form-group row" style="margin-top: 3%;">
-                <label class="col-md-3 form-control-label" name="idcard">RFID</label>
+                <label class="col-md-3 form-control-label" name="idcard">Badge ID</label>
                 <div class="col-md-8">
                   <input type="text" class="form-control"  value="{{$guest->idcard}}" name="idcard" >
                  

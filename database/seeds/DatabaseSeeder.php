@@ -54,10 +54,10 @@ class DatabaseSeeder extends Seeder
 
 
     	DB::table('users')->insert([
-    	    'lastname' => 'lising',
+    	    'lastname' => 'aurum',
     	    // 'middlename' => '',
-            'firstname' => 'ken',
-    	    'email' => 'superadmin@gmail.com',
+            'firstname' => 'golden',
+    	    'email' => 'admin@goldenaurum.com',
     	    'password' => bcrypt('password'),
     	    'avatar' => 'noimg.jpg',
     	    'role_id' => 1,

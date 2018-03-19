@@ -11,10 +11,7 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <!-- theme stylesheet-->
     <link rel="stylesheet" href="{{ asset('css/style.sea.css') }}" id="theme-stylesheet">
-    {{-- flashy --}}
-    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet'>
-
+    
     
     
     <!-- Custom stylesheet - for your changes-->

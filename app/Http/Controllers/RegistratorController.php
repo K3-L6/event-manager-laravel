@@ -54,9 +54,12 @@ class RegistratorController extends Controller
         ->size(300)
         ->errorCorrection('H')
         ->generate(
-            'ID : ' . ucwords($request->idcard) . '/' .
+            'Name : ' . ucwords($data->firstname . ' ' . $data->middlename . ' ' . $data->lastname) . '/' .
             'Email : ' . $data->email . '/' .
-            'Mobile Number' . $data->mobilenumber . '/'  
+            'Mobile Number : ' . $data->mobilenumber . '/' . 
+            'Designation : ' . $data->designation . '/' . 
+            'Company : ' . $data->companyname . '/' . 
+            'Office Tel Number : ' . $data->officetelnumber . '/'
         , '../public/img/guest/'. $qrimagename);
           
         $data->idcard = $request->idcard;
@@ -70,6 +73,7 @@ class RegistratorController extends Controller
         'designation' => $request->designation,
         'qrcode' => $qrimagename,
         'eventname' => $event->title,
+        'idcard' => $request->idcard,
         'status' => $event->status
         ));
 
@@ -145,9 +149,12 @@ class RegistratorController extends Controller
             ->size(300)
             ->errorCorrection('H')
             ->generate(
-                'ID : ' . ucwords($request->idcard) . '/' .
+                'Name : ' . ucwords($request->fname . ' ' . $request->mname . ' ' . $request->lname) . '/' .
                 'Email : ' . $request->email . '/' .
-                'Mobile Number' . $request->mobilenum . '/'  
+                'Mobile Number : ' . $request->mobilenum . '/' . 
+                'Designation : ' . $request->designation . '/' . 
+                'Company : ' . $request->cname . '/' . 
+                'Office Tel Number : ' . $request->telnum . '/'
             , '../public/img/guest/'. $qrimagename);
 
     	    $papersize = array(0, 0, 360, 360);
@@ -172,6 +179,7 @@ class RegistratorController extends Controller
     	    'designation' => $request->designation,
     	    'qrcode' => $qrimagename,
             'eventname' => $event->title,
+            'idcard' => $request->idcard,
             'status' => $event->status
     	    ));
 
