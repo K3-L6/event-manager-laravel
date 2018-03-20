@@ -16,11 +16,13 @@ class DatabaseSeeder extends Seeder
             'title_font' => 'Aclonica',
             'title_size' => '20',
             'title_color' => 'white',
+            'title_show' => 1,
 
             'description' => 'Description Sample',
             'description_font' => 'Aclonica',
             'description_size' => '5',
             'description_color' => 'white',
+            'description_show' => 1,
 
             'background' => 'sample.jpg',
             'status' => 1,

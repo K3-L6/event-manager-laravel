@@ -25,7 +25,7 @@
       <!-- Item -->
       <div class="col-6">
         <div class="item d-flex align-items-center">
-          <div class="icon bg-blue"><img class="iconimage" src="{{ asset('img/m_exhibitor.png') }}"></div>
+          <div class="icon bg-blue"><img class="iconimage" src="{{ asset('img/m_subeventcount.png') }}"></div>
           <div class="title"><span>Subevent Count</span>
           </div>
           <div class="number"><strong>{{$subeventcount}}</strong></div>

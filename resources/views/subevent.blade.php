@@ -37,8 +37,16 @@
           <div class="col-12">
             <span class="btn-file">
               <div class="preview_panel" id="preview_panel">
-                <h1 style="font-family: {{$subevent->title_font}}; font-size: {{$subevent->title_size}}vmin; color: {{$subevent->title_color}};">{{$subevent->title}}</h1>
-                <p style="font-family: {{$subevent->description_font}}; font-size: {{$subevent->description_size}}vmin;  color: {{$subevent->description_color}};">{{$subevent->description}}</p>
+                @if ($subevent->title_show == 1)
+                  <h1 style="font-family: {{$subevent->title_font}}; font-size: {{$subevent->title_size}}vmin; color: {{$subevent->title_color}};">{{$subevent->title}}</h1>
+                @else
+                  <h1 style="font-family: {{$subevent->title_font}}; font-size: {{$subevent->title_size}}vmin; color: {{$subevent->title_color}}; display: none;">{{$subevent->title}}</h1>
+                @endif
+                @if ($subevent->description_show  == 1)
+                  <p style="font-family: {{$subevent->description_font}}; font-size: {{$subevent->description_size}}vmin; color: {{$subevent->description_color}};">{{$subevent->description}}</p>
+                @else
+                  <p style="font-family: {{$subevent->description_font}}; font-size: {{$subevent->description_size}}vmin; color: {{$subevent->description_color}}; display: none;">{{$subevent->description}}</p>
+                @endif
               </div>    
               <img id="img_preview" src="{{ asset('img/subevent/' . $subevent->background) }}">
               <input type="file" name="img" id="img_upload">
@@ -55,7 +63,7 @@
             <div class="col-12">
               <input type="text" class="form-control" id="title_field" value="{{old('title', $subevent->title)}}" name="title">
               <div class="row preview_selection">
-                <div class="col-8">
+                <div class="col-4">
                   <input type="text" class="form-control" id="title_font" value="{{old('title_font', $subevent->title_font)}}" name="title_font">
                 </div>
                 <div class="col-2">
@@ -63,6 +71,19 @@
                 </div>
                 <div class="col-2">
                   <input type="text" min="0" id="title_font_color" class="form-control" value="{{old('title_color', $subevent->title_color)}}" name="title_color">
+                </div>
+                <div class="col-4">
+                  <div class="checkbox">
+                      <label style="font-size: 25px; padding-top: 3%;">
+                          @if ($subevent->title_show == 1)
+                            <input name="showtitle" id="showtitle_toggle" type="checkbox" value="1" checked>
+                          @else
+                            <input name="showtitle" id="showtitle_toggle" type="checkbox" value="1">
+                          @endif
+                          <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                          Show Title
+                      </label>
+                  </div>  
                 </div>
               </div>
               @if ($errors->has('title'))
@@ -79,7 +100,7 @@
               <div class="col-12">
                 <textarea class="form-control" rows="5" id="description_field" name="description">{{old('description', $subevent->description)}}</textarea>
                 <div class="row preview_selection">
-                  <div class="col-8">
+                  <div class="col-4">
                     <input type="text" class="form-control" id="description_font" value="{{old('description_font', $subevent->description_font)}}" name="description_font">
                   </div>
                   <div class="col-2">
@@ -87,6 +108,19 @@
                   </div>
                   <div class="col-2">
                     <input type="text" min="0" id="description_font_color" class="form-control" value="{{old('description_color', $subevent->description_color)}}" name="description_color">
+                  </div>
+                  <div class="col-4">
+                    <div class="checkbox">
+                        <label style="font-size: 25px; padding-top: 3%;">
+                            @if ($subevent->description_show == 1)
+                              <input name="showdescription" id="showdescription_toggle" type="checkbox" value="1" checked>
+                            @else
+                              <input name="showdescription" id="showdescription_toggle" type="checkbox" value="1">
+                            @endif
+                            <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                            Show Description
+                        </label>
+                    </div>  
                   </div>
                 </div>
                 @if ($errors->has('description'))
@@ -96,16 +130,16 @@
                 @endif
               </div>
             </div>
-
+            
             <div class="form-group row">
-              <label class="col-12 form-control-label">Exhibitor</label>
               <div class="col-12">
-                <select class="form-control" name="exhibitor">
-                  <option selected value="{{$subevent->user_id}}">{{$subevent->user->firstname . ' ' . $subevent->user->lastname}}</option>
+                <select class="form-control" name="exhibitor" style="font-size: 50px; text-align: center; text-align-last: center; height: 80px;">
                   @foreach ($users as $user)
-                    @if (!$user->id == $subevent->user_id)
-                      <option value="{{$user->id}}">{{$user->firstname . ' ' . $user->lastname}}</option>
-                    @endif
+                      @if ($user->id == $subevent->user_id)
+                        <option selected value="{{$subevent->user_id}}">{{ucwords($subevent->user->firstname . ' ' . $subevent->user->lastname)}}</option>
+                      @else
+                        <option value="{{$user->id}}">{{ucwords($user->firstname . ' ' . $user->lastname)}}</option>
+                      @endif
                   @endforeach
                 </select>
                 @if ($errors->has('exhibitor'))
@@ -173,11 +207,23 @@
           readURL(this);
         });
 
-
-
         $("#title_field").keyup(function(){
           var title = $('#title_field').val();
           $('#preview_panel > h1').text(title);
+        });
+        $('#showtitle_toggle').change(function(){
+          if($('#showtitle_toggle').is(":checked")){
+            $('#preview_panel > h1').show();
+          }else{
+            $('#preview_panel > h1').hide();
+          }
+        });
+        $('#showdescription_toggle').change(function(){
+          if($('#showdescription_toggle').is(":checked")){
+            $('#preview_panel > p').show();
+          }else{
+            $('#preview_panel > p').hide();
+          }
         });
         $("#description_field").keyup(function(){
           var title = $('#description_field').val();

@@ -12,9 +12,6 @@
     <!-- theme stylesheet-->
     <link rel="stylesheet" href="{{ asset('css/style.sea.css') }}" id="theme-stylesheet">
     
-
-    
-    
     <!-- Custom stylesheet - for your changes-->
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     {{-- background cover --}}
@@ -44,8 +41,25 @@
     @include('inc.messages')
     <div class="background">
       <div class="mainpanel">
-          <h1 style="font-family: {{$subevent->title_font}}; font-size: {{$subevent->title_size+5}}vmin; color: {{$subevent->title_color}};">{{$subevent->title}}</h1>
-          <p style="font-family: {{$subevent->description_font}}; font-size: {{$subevent->description_size+1}}vmin; color: {{$subevent->description_color}}">{{$subevent->description}}</p>
+          @if ($subevent->title_show == 1)
+            <h1 style="font-family: {{$subevent->title_font}}; font-size: {{$subevent->title_size+5}}vmin; color: {{$subevent->title_color}};">
+              {{$subevent->title}}
+            </h1>
+          @else
+            <h1 style="font-family: {{$subevent->title_font}}; font-size: {{$subevent->title_size+5}}vmin; color: {{$subevent->title_color}}; display: none;">
+              {{$subevent->title}}
+            </h1>
+          @endif
+          
+          @if ($subevent->description_show == 1)
+            <p style="font-family: {{$subevent->description_font}}; font-size: {{$subevent->description_size+1}}vmin; color: {{$subevent->description_color}}">
+              {{$subevent->description}}
+            </p>
+          @else
+            <p style="font-family: {{$subevent->description_font}}; font-size: {{$subevent->description_size+1}}vmin; color: {{$subevent->description_color}}; display:none;">
+              {{$subevent->description}}
+            </p>
+          @endif
       </div>  
     </div>
 

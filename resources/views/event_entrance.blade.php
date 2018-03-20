@@ -43,8 +43,26 @@
     @include('inc.messages')
     <div class="background">
       <div class="mainpanel">
-          <h1 style="font-family: {{$event->title_font}}; font-size: {{$event->title_size+5}}vmin; color: {{$event->title_color}};">{{$event->title}}</h1>
-          <p style="font-family: {{$event->description_font}}; font-size: {{$event->description_size+1}}vmin; color: {{$event->description_color}}">{{$event->description}}</p>
+          @if ($event->title_show == 1)
+            <h1 style="font-family: {{$event->title_font}}; font-size: {{$event->title_size+5}}vmin; color: {{$event->title_color}};">
+              {{$event->title}}
+            </h1>
+          @else
+            <h1 style="font-family: {{$event->title_font}}; font-size: {{$event->title_size+5}}vmin; color: {{$event->title_color}}; display: none;">
+              {{$event->title}}
+            </h1>
+          @endif
+          
+          @if ($event->description_show == 1)
+            <p style="font-family: {{$event->description_font}}; font-size: {{$event->description_size+1}}vmin; color: {{$event->description_color}}">
+              {{$event->description}}
+            </p>
+          @else
+            <p style="font-family: {{$event->description_font}}; font-size: {{$event->description_size+1}}vmin; color: {{$event->description_color}}; display:none;">
+              {{$event->description}}
+            </p>
+          @endif
+          
       </div>  
     </div>
 

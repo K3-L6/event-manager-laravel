@@ -1692,6 +1692,9 @@ class AdminController extends Controller
     		Image::make($background)->save( public_path('/img/event/' . $filename) );
     		$event->background = $filename;
     	}
+
+        if ($request->showtitle == 1) { $event->title_show = 1; }else{ $event->title_show = 0; }
+        if ($request->showdescription == 1) { $event->description_show = 1; }else{ $event->description_show = 0; }
     	
     	$event->title = $request->title;
     	$event->title_font = str_replace('+', ' ', $request->title_font);
@@ -1751,7 +1754,12 @@ class AdminController extends Controller
 
     public function subevent($id)
     {
-        $users = User::where('role_id', 3)->get();
+        $users = User::whereHas('role', function($role){
+            $role->whereHas('access', function($access){
+                $access->where('module', 'exhibitor');
+            });
+        })->get();
+        // return $users;
         $subevent = Subevent::find($id);
         return view('subevent')->withUsers($users)->withSubevent($subevent);
     }
@@ -1788,6 +1796,9 @@ class AdminController extends Controller
             Image::make($background)->save( public_path('/img/subevent/' . $filename) );
             $subevent->background = $filename;
         }
+
+        if ($request->showtitle == 1) { $subevent->title_show = 1; }else{ $subevent->title_show = 0; }
+        if ($request->showdescription == 1) { $subevent->description_show = 1; }else{ $subevent->description_show = 0; }
         
         $subevent->title = $request->title;
         $subevent->title_font = str_replace('+', ' ', $request->title_font);
@@ -1889,7 +1900,9 @@ class AdminController extends Controller
         }else{
             $subevent->background = 'sample.jpg';
         }
-        
+
+        if ($request->showtitle == 1) { $subevent->title_show = 1; }else{ $subevent->title_show = 0; }
+        if ($request->showdescription == 1) { $subevent->description_show = 1; }else{ $subevent->description_show = 0; }
         
         $subevent->title = $request->title;
         $subevent->title_font = str_replace('+', ' ', $request->title_font);

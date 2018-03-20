@@ -19,11 +19,13 @@ class CreateEventsTable extends Migration
             $table->string('title_font');
             $table->string('title_size');
             $table->string('title_color');
+            $table->smallInteger('title_show')->unsigned();
 
             $table->text('description')->nullable();
             $table->text('description_font');
             $table->text('description_size');
             $table->text('description_color');
+            $table->smallInteger('description_show')->unsigned();
 
 
 
