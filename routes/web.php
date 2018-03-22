@@ -24,6 +24,11 @@ Route::get('/admin', 'AdminController@index')->name('admin');
 Route::get('/admin/event', 'AdminController@event')->name('admin.event');
 Route::put('/admin/event', 'AdminController@event_update')->name('admin.event.update');
 
+Route::get('/admin/event/log', 'AdminController@guestloglist')->name('admin.event.log');
+Route::post('/admin/event/log', 'AdminController@guestmanuallog')->name('admin.event.manuallog');
+Route::delete('/admin/event/log/void/{id}', 'AdminController@guestvoidlog')->name('admin.event.voidlog');
+Route::get('/admin/event/logapi', 'AdminController@guestlogslist_api')->name('admin.event.logapi');
+
 Route::get('/admin/subevent', 'AdminController@allsubevent')->name('admin.subevent');
 Route::get('/admin/subevent/register', 'AdminController@subevent_register_show')->name('admin.subevent.register.show');
 Route::post('/admin/subevent/register', 'AdminController@subevent_register')->name('admin.subevent.register');
@@ -125,6 +130,8 @@ Route::post('/admin/user/register', 'AdminController@user_register')->name('admi
 Route::get('/admin/user/update/{id}', 'AdminController@user_update_show')->name('admin.user.update');
 Route::put('/admin/user/update/{id}', 'AdminController@user_update')->name('admin.user.update');
 Route::delete('/admin/user/delete/{id}', 'AdminController@user_delete')->name('admin.user.delete');
+
+
 
 
 

@@ -39,7 +39,7 @@ class SubeventController extends Controller
         $audit->user_id = $user->id;
         $audit->time = Carbon::now();
         $audit->save();
-        return redirect()->to('/home');
+        return redirect()->to('/exhibitor');
     }
 
     public function log(Request $request)

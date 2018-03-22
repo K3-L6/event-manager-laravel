@@ -36,7 +36,7 @@ class RegistratorController extends Controller
     {
         $this->validate($request,
             [
-                'idcard' => 'required|max:180|unique:guests',
+                'idcard' => 'required|max:180|unique:guests, "idcard", ' . $id,
             ],
             [
                 'idcard.required' => 'RFID Card is required',

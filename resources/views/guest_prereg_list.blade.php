@@ -31,7 +31,7 @@
               <div class="info d-flex align-items-center">
                 <div class="content">
                   <div class="logo">
-                  <a href="/home" class="main-link">
+                  <a href="/registrator" class="main-link">
                       <i class="fa fa-chevron-left" style="color: white;"></i>
                   </a>
                   </div>
@@ -61,7 +61,7 @@
                           <td>{{ucwords($guest->companyname)}}</td>
                           <td>
                             <form method="get" action="/registrator/prereg/update/{{$guest->id}}">
-                              <button type="submit" class="btn btn-primary">></button>
+                              <button type="submit" class="btn btn-primary"><i class="fa fa-chevron-right" style="color: white;"></i></button>
                             </form>
                           </td>
                           </tr>

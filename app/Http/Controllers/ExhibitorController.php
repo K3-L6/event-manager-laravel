@@ -18,6 +18,7 @@ class ExhibitorController extends Controller
     public function index()
     {
     	$subevent = Subevent::where('user_id', Auth::user()->id)->get();
+        
     	//hot fix cant access object in a foreach twice so i pass it twice here
     	$subevents = Subevent::where('user_id', Auth::user()->id)->get();
     	return view('exhibitor')->withSubevent($subevent)->withSubevents($subevents);
@@ -43,7 +44,7 @@ class ExhibitorController extends Controller
     {
     	$subevent = Subevent::find($id);
     	$subeventlog = Subeventlog::where('subevent_id', $id)->orderBy('time', 'desc')->get();
-    	return view('guestlogs_list')->withSubevent($subevent)->withSubeventlog($subeventlog);
+    	return view('guestlogs_subevent')->withSubevent($subevent)->withSubeventlog($subeventlog);
     }
 
     public function manuallog(Request $request, $id)

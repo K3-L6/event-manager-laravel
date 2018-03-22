@@ -10,7 +10,10 @@
     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
     <li class="breadcrumb-item active">Event</li>
     <form action="/event/entrance" method="get">
-      <button class="btn btn-primary float-right" style="width: 300px; margin-left: 1%; margin-right: 1%;">START LOGGING</button>
+      <button class="btn btn-primary float-right" style="width: 300px; margin-left: 1%; margin-right: 1%;">Start Logging</button>
+    </form>
+    <form action="/admin/event/log" method="get">
+      <button class="btn btn-primary float-right" style="width: 300px; margin-left: 1%; margin-right: 1%;">Guest Logs</button>
     </form>
   </div>
 </ul>

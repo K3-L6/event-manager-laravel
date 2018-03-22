@@ -28,6 +28,94 @@ use App\Subeventlog;
 class AdminController extends Controller
 {
 
+	public function guestloglist()
+	{
+		$walkin = count(Guest::where('type', 2)->get());
+		$prereg = count(Guest::where('type', 1)->get());
+		$total = $walkin + $prereg;
+		$event = Event::first();
+		return view('guestlogs')
+		->withEvent($event)
+		->withWalkin($walkin)
+		->withPrereg($prereg)
+		->withTotal($total);
+	}
+
+	public function guestlogslist_api()
+	{
+		$eventlog = Eventlog::all();
+		return Datatables::of($eventlog)
+		->editColumn('name', function($eventlog){
+		    return ucwords($eventlog->guest->firstname . ' ' . $eventlog->guest->middlename . ' ' . $eventlog->guest->lastname);
+		})
+		->editColumn('companyname', function($eventlog){
+			return ucwords($eventlog->guest->companyname);
+		})
+		->editColumn('designation', function($eventlog){
+			return ucwords($eventlog->guest->designation); 
+		})
+		->editColumn('time', function($eventlog){
+		    return Carbon::parse($eventlog->time)->format('F d, Y g:i A');
+		})
+		->addColumn('action', function($eventlog){
+		    return '
+		        <div class="btn-group" role="group">
+		            
+		            <form action="/admin/event/log/void/' . $eventlog->id . '" method="post">
+		                <input type="hidden" name="_method" value="DELETE">
+		                <input type="hidden" name="_token" value="'. csrf_token() . '">
+		                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+		            </form>
+
+		        </div>
+		    ';
+		})
+		->rawColumns(['action'])
+		->make(true);	
+	}
+
+	public function guestvoidlog($id)
+	{
+		$eventlog = Eventlog::find($id);
+		$eventlog->delete();
+		Flashy::success('Successfully Deleted Log', '#');
+		return redirect()->back();
+	}
+
+	public function guestmanuallog(Request $request)
+	{
+		try{
+			$guest = Guest::where('idcard', $request->idcard)->first();
+
+		    $existingeventlogs = Eventlog::all();
+		    $exist = false;
+		    foreach ($existingeventlogs as $log) {
+		        if ($log->guest_id == $guest->id) {
+		            $exist = true;
+		        }
+		    }
+		    if (!$exist) {
+		        $eventlog = new Eventlog;
+		        $eventlog->guest_id = $guest->id;
+		        $eventlog->time = Carbon::now();
+		        $eventlog->save(); 
+
+		        Flashy::success('Successfully Logged ' . ucwords($guest->firstname . ' ' . $guest->middlename . ' ' . $guest->lastname), '#');
+		        return redirect()->back();
+		    }else{
+		    	Flashy::error('Guest Is Already Logged', '#');
+		        return redirect()->back();
+		    }
+		}
+		catch(\Exception $e){
+			Flashy::error('Guest Not Found', '#');
+		    return redirect()->back();
+		}
+		
+	}
+
+
+
     public function show_setting()
     {
         $event = Event::first();
@@ -48,11 +136,13 @@ class AdminController extends Controller
             $event->title_font = 'Aclonica';
             $event->title_size = '20';
             $event->title_color = 'white';
+            $event->title_show = 1;
 
             $event->description = 'Description Sample';
             $event->description_font = 'Aclonica';
             $event->description_size = '5';
             $event->description_color = 'white';
+            $event->description_show = 1;
 
             $event->background = 'sample.jpg';
             $event->status = $request->status;
@@ -108,9 +198,9 @@ class AdminController extends Controller
             $access3->save();
 
             $user = new User;
-            $user->lastname = 'de la cruz';
-            $user->firstname = 'juan';
-            $user->email = 'superadmin@gmail.com';
+            $user->lastname = 'aurum';
+            $user->firstname = 'golden';
+            $user->email = 'admin@goldenaurum.com';
             $user->password = bcrypt('password');
             $user->avatar = 'noimg.jpg';
             $user->role_id = $role->id;

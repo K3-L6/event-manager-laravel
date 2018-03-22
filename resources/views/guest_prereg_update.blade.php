@@ -34,7 +34,7 @@
               <div class="info d-flex align-items-center">
                 <div class="content">
                   <div class="logo">
-                    <a href="/home" class="main-link">
+                    <a href="/registrator/prereg" class="main-link">
                         <i class="fa fa-chevron-left" style="color: white;"></i>
                     </a>
                   </div>

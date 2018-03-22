@@ -35,7 +35,7 @@
               <div class="info d-flex align-items-center">
                 <div class="content">
                   <div class="logo">
-                    <a href="/home" class="main-link">
+                    <a href="/exhibitor" class="main-link">
                         <i class="fa fa-chevron-left" style="color: white;"></i>
                     </a>
                   </div>
@@ -51,9 +51,10 @@
                     <table id="mytable" class="table" cellspacing="0" width="100%">
                       <thead>
                         <tr>
-                          <th style="width: 40%">Name</th>
-                          <th style="width: 30%">Company</th>
+                          <th style="width: 30%">Name</th>
+                          <th style="width: 20%">Company</th>
                           <th style="width: 20%">Designation</th>
+                          <th style="width: 20%">Time</th>
                           <th style="width: 10%">Action</th>
                         </tr>
                       </thead>
@@ -65,6 +66,7 @@
                           </td>
                           <td>{{ucwords($subeventlog->guest->companyname)}}</td>
                           <td>{{ucwords($subeventlog->guest->designation)}}</td>
+                          <td>{{\Carbon\Carbon::parse($subeventlog->time)->format('F d, Y g:i A')}}</td>
                           <td>
                             <form action="/exhibitor/guestlogslist/void/{{$subeventlog->id}}" method="post">
                               @method('delete')
