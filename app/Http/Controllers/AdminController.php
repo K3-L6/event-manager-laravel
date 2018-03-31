@@ -27,6 +27,7 @@ use App\Subeventlog;
 
 
 
+//finalized
 class AdminController extends Controller
 {
 	public function guestloglist()
