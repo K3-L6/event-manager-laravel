@@ -63,6 +63,13 @@ class SubeventController extends Controller
 
                 $subevent = Subevent::find($request->subeventid);
 
+                $user = User::find(Auth::user()->id);
+                $audit = new Audit;
+                $audit->description = 'logged ' . $guest->firstname . ' ' . $guest->middlename . ' ' . $guest->lastname . ' in ' . $subevent->title;
+                $audit->user_id = $user->id;
+                $audit->time = Carbon::now();
+                $audit->save();
+
                 return view('subevent_voice')->withGuest($guest)->withSubevent($subevent);
             }else{
                 Flashy::error('Guest Is Already Logged', '#');

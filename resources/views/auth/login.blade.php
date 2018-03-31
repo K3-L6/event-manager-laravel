@@ -41,8 +41,8 @@
                   <form id="login-form" method="post" action="{{ route('login') }}">
                     {{ csrf_field() }}
                     <div class="form-group">
-                      <input id="login-username" type="text" name="email" required="" class="input-material">
-                      <label for="login-username" class="label-material">Email</label>
+                      <input id="login-username" type="text" name="username" required="" class="input-material">
+                      <label for="login-username" class="label-material">Username</label>
                     </div>
                     <div class="form-group">
                       <input id="login-password" type="password" name="password" required="" class="input-material">

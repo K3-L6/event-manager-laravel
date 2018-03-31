@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
     	    'lastname' => 'aurum',
     	    // 'middlename' => '',
             'firstname' => 'golden',
-    	    'email' => 'admin@goldenaurum.com',
+    	    'username' => 'goldenaurum',
     	    'password' => bcrypt('password'),
     	    'avatar' => 'noimg.jpg',
     	    'role_id' => 1,

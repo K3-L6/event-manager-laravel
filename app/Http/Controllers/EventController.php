@@ -62,6 +62,13 @@ class EventController extends Controller
 
                 $event = Event::first();
 
+                $user = User::find(Auth::user()->id);
+                $audit = new Audit;
+                $audit->description = 'Recorded attendance for ' . $guest->firstname . ' ' . $guest->middlename . ' ' . $guest->lastname;
+                $audit->user_id = $user->id;
+                $audit->time = Carbon::now();
+                $audit->save();
+
                 return view('event_voice')->withGuest($guest)->withEvent($event);
             }else{
                 Flashy::error('Guest Is Already Logged', '#');

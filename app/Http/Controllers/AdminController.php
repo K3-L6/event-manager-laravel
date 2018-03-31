@@ -25,9 +25,10 @@ use App\Audit;
 use App\Eventlog;
 use App\Subeventlog;
 
+
+
 class AdminController extends Controller
 {
-
 	public function guestloglist()
 	{
 		$walkin = count(Guest::where('type', 2)->get());
@@ -77,7 +78,18 @@ class AdminController extends Controller
 	public function guestvoidlog($id)
 	{
 		$eventlog = Eventlog::find($id);
-		$eventlog->delete();
+		
+        $event = Event::first();
+
+        $user = User::find(Auth::user()->id);
+        $audit = new Audit;
+        $audit->description = 'void attendance of ' . $eventlog->guest->firstname . ' ' . $eventlog->guest->middlename . ' ' . $eventlog->guest->lastname;
+        $audit->user_id = $user->id;
+        $audit->time = Carbon::now();
+        $audit->save();
+
+        $eventlog->delete();
+
 		Flashy::success('Successfully Deleted Log', '#');
 		return redirect()->back();
 	}
@@ -98,7 +110,14 @@ class AdminController extends Controller
 		        $eventlog = new Eventlog;
 		        $eventlog->guest_id = $guest->id;
 		        $eventlog->time = Carbon::now();
-		        $eventlog->save(); 
+		        $eventlog->save();
+
+                $user = User::find(Auth::user()->id);
+                $audit = new Audit;
+                $audit->description = 'manually recorded attendance for ' . $guest->firstname . ' ' . $guest->middlename . ' ' . $guest->lastname;
+                $audit->user_id = $user->id;
+                $audit->time = Carbon::now();
+                $audit->save(); 
 
 		        Flashy::success('Successfully Logged ' . ucwords($guest->firstname . ' ' . $guest->middlename . ' ' . $guest->lastname), '#');
 		        return redirect()->back();
@@ -200,7 +219,7 @@ class AdminController extends Controller
             $user = new User;
             $user->lastname = 'aurum';
             $user->firstname = 'golden';
-            $user->email = 'admin@goldenaurum.com';
+            $user->username = 'goldenaurum';
             $user->password = bcrypt('password');
             $user->avatar = 'noimg.jpg';
             $user->role_id = $role->id;
@@ -373,7 +392,6 @@ class AdminController extends Controller
                         $newdata->save();
 
                     }else{
-                    
                         $arr[] = ['email' => $value['username'],
                                   'firstname' => $value['first_name'],
                                   'middlename' => $value['middle_name'],
@@ -457,7 +475,7 @@ class AdminController extends Controller
                 'middlename' => 'max:50',
                 'firstname' => 'required|max:50',
 
-                'email' => 'required|max:50|unique:users, "email", ' . $id,
+                'username' => 'required|min:6|max:15|unique:users, "username", ' . $id,
                 'password' => 'sometimes|nullable|min:6|max:50|confirmed',
 
                 'role' => 'required',
@@ -472,9 +490,10 @@ class AdminController extends Controller
                 'firstname.required' => 'First name is required',
                 'firstname.max' => 'First name must not be greater than 50',
 
-                'email.required' => 'Email is required',
-                'email.max' => 'Email must not be greater than 50',
-                'email.unique' => 'Email is already in use',
+                'username.required' => 'Username is required',
+                'username.min' => 'Username must not be less than 6',
+                'username.max' => 'Username must not be greater than 15',
+                'username.unique' => 'Username is already in use',
 
                 'password.min' => 'Password must not be less than 6',
                 'password.max' => 'Password must not be greater than 50',
@@ -503,7 +522,7 @@ class AdminController extends Controller
         $user->lastname = $request->lastname;
         $user->middlename = $request->middlename;
         $user->firstname = $request->firstname;
-        $user->email = $request->email;
+        $user->username = $request->username;
         $user->role_id = $request->role;
         $user->save();
 
@@ -533,7 +552,7 @@ class AdminController extends Controller
                 'middlename' => 'max:50',
                 'firstname' => 'required|max:50',
 
-                'email' => 'required|max:50|unique:users',
+                'username' => 'required|min:6|max:15|unique:users',
                 'password' => 'required|min:6|max:50|confirmed',
 
                 'role' => 'required',
@@ -548,9 +567,10 @@ class AdminController extends Controller
                 'firstname.required' => 'First name is required',
                 'firstname.max' => 'First name must not be greater than 50',
 
-                'email.required' => 'Email is required',
-                'email.max' => 'Email must not be greater than 50',
-                'email.unique' => 'Email is already in use',
+                'username.required' => 'Username is required',
+                'username.min' => 'Username must not be less than 6',
+                'username.max' => 'Username must not be greater than 15',
+                'username.unique' => 'Username is already in use',
 
                 'password.required' => 'Password is required',
                 'password.min' => 'Password must not be less than 6',
@@ -579,7 +599,7 @@ class AdminController extends Controller
         $user->lastname = $request->lastname;
         $user->middlename = $request->middlename;
         $user->firstname = $request->firstname;
-        $user->email = $request->email;
+        $user->username = $request->username;
         $user->password = bcrypt($request->password);
         $user->role_id = $request->role;
 

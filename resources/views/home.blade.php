@@ -46,7 +46,7 @@
               <div class="form d-flex align-items-center">
                 <div class="content">
                   <div class="row">
-
+                    
                     @foreach ($user->role->access as $access)
                       
                       @if ($access->module == 'administrator')
@@ -75,9 +75,6 @@
                     @endforeach
                     
                   </div>
-
-                  
-
                 </div>
               </div>
             </div>

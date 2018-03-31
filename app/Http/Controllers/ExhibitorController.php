@@ -30,7 +30,7 @@ class ExhibitorController extends Controller
         
         $user = User::find(Auth::user()->id);
         $audit = new Audit;
-        $audit->description = 'void log of ' . $subeventlog->guest->firstname . ' ' . $subeventlog->guest->lastname . ' from ' . $subeventlog->subevent->title;
+        $audit->description = 'void log of ' . $subeventlog->guest->firstname . ' ' . $subeventlog->guest->middlename . ' ' . $subeventlog->guest->lastname . ' from ' . $subeventlog->subevent->title;
         $audit->user_id = $user->id;
         $audit->time = Carbon::now();
         $audit->save();
@@ -67,6 +67,13 @@ class ExhibitorController extends Controller
     	        $subeventlog->subevent_id = $id;
     	        $subeventlog->time = Carbon::now();
     	        $subeventlog->save(); 
+
+                $user = User::find(Auth::user()->id);
+                $audit = new Audit;
+                $audit->description = 'manually logged ' . $guest->firstname . ' ' . $guest->middlename . ' ' . $guest->lastname . ' in ' . $subevent->title;
+                $audit->user_id = $user->id;
+                $audit->time = Carbon::now();
+                $audit->save();
 
     	        return redirect()->back()->with('success', 'Successfully Logged ' . ucwords($guest->firstname) . ' ' . ucwords($guest->middlename) . ' ' . ucwords($guest->lastname));
     	    }else{
