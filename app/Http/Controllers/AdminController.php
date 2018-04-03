@@ -26,8 +26,6 @@ use App\Eventlog;
 use App\Subeventlog;
 
 
-
-//finalized
 class AdminController extends Controller
 {
 	public function guestloglist()
@@ -374,6 +372,7 @@ class AdminController extends Controller
         {
             $path = $request->file('myexcel')->getRealPath();
             $data = \Excel::load($path)->get();
+            // return $data;
             if ($data->count()) 
             {   
                 foreach ($data as $key => $value) 
@@ -406,6 +405,7 @@ class AdminController extends Controller
 
                                  ];
                     }
+                    
                 }
 
                 if(!empty($arr))
