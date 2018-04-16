@@ -1,7 +1,7 @@
 # Event Manager - OJT Project
 
 ## Introduction
-During our on-the-job training, we were given a task to manage a upcoming event. To make an event more efficient and better, My team decided to develop an Event Manager that will handle and automate the recording of guest and attendance upon arriving for the event. The Event Manager can handle single event
+During our on-the-job training, we were given a task to manage a upcoming event. To make an event more efficient and better, my team decided to develop an Event Manager that will handle and automate the recording of guest and attendance upon arriving for the event. The Event Manager can handle single event
 from the registration of the guest and generating identification badge up to the sub-events information and recording of attendance using rfid input reader then generate report.
 
 ## Screenshots
