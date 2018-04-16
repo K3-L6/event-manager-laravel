@@ -30,7 +30,7 @@ from the registration of the guest and generating identification badge up to the
 13) Run your server by going to the root of your project via CMD and typing "php artisan serve"
 14) Defaults Username: goldenaurum, Password: password
 
-* NOTE *
+*NOTE*
 You can create your own virtual server using this document root : C:/xampp/htdocs/your-project-name/public
 
 ## Prerequisites
