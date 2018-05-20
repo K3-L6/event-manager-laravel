@@ -45,7 +45,7 @@ You can create your own virtual server using this document root : C:/xampp/htdoc
 * RFID Input Reader - hardware used (any brand)
 
 ## Authors
-* **John Kenneth LIsing** - Lead programmer
+* **John Kenneth Lising** - Lead programmer
 * **Christian Montemayor** - Programmer and design
 * **Erd Rico Manalo** - Documentation and design
 
