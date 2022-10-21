@@ -1,4 +1,4 @@
-# Event Manager - OJT Project
+# Event Manager Sample - Laravel
 
 ## Introduction
 During our on-the-job training, we were given a task to manage a upcoming event. To make an event more efficient and better, my team decided to develop an Event Manager that will handle and automate the recording of guest and attendance upon arriving for the event. The Event Manager can handle single event
